@@ -7,7 +7,6 @@ package com.github.syunpeii.mockstation.core.util
  */
 fun String?.isNotNullOrEmpty(): Boolean = !this.isNullOrEmpty()
 
-
 /**
  * Checks if the string is neither null nor blank.
  *

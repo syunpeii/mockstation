@@ -24,7 +24,7 @@ fun PrimaryButton(
             containerColor = AppColors.Primary,
             contentColor = AppColors.OnPrimary,
         ),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
     ) {
         Text(text = text)
     }

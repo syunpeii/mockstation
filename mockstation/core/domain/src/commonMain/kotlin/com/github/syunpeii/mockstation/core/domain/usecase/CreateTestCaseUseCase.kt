@@ -5,7 +5,7 @@ import com.github.syunpeii.mockstation.core.model.Result
 import com.github.syunpeii.mockstation.core.model.TestCase
 
 class CreateTestCaseUseCase(
-    private val repository: TestCaseRepository
+    private val repository: TestCaseRepository,
 ) {
     suspend operator fun invoke(testCase: TestCase): Result<TestCase> {
         if (testCase.title.isBlank()) {

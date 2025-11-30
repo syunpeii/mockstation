@@ -44,7 +44,6 @@ kotlin {
     }
 }
 
-
 compose.desktop {
     application {
         mainClass = "com.github.syunpeii.mockstation.app.MainKt"

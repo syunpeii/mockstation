@@ -49,7 +49,7 @@ class FakeTestCaseRepository : TestCaseRepository {
                     description = "This is a sample test case",
                     status = TestCaseStatus.PENDING,
                     createdAt = now,
-                    updatedAt = now
+                    updatedAt = now,
                 ),
                 TestCase(
                     id = "2",
@@ -57,9 +57,9 @@ class FakeTestCaseRepository : TestCaseRepository {
                     description = "This is another sample test case",
                     status = TestCaseStatus.IN_PROGRESS,
                     createdAt = now,
-                    updatedAt = now
-                )
-            )
+                    updatedAt = now,
+                ),
+            ),
         )
     }
 

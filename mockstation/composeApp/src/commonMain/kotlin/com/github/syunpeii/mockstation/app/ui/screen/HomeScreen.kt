@@ -15,7 +15,7 @@ fun HomeScreen() {
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text("Mockstation Desktop App")
         Spacer(modifier = Modifier.height(16.dp))
@@ -25,7 +25,7 @@ fun HomeScreen() {
             text = "Get Started",
             onClick = {
                 println("Button clicked!")
-            }
+            },
         )
     }
 }

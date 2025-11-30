@@ -21,11 +21,13 @@ object HttpClientFactory {
     ): HttpClient {
         return HttpClient {
             install(ContentNegotiation) {
-                json(Json {
-                    prettyPrint = true
-                    isLenient = true
-                    ignoreUnknownKeys = true
-                })
+                json(
+                    Json {
+                        prettyPrint = true
+                        isLenient = true
+                        ignoreUnknownKeys = true
+                    },
+                )
             }
 
             if (enableLogging) {

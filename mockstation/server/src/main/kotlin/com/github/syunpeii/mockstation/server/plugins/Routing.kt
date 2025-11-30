@@ -25,8 +25,8 @@ fun Application.configureRouting() {
                             description = "This is a sample test case from server",
                             status = TestCaseStatus.PENDING,
                             createdAt = Clock.System.now(),
-                            updatedAt = Clock.System.now()
-                        )
+                            updatedAt = Clock.System.now(),
+                        ),
                     )
                     call.respond(testCases)
                 }
@@ -34,7 +34,7 @@ fun Application.configureRouting() {
                 get("/{id}") {
                     val id = call.parameters["id"] ?: return@get call.respondText(
                         "Missing id",
-                        status = HttpStatusCode.BadRequest
+                        status = HttpStatusCode.BadRequest,
                     )
                     val testCase = TestCase(
                         id = id,
@@ -42,7 +42,7 @@ fun Application.configureRouting() {
                         description = "This is a sample test case from server",
                         status = TestCaseStatus.PENDING,
                         createdAt = Clock.System.now(),
-                        updatedAt = Clock.System.now()
+                        updatedAt = Clock.System.now(),
                     )
                     call.respond(testCase)
                 }
