@@ -1,0 +1,38 @@
+# Since `buildUponDefaultConfig = true` is specified in build.gradle.kts, default values are used for settings not described here.
+
+complexity:
+    LongMethod:
+        active: true
+        ignoreAnnotated: [ 'Composable' ]
+        excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/iosTest/**' ]
+
+    LongParameterList:
+        active: true
+        ignoreAnnotated: [ 'Composable' ]
+        excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/iosTest/**' ]
+
+    TooManyFunctions:
+        active: true
+        excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/iosTest/**' ]
+
+naming:
+    FunctionNaming:
+        active: true
+        ignoreAnnotated: [ 'Composable' ]
+
+    InvalidPackageDeclaration:
+        active: true
+        rootPackage: 'com.github.syunpeii.mockstation'
+
+style:
+    MaxLineLength:
+        active: true
+        maxLineLength: 200
+        excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/iosTest/**' ]
+
+    MagicNumber:
+        active: true
+        ignorePropertyDeclaration: true
+        ignoreEnums: true
+        ignoreAnnotated: [ 'Preview' ]
+        excludes: [ '**/*.gradle.kts' ,'**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**' ]
