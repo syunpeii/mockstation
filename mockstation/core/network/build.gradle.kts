@@ -13,6 +13,7 @@ kotlin {
 
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.bundles.ktorClient)
+            implementation(libs.bundles.koinCommon)
         }
 
         jvmMain.dependencies {

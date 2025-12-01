@@ -12,6 +12,7 @@ kotlin {
             implementation(project(":core:util"))
 
             implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.bundles.koinCommon)
         }
 
         commonTest.dependencies {

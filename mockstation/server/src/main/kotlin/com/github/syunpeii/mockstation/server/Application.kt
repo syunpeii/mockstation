@@ -1,11 +1,14 @@
 package com.github.syunpeii.mockstation.server
 
+import com.github.syunpeii.mockstation.server.di.allServerModules
 import com.github.syunpeii.mockstation.server.plugins.configureRouting
 import com.github.syunpeii.mockstation.server.plugins.configureSerialization
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.calllogging.*
+import org.koin.ktor.plugin.Koin
+import org.koin.logger.slf4jLogger
 
 fun main() {
     embeddedServer(
@@ -17,6 +20,10 @@ fun main() {
 }
 
 fun Application.module() {
+    install(Koin) {
+        slf4jLogger()
+        modules(allServerModules)
+    }
     install(CallLogging)
     configureSerialization()
     configureRouting()
