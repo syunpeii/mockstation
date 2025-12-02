@@ -8,7 +8,7 @@ plugins {
 }
 
 kotlin {
-    jvm()
+    jvm("desktop")
 
     sourceSets {
         commonMain.dependencies {
@@ -37,16 +37,18 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.bundles.testingCommon)
         }
-        jvmMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutines.swing)
+        val desktopMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+                implementation(libs.kotlinx.coroutines.swing)
+            }
         }
     }
 }
 
 compose.desktop {
     application {
-        mainClass = "com.github.syunpeii.mockstation.app.MainKt"
+        mainClass = "com.github.syunpeii.mockstation.app.MainDesktopKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)

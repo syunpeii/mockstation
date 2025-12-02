@@ -4,7 +4,7 @@ plugins {
 }
 
 kotlin {
-    jvm()
+    jvm("desktop")
 
     sourceSets {
         commonMain.dependencies {
@@ -16,8 +16,10 @@ kotlin {
             implementation(libs.bundles.koinCommon)
         }
 
-        jvmMain.dependencies {
-            implementation(libs.ktor.client.okhttp)
+        val desktopMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.okhttp)
+            }
         }
 
         commonTest.dependencies {
