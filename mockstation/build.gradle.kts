@@ -43,7 +43,6 @@ subprojects {
     }
 }
 
-// Configure detekt at root level
 detekt {
     buildUponDefaultConfig = true
     allRules = false
