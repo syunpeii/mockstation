@@ -3,10 +3,11 @@ package com.github.syunpeii.mockstation.server
 import com.github.syunpeii.mockstation.server.di.allServerModules
 import com.github.syunpeii.mockstation.server.plugins.configureRouting
 import com.github.syunpeii.mockstation.server.plugins.configureSerialization
-import io.ktor.server.application.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
-import io.ktor.server.plugins.calllogging.*
+import io.ktor.server.application.Application
+import io.ktor.server.application.install
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
+import io.ktor.server.plugins.calllogging.CallLogging
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
 

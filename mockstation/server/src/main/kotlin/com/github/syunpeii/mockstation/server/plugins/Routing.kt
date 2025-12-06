@@ -2,10 +2,16 @@ package com.github.syunpeii.mockstation.server.plugins
 
 import com.github.syunpeii.mockstation.core.model.TestCase
 import com.github.syunpeii.mockstation.core.model.TestCaseStatus
-import io.ktor.http.*
-import io.ktor.server.application.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.application.Application
+import io.ktor.server.application.call
+import io.ktor.server.response.respond
+import io.ktor.server.response.respondText
+import io.ktor.server.routing.get
+import io.ktor.server.routing.post
+import io.ktor.server.routing.route
+import io.ktor.server.routing.routing
 import kotlinx.datetime.Clock
 
 fun Application.configureRouting() {

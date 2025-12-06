@@ -1,20 +1,16 @@
 package com.github.syunpeii.mockstation.core.network
 
-import io.ktor.client.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.plugins.logging.*
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 object HttpClientFactory {
 
-    /**
-     * Creates and configures an instance of HttpClient.
-     *
-     * @param baseUrl The base URL for the HTTP client.
-     * @param enableLogging Flag to enable or disable logging. Default is true.
-     * @return Configured HttpClient instance.
-     */
     fun create(
         baseUrl: String = "http://localhost:8080",
         enableLogging: Boolean = true,

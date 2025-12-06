@@ -28,7 +28,6 @@ subprojects {
             setOf(
                 "experimental:function-expression-body",
                 "parameter-list-wrapping",
-                "no-wildcard-imports",
                 "filename",
                 "max-line-length",
             ),
