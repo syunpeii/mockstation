@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -24,6 +25,7 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
@@ -33,6 +35,7 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.bundles.koinCommon)
             implementation(libs.koin.compose)
+            implementation(libs.bundles.navigation)
         }
         commonTest.dependencies {
             implementation(libs.bundles.testingCommon)

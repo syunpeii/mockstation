@@ -1,4 +1,4 @@
-package com.github.syunpeii.mockstation.app.ui.screen
+package com.github.syunpeii.mockstation.app.ui.screen.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +14,7 @@ import com.github.syunpeii.mockstation.core.designsystem.component.button.Primar
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
 @Composable
-fun HomeScreen() {
+fun SettingsScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -23,19 +23,19 @@ fun HomeScreen() {
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = "Mock Station Desktop App",
+            text = "Settings Screen",
             style = MockStationTheme.typography.headlineMedium,
         )
         Spacer(modifier = Modifier.height(MockStationTheme.spacing.medium))
         Text(
-            text = "KMP Desktop + Ktor Server",
+            text = "This is a dummy settings screen",
             style = MockStationTheme.typography.bodyLarge,
         )
         Spacer(modifier = Modifier.height(MockStationTheme.spacing.extraLarge))
         PrimaryButton(
-            text = "Get Started",
+            text = "Save Settings",
             onClick = {
-                println("Button clicked!")
+                println("Settings saved!")
             },
         )
     }

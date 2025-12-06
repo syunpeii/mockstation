@@ -14,6 +14,6 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "Mock Station",
     ) {
-        App()
+        MockStationApp()
     }
 }
