@@ -6,6 +6,7 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -36,6 +37,7 @@ import com.github.syunpeii.mockstation.core.designsystem.component.navigation.Bo
 import com.github.syunpeii.mockstation.core.designsystem.component.navigation.CustomTopBar
 import com.github.syunpeii.mockstation.core.designsystem.component.navigation.NavigationItem
 import com.github.syunpeii.mockstation.core.designsystem.component.navigation.NavigationRailWrapper
+import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
 @Composable
 fun MainScreen() {
@@ -171,5 +173,51 @@ private fun MainNavHost(navController: NavHostController) {
     ) {
         composable<HomeRoute> { HomeScreen() }
         composable<SettingsRoute> { SettingsScreen() }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewMainScreenContentCompact() {
+    MockStationTheme {
+        val navController = rememberNavController()
+        val navigationItems = TopLevelDestination.entries.map { destination ->
+            NavigationItem(
+                label = destination.label,
+                icon = destination.icon,
+                selectedIcon = destination.selectedIcon,
+            )
+        }
+
+        MainScreenContent(
+            windowSizeClass = WindowSizeClass.Compact,
+            navController = navController,
+            navigationItems = navigationItems,
+            selectedItemIndex = 0,
+            onItemClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewMainScreenContentExpanded() {
+    MockStationTheme {
+        val navController = rememberNavController()
+        val navigationItems = TopLevelDestination.entries.map { destination ->
+            NavigationItem(
+                label = destination.label,
+                icon = destination.icon,
+                selectedIcon = destination.selectedIcon,
+            )
+        }
+
+        MainScreenContent(
+            windowSizeClass = WindowSizeClass.Expanded,
+            navController = navController,
+            navigationItems = navigationItems,
+            selectedItemIndex = 0,
+            onItemClick = {},
+        )
     }
 }

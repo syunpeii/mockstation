@@ -5,7 +5,7 @@ import com.github.syunpeii.mockstation.core.database.DatabaseDriverFactory
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-actual val platformModule: Module = module {
+val platformModule: Module = module {
     single<DatabaseDriverFactory> {
         object : DatabaseDriverFactory {
             override fun createDriver(): SqlDriver {

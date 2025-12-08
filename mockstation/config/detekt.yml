@@ -36,3 +36,7 @@ style:
         ignoreEnums: true
         ignoreAnnotated: [ 'Preview' ]
         excludes: [ '**/*.gradle.kts' ,'**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**' ]
+
+    UnusedPrivateMember:
+        active: true
+        allowedNames: 'Preview.*'

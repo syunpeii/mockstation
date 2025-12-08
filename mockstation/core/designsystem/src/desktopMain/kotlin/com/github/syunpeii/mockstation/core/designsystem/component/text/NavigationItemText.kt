@@ -1,5 +1,6 @@
 package com.github.syunpeii.mockstation.core.designsystem.component.text
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -9,6 +10,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
 @Composable
@@ -28,4 +30,16 @@ fun NavigationItemText(
         maxLines = 2,
         overflow = TextOverflow.Ellipsis,
     )
+}
+
+@Preview
+@Composable
+private fun PreviewNavigationItemText() {
+    MockStationTheme {
+        PreviewColumn {
+            NavigationItemText(text = "Home")
+            NavigationItemText(text = "Settings")
+            NavigationItemText(text = "Very Long Navigation Item Text")
+        }
+    }
 }

@@ -8,19 +8,26 @@ kotlin {
     jvm("desktop")
 
     sourceSets {
-        commonMain.dependencies {
-            implementation(project(":core:model"))
-            implementation(project(":core:util"))
+        val desktopMain by getting {
+            dependencies {
+                implementation(project(":core:model"))
+                implementation(project(":core:util"))
 
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(compose.materialIconsExtended)
+                implementation(compose.desktop.currentOs)
+                implementation(compose.uiTooling)
+            }
         }
 
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
+        val desktopTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
         }
     }
 }

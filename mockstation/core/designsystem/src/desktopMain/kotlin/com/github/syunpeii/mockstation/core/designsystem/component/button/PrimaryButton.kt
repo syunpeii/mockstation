@@ -1,5 +1,6 @@
 package com.github.syunpeii.mockstation.core.designsystem.component.button
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -9,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,6 +38,30 @@ fun PrimaryButton(
             ),
         ) {
             Text(text = text)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewPrimaryButton() {
+    MockStationTheme {
+        PreviewColumn {
+            PrimaryButton(
+                text = "Primary Button",
+                onClick = {},
+            )
+
+            PrimaryButton(
+                text = "Disabled Button",
+                onClick = {},
+                enabled = false,
+            )
+
+            PrimaryButton(
+                text = "Very Long Button Text Example",
+                onClick = {},
+            )
         }
     }
 }
