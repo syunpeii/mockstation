@@ -1,4 +1,4 @@
-package com.github.syunpeii.mockstation.app.ui.viewmodel
+package com.github.syunpeii.mockstation.app.ui.testcase
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

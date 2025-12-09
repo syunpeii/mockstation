@@ -1,6 +1,6 @@
 package com.github.syunpeii.mockstation.app.di
 
-import com.github.syunpeii.mockstation.app.ui.viewmodel.TestCaseViewModel
+import com.github.syunpeii.mockstation.app.ui.testcase.TestCaseViewModel
 import com.github.syunpeii.mockstation.core.data.di.dataModule
 import com.github.syunpeii.mockstation.core.database.di.databaseModule
 import com.github.syunpeii.mockstation.core.datastore.di.dataStoreModule

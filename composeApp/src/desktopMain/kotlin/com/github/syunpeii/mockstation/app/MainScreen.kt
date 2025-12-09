@@ -1,4 +1,4 @@
-package com.github.syunpeii.mockstation.app.ui.screen.main
+package com.github.syunpeii.mockstation.app
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -30,17 +30,37 @@ import com.github.syunpeii.mockstation.app.navigation.HomeRoute
 import com.github.syunpeii.mockstation.app.navigation.SettingsRoute
 import com.github.syunpeii.mockstation.app.navigation.TopLevelDestination
 import com.github.syunpeii.mockstation.app.navigation.WindowSizeClass
-import com.github.syunpeii.mockstation.app.ui.screen.HomeScreen
-import com.github.syunpeii.mockstation.app.ui.screen.settings.SettingsScreen
+import com.github.syunpeii.mockstation.app.ui.home.HomeScreen
+import com.github.syunpeii.mockstation.app.ui.settings.SettingsScreen
 import com.github.syunpeii.mockstation.core.designsystem.component.button.AppIconButton
 import com.github.syunpeii.mockstation.core.designsystem.component.navigation.BottomNavigationWrapper
 import com.github.syunpeii.mockstation.core.designsystem.component.navigation.CustomTopBar
 import com.github.syunpeii.mockstation.core.designsystem.component.navigation.NavigationItem
 import com.github.syunpeii.mockstation.core.designsystem.component.navigation.NavigationRailWrapper
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
+import kotlinx.serialization.Serializable
+
+@Serializable
+data object MainRoute
 
 @Composable
-fun MainScreen() {
+fun MockStationApp() {
+    MockStationTheme {
+        val navController = rememberNavController()
+
+        NavHost(
+            navController = navController,
+            startDestination = MainRoute,
+        ) {
+            composable<MainRoute> {
+                MainScreen()
+            }
+        }
+    }
+}
+
+@Composable
+private fun MainScreen() {
     val navController = rememberNavController()
     val navigationItems = remember {
         TopLevelDestination.entries.map { destination ->
