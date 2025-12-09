@@ -61,9 +61,9 @@ fun MainScreen() {
 
         MainScreenContent(
             windowSizeClass = windowSizeClass,
-            navController = navController,
             navigationItems = navigationItems,
             selectedItemIndex = selectedItemIndex,
+            navHost = { MainNavHost(navController) },
             onItemClick = { index ->
                 selectedItemIndex = index
                 navController.navigate(TopLevelDestination.entries[index].route)
@@ -75,9 +75,9 @@ fun MainScreen() {
 @Composable
 private fun MainScreenContent(
     windowSizeClass: WindowSizeClass,
-    navController: NavHostController,
     navigationItems: List<NavigationItem>,
     selectedItemIndex: Int,
+    navHost: @Composable () -> Unit,
     onItemClick: (Int) -> Unit,
 ) {
     val isCompact = windowSizeClass == WindowSizeClass.Compact
@@ -129,8 +129,10 @@ private fun MainScreenContent(
                     )
                 }
 
-                Box(modifier = Modifier.weight(1f)) {
-                    MainNavHost(navController = navController)
+                Box(
+                    modifier = Modifier.weight(1f),
+                ) {
+                    navHost.invoke()
                 }
             }
 
@@ -191,9 +193,9 @@ private fun PreviewMainScreenContentCompact() {
 
         MainScreenContent(
             windowSizeClass = WindowSizeClass.Compact,
-            navController = navController,
             navigationItems = navigationItems,
             selectedItemIndex = 0,
+            navHost = {},
             onItemClick = {},
         )
     }
@@ -214,9 +216,9 @@ private fun PreviewMainScreenContentExpanded() {
 
         MainScreenContent(
             windowSizeClass = WindowSizeClass.Expanded,
-            navController = navController,
             navigationItems = navigationItems,
             selectedItemIndex = 0,
+            navHost = {},
             onItemClick = {},
         )
     }
