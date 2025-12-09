@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1d5381c7-0f0c-4c29-a3a8-d7a87d7139c0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composeApp/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composeApp/src/desktopMain/composeResources/drawable/compose-multiplatform.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composeApp/src/desktopMain/kotlin/com/github/syunpeii/mockstation/app/Main.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composeApp/src/desktopMain/kotlin/com/github/syunpeii/mockstation/app/MainDesktop.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composeApp/src/desktopMain/kotlin/com/github/syunpeii/mockstation/app/di/AppModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composeApp/src/desktopMain/kotlin/com/github/syunpeii/mockstation/app/di/PlatformModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composeApp/src/desktopMain/kotlin/com/github/syunpeii/mockstation/app/navigation/Route.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composeApp/src/desktopMain/kotlin/com/github/syunpeii/mockstation/app/navigation/TopLevelDestination.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composeApp/src/desktopMain/kotlin/com/github/syunpeii/mockstation/app/navigation/WindowSizeClass.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composeApp/src/desktopMain/kotlin/com/github/syunpeii/mockstation/app/ui/screen/HomeScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composeApp/src/desktopMain/kotlin/com/github/syunpeii/mockstation/app/ui/screen/main/MainScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composeApp/src/desktopMain/kotlin/com/github/syunpeii/mockstation/app/ui/screen/settings/SettingsScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composeApp/src/desktopMain/kotlin/com/github/syunpeii/mockstation/app/ui/viewmodel/TestCaseViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/detekt.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/data/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/data/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/data/di/DataModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/data/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/data/repository/TestCaseRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/data/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/data/repository/TestCaseRepositoryImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/data/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/data/source/TestCaseDataSource.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/data/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/data/source/local/TestCaseLocalDataSource.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/data/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/data/source/remote/TestCaseRemoteDataSource.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/database/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/database/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/database/DatabaseDriverFactory.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/database/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/database/di/DatabaseModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/database/src/commonMain/sqldelight/com/github/syunpeii/mockstation/core/database/TestCase.sq" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/datastore/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/datastore/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/datastore/AppSettings.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/datastore/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/datastore/DataStoreFactory.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/datastore/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/datastore/di/DataStoreModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/datastore/src/desktopMain/kotlin/com/github/syunpeii/mockstation/core/datastore/DataStoreFactory.desktop.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/designsystem/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/designsystem/src/desktopMain/kotlin/com/github/syunpeii/mockstation/core/designsystem/component/button/IconButton.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/designsystem/src/desktopMain/kotlin/com/github/syunpeii/mockstation/core/designsystem/component/button/PrimaryButton.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/designsystem/src/desktopMain/kotlin/com/github/syunpeii/mockstation/core/designsystem/component/navigation/BottomNavigationWrapper.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/designsystem/src/desktopMain/kotlin/com/github/syunpeii/mockstation/core/designsystem/component/navigation/CustomTopBar.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/designsystem/src/desktopMain/kotlin/com/github/syunpeii/mockstation/core/designsystem/component/navigation/NavigationItem.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/designsystem/src/desktopMain/kotlin/com/github/syunpeii/mockstation/core/designsystem/component/navigation/NavigationRailWrapper.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/designsystem/src/desktopMain/kotlin/com/github/syunpeii/mockstation/core/designsystem/component/text/NavigationItemText.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/designsystem/src/desktopMain/kotlin/com/github/syunpeii/mockstation/core/designsystem/preview/PreviewComponent.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/designsystem/src/desktopMain/kotlin/com/github/syunpeii/mockstation/core/designsystem/theme/Color.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/designsystem/src/desktopMain/kotlin/com/github/syunpeii/mockstation/core/designsystem/theme/RippleConfiguration.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/designsystem/src/desktopMain/kotlin/com/github/syunpeii/mockstation/core/designsystem/theme/Shape.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/designsystem/src/desktopMain/kotlin/com/github/syunpeii/mockstation/core/designsystem/theme/Spacing.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/designsystem/src/desktopMain/kotlin/com/github/syunpeii/mockstation/core/designsystem/theme/Theme.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/designsystem/src/desktopMain/kotlin/com/github/syunpeii/mockstation/core/designsystem/theme/Typography.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/domain/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/domain/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/domain/di/DomainModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/domain/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/domain/usecase/CreateTestCaseUseCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/model/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/model/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/model/Result.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/model/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/model/TestCase.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/network/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/network/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/network/HttpClientFactory.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/network/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/network/api/TestCaseApi.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/network/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/network/api/TestCaseApiImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/network/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/network/di/NetworkModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/testing/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/testing/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/testing/fake/FakeTestCaseRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/util/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/util/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/util/FlowExt.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/util/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/util/StringExt.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/kotlin/com/github/syunpeii/mockstation/server/Application.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/kotlin/com/github/syunpeii/mockstation/server/di/ServerModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/kotlin/com/github/syunpeii/mockstation/server/plugins/Routing.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/kotlin/com/github/syunpeii/mockstation/server/plugins/Serialization.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/logback.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view />
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+        <option value="Kotlin Interface" />
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="$USER_HOME$/.gradle/wrapper/dists/gradle-8.14.3-bin/cv11ve7ro1n3o1j4so8xd9n66/gradle-8.14.3" javaHome="$USER_HOME$/Library/Java/JavaVirtualMachines/jbr-21.0.4/Contents/Home" gradleVersion="8.14.3">
+    <option name="jvmArguments">
+      <list>
+        <option value="-Dandroid.home=/Users/suzukishunpei/Library/Android/sdk" />
+        <option value="-Didea.compose.hot-reload=true" />
+        <option value="-Didea.compose.hot-reload.version=2" />
+      </list>
+    </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/composeApp/src/desktopMain/kotlin/com/github/syunpeii/mockstation/app/ui/screen/main/MainScreen.kt" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="KotlinCodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="AISelfReview" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="365JM5lBUrVj3WtxwgI967HiU4U" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Preview: com.github.syunpeii.mockstation.app.ui.screen.main.MainScreenKt.PreviewMainScreenContentCompact.executor": "Run",
+    "Gradle.Preview: com.github.syunpeii.mockstation.app.ui.screen.main.MainScreenKt.PreviewMainScreenContentExpanded.executor": "Run",
+    "Gradle.Preview: com.github.syunpeii.mockstation.core.designsystem.component.button.IconButtonKt.PreviewAppIconButton.executor": "Run",
+    "Gradle.Preview: com.github.syunpeii.mockstation.core.designsystem.component.navigation.BottomNavigationWrapperKt.PreviewBottomNavigationWrapper.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "android.gradle.sync.needed": "true",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.sourceCode.kotlin"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/config" />
+    </key>
+    <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
+      <recent name="com.github.syunpeii.mockstation.core.designsystem.component.button" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="AppleRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" IS_LOCATION_SIMULATION_SUPPORTED="false" IS_LOCATION_SIMULATION_ALLOWED="true" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" DEVELOPMENT_TEAM="${TEAM_ID}" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
+      <embedded_app_extension_list />
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1d5381c7-0f0c-4c29-a3a8-d7a87d7139c0" name="Changes" comment="" />
+      <created>1764290451554</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1764290451554</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>
