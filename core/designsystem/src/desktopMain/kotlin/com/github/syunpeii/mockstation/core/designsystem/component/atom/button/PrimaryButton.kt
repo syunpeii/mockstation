@@ -1,4 +1,4 @@
-package com.github.syunpeii.mockstation.core.designsystem.component.button
+package com.github.syunpeii.mockstation.core.designsystem.component.atom.button
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.PaddingValues

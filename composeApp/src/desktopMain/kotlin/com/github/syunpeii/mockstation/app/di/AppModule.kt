@@ -1,5 +1,6 @@
 package com.github.syunpeii.mockstation.app.di
 
+import com.github.syunpeii.mockstation.app.ui.settings.SettingsViewModel
 import com.github.syunpeii.mockstation.app.ui.testcase.TestCaseViewModel
 import com.github.syunpeii.mockstation.core.data.di.dataModule
 import com.github.syunpeii.mockstation.core.database.di.databaseModule
@@ -14,6 +15,10 @@ val appModule: Module = module {
         TestCaseViewModel(
             testCaseRepository = get(),
         )
+    }
+
+    factory {
+        SettingsViewModel()
     }
 }
 

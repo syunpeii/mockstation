@@ -7,12 +7,14 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
@@ -22,6 +24,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -32,7 +35,7 @@ import com.github.syunpeii.mockstation.app.navigation.TopLevelDestination
 import com.github.syunpeii.mockstation.app.navigation.WindowSizeClass
 import com.github.syunpeii.mockstation.app.ui.home.HomeScreen
 import com.github.syunpeii.mockstation.app.ui.settings.SettingsScreen
-import com.github.syunpeii.mockstation.core.designsystem.component.button.AppIconButton
+import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.AppIconButton
 import com.github.syunpeii.mockstation.core.designsystem.component.navigation.BottomNavigationWrapper
 import com.github.syunpeii.mockstation.core.designsystem.component.navigation.CustomTopBar
 import com.github.syunpeii.mockstation.core.designsystem.component.navigation.NavigationItem
@@ -42,6 +45,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data object MainRoute
+
+private val BottomNavigationHeight = 80.dp
 
 @Composable
 fun MockStationApp() {
@@ -74,7 +79,11 @@ private fun MainScreen() {
 
     var selectedItemIndex by remember { mutableIntStateOf(0) }
 
-    BoxWithConstraints {
+    BoxWithConstraints(
+        modifier = Modifier
+            .background(MockStationTheme.colors.background)
+            .fillMaxSize(),
+    ) {
         val windowSizeClass = remember(maxWidth) {
             WindowSizeClass.fromWidthByDp(maxWidth.value)
         }
@@ -150,7 +159,9 @@ private fun MainScreenContent(
                 }
 
                 Box(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(bottom = if (isCompact) BottomNavigationHeight else 0.dp),
                 ) {
                     navHost.invoke()
                 }

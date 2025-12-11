@@ -13,7 +13,7 @@ import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.github.syunpeii.mockstation.core.designsystem.component.text.NavigationItemText
+import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.NavigationItemText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 

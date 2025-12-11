@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -26,6 +28,22 @@ fun PreviewColumn(
             .fillMaxWidth()
             .background(backgroundColor)
             .padding(16.dp),
+        content = content,
+    )
+}
+
+@Composable
+fun PreviewRow(
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = MockStationTheme.colors.background,
+    content: @Composable RowScope.() -> Unit,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(backgroundColor)
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         content = content,
     )
 }
