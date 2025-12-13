@@ -13,6 +13,29 @@
     <string name="home_subtitle">KMP Desktop + Ktor Server</string>
     <string name="home_button_get_started">Get Started</string>
 
+    <!-- Home Screen Sections -->
+    <string name="home_section_connection">Current Connection</string>
+    <string name="home_section_devices">Active Devices</string>
+    <string name="home_section_summary">Server Summary</string>
+
+    <!-- Home Screen Connection -->
+    <string name="home_connection_name">Connection Name</string>
+    <string name="home_connection_url">URL</string>
+    <string name="home_connection_button">Go to Settings</string>
+
+    <!-- Home Screen Devices -->
+    <string name="home_devices_empty">No active devices</string>
+    <string name="home_devices_device_id">Device ID</string>
+    <string name="home_devices_device_name">Device Name</string>
+    <string name="home_devices_last_request">Last Request</string>
+
+    <!-- Home Screen Summary -->
+    <string name="home_summary_current_testcase">Current Test Case</string>
+    <string name="home_summary_total_devices">Total Devices</string>
+    <string name="home_summary_recent_requests">Recent Requests</string>
+    <string name="home_summary_devices_count">%d devices</string>
+    <string name="home_summary_requests_count">%d requests</string>
+
     <!-- Settings Screen -->
     <string name="settings_title">Settings</string>
     <string name="settings_section_appearance">Appearance</string>

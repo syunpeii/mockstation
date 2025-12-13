@@ -1,5 +1,6 @@
 package com.github.syunpeii.mockstation.app.di
 
+import com.github.syunpeii.mockstation.app.ui.home.HomeViewModel
 import com.github.syunpeii.mockstation.app.ui.settings.SettingsViewModel
 import com.github.syunpeii.mockstation.core.data.di.dataModule
 import com.github.syunpeii.mockstation.core.database.di.databaseModule
@@ -12,6 +13,9 @@ import org.koin.dsl.module
 val appModule: Module = module {
     factory {
         SettingsViewModel()
+    }
+    factory {
+        HomeViewModel()
     }
 }
 

@@ -17,7 +17,7 @@ class SettingsViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            delay(100)
+            delay(1_000)
             _uiState.value = SettingsUiState.Stable(
                 themeMode = ThemeMode.SYSTEM,
                 navigationDisplayMode = NavigationDisplayMode.AUTO,

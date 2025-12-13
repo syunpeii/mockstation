@@ -13,6 +13,29 @@
     <string name="home_subtitle">KMP Desktop + Ktor Server</string>
     <string name="home_button_get_started">開始する</string>
 
+    <!-- Home Screen Sections -->
+    <string name="home_section_connection">現在の接続先</string>
+    <string name="home_section_devices">有効なデバイス</string>
+    <string name="home_section_summary">サーバーサマリー</string>
+
+    <!-- Home Screen Connection -->
+    <string name="home_connection_name">接続名</string>
+    <string name="home_connection_url">URL</string>
+    <string name="home_connection_button">設定画面へ</string>
+
+    <!-- Home Screen Devices -->
+    <string name="home_devices_empty">有効なデバイスがありません</string>
+    <string name="home_devices_device_id">デバイスID</string>
+    <string name="home_devices_device_name">デバイス名</string>
+    <string name="home_devices_last_request">最終リクエスト</string>
+
+    <!-- Home Screen Summary -->
+    <string name="home_summary_current_testcase">現在のテストケース</string>
+    <string name="home_summary_total_devices">デバイス総数</string>
+    <string name="home_summary_recent_requests">直近のリクエスト数</string>
+    <string name="home_summary_devices_count">%d 台</string>
+    <string name="home_summary_requests_count">%d 件</string>
+
     <!-- Settings Screen -->
     <string name="settings_title">設定</string>
     <string name="settings_section_appearance">外観</string>
