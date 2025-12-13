@@ -24,6 +24,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -42,6 +43,10 @@ import com.github.syunpeii.mockstation.core.designsystem.component.navigation.Na
 import com.github.syunpeii.mockstation.core.designsystem.component.navigation.NavigationRailWrapper
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 import kotlinx.serialization.Serializable
+import mockstation.composeapp.generated.resources.Res
+import mockstation.composeapp.generated.resources.accessibility_add
+import mockstation.composeapp.generated.resources.accessibility_more
+import org.jetbrains.compose.resources.stringResource
 
 @Serializable
 data object MainRoute
@@ -67,21 +72,19 @@ fun MockStationApp() {
 @Composable
 private fun MainScreen() {
     val navController = rememberNavController()
-    val navigationItems = remember {
-        TopLevelDestination.entries.map { destination ->
-            NavigationItem(
-                label = destination.label,
-                icon = destination.icon,
-                selectedIcon = destination.selectedIcon,
-            )
-        }
+    val navigationItems = TopLevelDestination.entries.map { destination ->
+        NavigationItem(
+            label = stringResource(destination.labelRes),
+            icon = destination.icon,
+            selectedIcon = destination.selectedIcon,
+        )
     }
 
     var selectedItemIndex by remember { mutableIntStateOf(0) }
 
     BoxWithConstraints(
         modifier = Modifier
-            .background(MockStationTheme.colors.background)
+            .background(MockStationTheme.colors.surfaceVariant)
             .fillMaxSize(),
     ) {
         val windowSizeClass = remember(maxWidth) {
@@ -118,12 +121,12 @@ private fun MainScreenContent(
             actions = {
                 AppIconButton(
                     imageVector = Icons.Filled.Add,
-                    contentDescription = "Add",
+                    contentDescription = stringResource(Res.string.accessibility_add),
                     onClick = { /* TODO: 実装 */ },
                 )
                 AppIconButton(
                     imageVector = Icons.Filled.MoreVert,
-                    contentDescription = "More",
+                    contentDescription = stringResource(Res.string.accessibility_more),
                     onClick = { /* TODO: 実装 */ },
                 )
             },
@@ -203,6 +206,10 @@ private fun MainNavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = TopLevelDestination.HOME.route,
+        modifier = Modifier
+            .background(MockStationTheme.colors.surfaceVariant)
+            .padding(MockStationTheme.spacing.extraSmall)
+            .clip(MockStationTheme.shapes.small),
     ) {
         composable<HomeRoute> { HomeScreen() }
         composable<SettingsRoute> { SettingsScreen() }
@@ -216,7 +223,7 @@ private fun PreviewMainScreenContentCompact() {
         val navController = rememberNavController()
         val navigationItems = TopLevelDestination.entries.map { destination ->
             NavigationItem(
-                label = destination.label,
+                label = stringResource(destination.labelRes),
                 icon = destination.icon,
                 selectedIcon = destination.selectedIcon,
             )
@@ -239,7 +246,7 @@ private fun PreviewMainScreenContentExpanded() {
         val navController = rememberNavController()
         val navigationItems = TopLevelDestination.entries.map { destination ->
             NavigationItem(
-                label = destination.label,
+                label = stringResource(destination.labelRes),
                 icon = destination.icon,
                 selectedIcon = destination.selectedIcon,
             )

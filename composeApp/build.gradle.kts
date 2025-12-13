@@ -51,6 +51,14 @@ kotlin {
     }
 }
 
+compose {
+    resources {
+        publicResClass = true
+        packageOfResClass = "mockstation.composeapp.generated.resources"
+        generateResClass = org.jetbrains.compose.resources.ResourcesExtension.ResourceClassGeneration.Always
+    }
+}
+
 compose.desktop {
     application {
         mainClass = "com.github.syunpeii.mockstation.app.MainDesktopKt"

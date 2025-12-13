@@ -10,23 +10,15 @@ import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.P
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.SelectableCard
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.SettingSectionHeader
-import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
+import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
-import kotlinx.serialization.Serializable
-
-// For core-designsystem module, we need to define a minimal Connection data class
-// The actual Connection from the app module will be passed as a generic type
-@Serializable
-data class ConnectionData(
-    val id: String,
-    val name: String,
-    val url: String,
-    val description: String,
-)
 
 @Composable
-fun <T> ConnectionSettingsSection(
-    connections: List<T>,
+fun ConnectionSettingsSection(
+    sectionTitle: String,
+    description: String,
+    addButtonText: String,
+    connections: List<ConnectionDisplay>,
     selectedIndex: Int,
     canAddConnection: Boolean,
     maxConnections: Int,
@@ -34,16 +26,16 @@ fun <T> ConnectionSettingsSection(
     onEditConnection: (Int) -> Unit,
     onDeleteConnection: (Int) -> Unit,
     onAddConnection: () -> Unit,
-    getName: (T) -> String,
-    getUrl: (T) -> String,
-    getDescription: (T) -> String,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier) {
-        SettingSectionHeader(title = "Connection Settings")
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
+    ) {
+        SettingSectionHeader(title = sectionTitle)
 
         BodyMediumText(
-            text = "Manage up to $maxConnections server connections",
+            text = description,
             color = MockStationTheme.colors.onSurfaceVariant,
         )
 
@@ -55,9 +47,9 @@ fun <T> ConnectionSettingsSection(
                 if (index < connections.size) {
                     val connection = connections[index]
                     SelectableCard(
-                        name = getName(connection),
-                        url = getUrl(connection),
-                        description = getDescription(connection),
+                        name = connection.name,
+                        url = connection.url,
+                        description = connection.description,
                         isSelected = index == selectedIndex,
                         onSelect = { onSelectConnection(index) },
                         onEdit = { onEditConnection(index) },
@@ -68,7 +60,7 @@ fun <T> ConnectionSettingsSection(
         }
 
         PrimaryButton(
-            text = "Add Connection (${connections.size}/$maxConnections)",
+            text = addButtonText,
             onClick = onAddConnection,
             enabled = canAddConnection,
             modifier = Modifier.fillMaxWidth(),
@@ -76,13 +68,22 @@ fun <T> ConnectionSettingsSection(
     }
 }
 
+data class ConnectionDisplay(
+    val name: String,
+    val url: String,
+    val description: String,
+)
+
 @Preview
 @Composable
 private fun PreviewConnectionSettingsSectionEmpty() {
     MockStationTheme {
-        PreviewColumn {
+        PreviewBox {
             ConnectionSettingsSection(
-                connections = emptyList<ConnectionData>(),
+                sectionTitle = "Connection Settings",
+                description = "Manage up to 5 server connections",
+                addButtonText = "Add Connection (0/5)",
+                connections = emptyList(),
                 selectedIndex = -1,
                 canAddConnection = true,
                 maxConnections = 5,
@@ -90,9 +91,6 @@ private fun PreviewConnectionSettingsSectionEmpty() {
                 onEditConnection = {},
                 onDeleteConnection = {},
                 onAddConnection = {},
-                getName = { it.name },
-                getUrl = { it.url },
-                getDescription = { it.description },
             )
         }
     }
@@ -102,11 +100,14 @@ private fun PreviewConnectionSettingsSectionEmpty() {
 @Composable
 private fun PreviewConnectionSettingsSectionWithConnections() {
     MockStationTheme {
-        PreviewColumn {
+        PreviewBox {
             ConnectionSettingsSection(
+                sectionTitle = "Connection Settings",
+                description = "Manage up to 5 server connections",
+                addButtonText = "Add Connection (2/5)",
                 connections = listOf(
-                    ConnectionData("1", "Local Dev", "http://localhost:8080", "Development server"),
-                    ConnectionData("2", "Staging", "https://staging.example.com", "Staging environment"),
+                    ConnectionDisplay("Local Dev", "http://localhost:8080", "Development server"),
+                    ConnectionDisplay("Staging", "https://staging.example.com", "Staging environment"),
                 ),
                 selectedIndex = 0,
                 canAddConnection = true,
@@ -115,9 +116,6 @@ private fun PreviewConnectionSettingsSectionWithConnections() {
                 onEditConnection = {},
                 onDeleteConnection = {},
                 onAddConnection = {},
-                getName = { it.name },
-                getUrl = { it.url },
-                getDescription = { it.description },
             )
         }
     }
@@ -127,14 +125,17 @@ private fun PreviewConnectionSettingsSectionWithConnections() {
 @Composable
 private fun PreviewConnectionSettingsSectionFull() {
     MockStationTheme {
-        PreviewColumn {
+        PreviewBox {
             ConnectionSettingsSection(
+                sectionTitle = "Connection Settings",
+                description = "Manage up to 5 server connections",
+                addButtonText = "Add Connection (5/5)",
                 connections = listOf(
-                    ConnectionData("1", "Local Dev", "http://localhost:8080", "Development"),
-                    ConnectionData("2", "Staging", "https://staging.example.com", "Staging"),
-                    ConnectionData("3", "Production", "https://api.example.com", "Production"),
-                    ConnectionData("4", "Test", "https://test.example.com", "Test"),
-                    ConnectionData("5", "Backup", "https://backup.example.com", "Backup"),
+                    ConnectionDisplay("Local Dev", "http://localhost:8080", "Development"),
+                    ConnectionDisplay("Staging", "https://staging.example.com", "Staging"),
+                    ConnectionDisplay("Production", "https://api.example.com", "Production"),
+                    ConnectionDisplay("Test", "https://test.example.com", "Test"),
+                    ConnectionDisplay("Backup", "https://backup.example.com", "Backup"),
                 ),
                 selectedIndex = 2,
                 canAddConnection = false,
@@ -143,9 +144,6 @@ private fun PreviewConnectionSettingsSectionFull() {
                 onEditConnection = {},
                 onDeleteConnection = {},
                 onAddConnection = {},
-                getName = { it.name },
-                getUrl = { it.url },
-                getDescription = { it.description },
             )
         }
     }

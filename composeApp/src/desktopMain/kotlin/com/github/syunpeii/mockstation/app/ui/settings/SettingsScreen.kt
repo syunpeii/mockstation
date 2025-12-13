@@ -21,12 +21,33 @@ import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.Hea
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.SettingButtonSection
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.SettingFilterSection
 import com.github.syunpeii.mockstation.core.designsystem.component.organism.AppInfoSection
+import com.github.syunpeii.mockstation.core.designsystem.component.organism.ConnectionDisplay
 import com.github.syunpeii.mockstation.core.designsystem.component.organism.ConnectionSettingsSection
+import com.github.syunpeii.mockstation.core.designsystem.resources.ComposeStringResource
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
+import mockstation.composeapp.generated.resources.Res
+import mockstation.composeapp.generated.resources.common_license
+import mockstation.composeapp.generated.resources.common_not_set
+import mockstation.composeapp.generated.resources.common_repository
+import mockstation.composeapp.generated.resources.common_version
+import mockstation.composeapp.generated.resources.settings_connection_add_button
+import mockstation.composeapp.generated.resources.settings_connection_description
+import mockstation.composeapp.generated.resources.settings_connection_new_name
+import mockstation.composeapp.generated.resources.settings_connection_title
+import mockstation.composeapp.generated.resources.settings_navigation_label
+import mockstation.composeapp.generated.resources.settings_section_about
+import mockstation.composeapp.generated.resources.settings_section_appearance
+import mockstation.composeapp.generated.resources.settings_section_navigation
+import mockstation.composeapp.generated.resources.settings_section_testcase_dir
+import mockstation.composeapp.generated.resources.settings_testcase_dir_button
+import mockstation.composeapp.generated.resources.settings_testcase_dir_description
+import mockstation.composeapp.generated.resources.settings_theme_label
+import mockstation.composeapp.generated.resources.settings_title
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
 @Composable
-fun SettingsScreen(
+internal fun SettingsScreen(
     viewModel: SettingsViewModel = koinInject(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -118,18 +139,24 @@ private fun SettingsScreenContent(
     onDeleteConnection: (Int) -> Unit,
 ) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(MockStationTheme.spacing.medium),
-        verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.large),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = MockStationTheme.spacing.medium),
+        contentPadding = PaddingValues(vertical = MockStationTheme.spacing.medium),
+        verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
     ) {
         item {
             HeadlineMediumText(
-                text = "Settings",
+                text = stringResource(Res.string.settings_title),
             )
         }
 
         item {
             AppInfoSection(
+                sectionTitle = stringResource(Res.string.settings_section_about),
+                versionTitle = stringResource(Res.string.common_version),
+                licenseTitle = stringResource(Res.string.common_license),
+                repositoryTitle = stringResource(Res.string.common_repository),
                 version = uiState.appVersion,
                 license = uiState.license,
                 repositoryUrl = uiState.repositoryUrl,
@@ -139,31 +166,31 @@ private fun SettingsScreenContent(
 
         item {
             SettingFilterSection(
-                sectionTitle = "Appearance",
-                label = "Theme",
+                sectionTitle = stringResource(Res.string.settings_section_appearance),
+                label = stringResource(Res.string.settings_theme_label),
                 selectedOption = uiState.themeMode,
                 options = ThemeMode.entries.toTypedArray(),
                 onOptionChange = onThemeModeChange,
-                getDisplayName = { it.displayName },
+                getDisplayName = { it.toDisplayString() },
             )
         }
 
         item {
             SettingFilterSection(
-                sectionTitle = "Navigation Display",
-                label = "Navigation Position",
+                sectionTitle = stringResource(Res.string.settings_section_navigation),
+                label = stringResource(Res.string.settings_navigation_label),
                 selectedOption = uiState.navigationDisplayMode,
                 options = NavigationDisplayMode.entries.toTypedArray(),
                 onOptionChange = onNavigationDisplayModeChange,
-                getDisplayName = { it.displayName },
+                getDisplayName = { it.toDisplayString() },
             )
         }
 
         item {
             SettingButtonSection(
-                sectionTitle = "Test Case Directory",
-                description = "Select the directory containing test case files",
-                buttonText = "Choose Directory",
+                sectionTitle = stringResource(Res.string.settings_section_testcase_dir),
+                description = stringResource(Res.string.settings_testcase_dir_description),
+                buttonText = stringResource(Res.string.settings_testcase_dir_button),
                 onButtonClick = onChooseDirectory,
             ) {
                 if (uiState.testCaseDirectory != null) {
@@ -175,7 +202,7 @@ private fun SettingsScreenContent(
                     )
                 } else {
                     BodyMediumText(
-                        text = "Not set",
+                        text = stringResource(Res.string.common_not_set),
                         color = MockStationTheme.colors.onSurfaceVariant,
                         modifier = Modifier.padding(
                             vertical = MockStationTheme.spacing.small,
@@ -187,7 +214,23 @@ private fun SettingsScreenContent(
 
         item {
             ConnectionSettingsSection(
-                connections = uiState.connections,
+                sectionTitle = stringResource(Res.string.settings_connection_title),
+                description = ComposeStringResource(
+                    resourceId = Res.string.settings_connection_description,
+                    SettingsUiState.Stable.MAX_CONNECTIONS,
+                ).getString(),
+                addButtonText = stringResource(
+                    Res.string.settings_connection_add_button,
+                    uiState.connections.size,
+                    SettingsUiState.Stable.MAX_CONNECTIONS,
+                ),
+                connections = uiState.connections.map { connection ->
+                    ConnectionDisplay(
+                        name = connection.nameResource.getString(),
+                        url = connection.url,
+                        description = connection.description,
+                    )
+                },
                 selectedIndex = uiState.selectedConnectionIndex,
                 canAddConnection = uiState.canAddConnection,
                 maxConnections = SettingsUiState.Stable.MAX_CONNECTIONS,
@@ -195,9 +238,6 @@ private fun SettingsScreenContent(
                 onEditConnection = onEditConnection,
                 onDeleteConnection = onDeleteConnection,
                 onAddConnection = onAddConnection,
-                getName = { it.name },
-                getUrl = { it.url },
-                getDescription = { it.description },
             )
         }
     }
@@ -214,10 +254,12 @@ private fun PreviewSettingsScreenStable() {
                 testCaseDirectory = null,
                 connections = listOf(
                     Connection(
-                        id = "1",
-                        name = "Local",
                         url = "http://localhost:8080",
                         description = "Dev server",
+                        nameResource = ComposeStringResource(
+                            resourceId = Res.string.settings_connection_new_name,
+                            1,
+                        ),
                     ),
                 ),
                 selectedConnectionIndex = 0,

@@ -1,6 +1,15 @@
 package com.github.syunpeii.mockstation.app.ui.settings
 
-import kotlinx.serialization.Serializable
+import androidx.compose.runtime.Composable
+import com.github.syunpeii.mockstation.core.designsystem.resources.ComposeStringResource
+import mockstation.composeapp.generated.resources.Res
+import mockstation.composeapp.generated.resources.settings_nav_mode_auto
+import mockstation.composeapp.generated.resources.settings_nav_mode_bottom
+import mockstation.composeapp.generated.resources.settings_nav_mode_left
+import mockstation.composeapp.generated.resources.settings_theme_mode_dark
+import mockstation.composeapp.generated.resources.settings_theme_mode_light
+import mockstation.composeapp.generated.resources.settings_theme_mode_system
+import org.jetbrains.compose.resources.stringResource
 
 sealed interface SettingsUiState {
     data object Loading : SettingsUiState
@@ -32,26 +41,36 @@ sealed interface SettingsUiState {
     }
 }
 
-enum class ThemeMode(
-    val displayName: String,
-) {
-    LIGHT("Light"),
-    DARK("Dark"),
-    SYSTEM("System"),
+enum class ThemeMode {
+    LIGHT,
+    DARK,
+    SYSTEM,
+    ;
+
+    @Composable
+    fun toDisplayString(): String = when (this) {
+        LIGHT -> stringResource(Res.string.settings_theme_mode_light)
+        DARK -> stringResource(Res.string.settings_theme_mode_dark)
+        SYSTEM -> stringResource(Res.string.settings_theme_mode_system)
+    }
 }
 
-enum class NavigationDisplayMode(
-    val displayName: String,
-) {
-    LEFT("Left"),
-    BOTTOM("Bottom"),
-    AUTO("Auto"),
+enum class NavigationDisplayMode {
+    LEFT,
+    BOTTOM,
+    AUTO,
+    ;
+
+    @Composable
+    fun toDisplayString(): String = when (this) {
+        LEFT -> stringResource(Res.string.settings_nav_mode_left)
+        BOTTOM -> stringResource(Res.string.settings_nav_mode_bottom)
+        AUTO -> stringResource(Res.string.settings_nav_mode_auto)
+    }
 }
 
-@Serializable
 data class Connection(
-    val id: String,
-    val name: String,
     val url: String,
     val description: String,
+    val nameResource: ComposeStringResource,
 )

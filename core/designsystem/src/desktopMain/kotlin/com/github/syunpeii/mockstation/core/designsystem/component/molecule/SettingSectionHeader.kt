@@ -17,7 +17,9 @@ fun SettingSectionHeader(
     modifier: Modifier = Modifier,
     showDivider: Boolean = true,
 ) {
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+    ) {
         if (showDivider) {
             HorizontalDivider(
                 color = MockStationTheme.colors.outlineVariant,

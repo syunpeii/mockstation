@@ -20,6 +20,10 @@ import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
 @Composable
 fun AppInfoSection(
+    sectionTitle: String,
+    versionTitle: String,
+    licenseTitle: String,
+    repositoryTitle: String,
     version: String,
     license: String,
     repositoryUrl: String,
@@ -28,7 +32,7 @@ fun AppInfoSection(
 ) {
     Column(modifier = modifier) {
         SettingSectionHeader(
-            title = "About",
+            title = sectionTitle,
             showDivider = false,
         )
 
@@ -45,17 +49,15 @@ fun AppInfoSection(
                 verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
             ) {
                 InfoRow(
-                    label = "Version",
+                    label = versionTitle,
                     value = version,
                 )
-
                 InfoRow(
-                    label = "License",
+                    label = licenseTitle,
                     value = license,
                 )
-
                 ExternalLinkRow(
-                    label = "Repository",
+                    label = repositoryTitle,
                     value = repositoryUrl,
                     onLinkClick = onRepositoryClick,
                 )
@@ -91,6 +93,10 @@ private fun PreviewAppInfoSection() {
     MockStationTheme {
         PreviewColumn {
             AppInfoSection(
+                sectionTitle = "App Information",
+                versionTitle = "Version",
+                licenseTitle = "License",
+                repositoryTitle = "Repository",
                 version = "1.0.0",
                 license = "MIT License",
                 repositoryUrl = "https://github.com/syunpeii/mockstation",

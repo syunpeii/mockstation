@@ -23,7 +23,7 @@ fun <T : Enum<T>> SettingFilterSection(
     options: Array<T>,
     onOptionChange: (T) -> Unit,
     modifier: Modifier = Modifier,
-    getDisplayName: (T) -> String = { it.name.lowercase().replaceFirstChar { char -> char.uppercase() } },
+    getDisplayName: @Composable (T) -> String = { it.name.lowercase().replaceFirstChar { char -> char.uppercase() } },
 ) {
     Column(
         modifier = modifier,

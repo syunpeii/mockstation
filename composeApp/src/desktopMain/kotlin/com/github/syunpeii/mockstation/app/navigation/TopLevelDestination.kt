@@ -6,22 +6,26 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
+import mockstation.composeapp.generated.resources.Res
+import mockstation.composeapp.generated.resources.nav_home
+import mockstation.composeapp.generated.resources.nav_settings
+import org.jetbrains.compose.resources.StringResource
 
 enum class TopLevelDestination(
     val route: TopLevelRoute,
-    val label: String,
+    val labelRes: StringResource,
     val icon: ImageVector,
     val selectedIcon: ImageVector?,
 ) {
     HOME(
         route = HomeRoute,
-        label = "Home",
+        labelRes = Res.string.nav_home,
         icon = Icons.Filled.Home,
         selectedIcon = Icons.Outlined.Home,
     ),
     SETTINGS(
         route = SettingsRoute,
-        label = "Settings",
+        labelRes = Res.string.nav_settings,
         icon = Icons.Filled.Settings,
         selectedIcon = Icons.Outlined.Settings,
     ),

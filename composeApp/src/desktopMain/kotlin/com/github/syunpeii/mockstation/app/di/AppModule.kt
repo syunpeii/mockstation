@@ -1,7 +1,6 @@
 package com.github.syunpeii.mockstation.app.di
 
 import com.github.syunpeii.mockstation.app.ui.settings.SettingsViewModel
-import com.github.syunpeii.mockstation.app.ui.testcase.TestCaseViewModel
 import com.github.syunpeii.mockstation.core.data.di.dataModule
 import com.github.syunpeii.mockstation.core.database.di.databaseModule
 import com.github.syunpeii.mockstation.core.datastore.di.dataStoreModule
@@ -11,12 +10,6 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 val appModule: Module = module {
-    factory {
-        TestCaseViewModel(
-            testCaseRepository = get(),
-        )
-    }
-
     factory {
         SettingsViewModel()
     }

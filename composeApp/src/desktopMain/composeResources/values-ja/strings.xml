@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation -->
+    <string name="nav_home">ホーム</string>
+    <string name="nav_settings">設定</string>
+
+    <!-- Accessibility -->
+    <string name="accessibility_add">追加</string>
+    <string name="accessibility_more">その他</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">Mock Station デスクトップアプリ</string>
+    <string name="home_subtitle">KMP Desktop + Ktor Server</string>
+    <string name="home_button_get_started">開始する</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">設定</string>
+    <string name="settings_section_appearance">外観</string>
+    <string name="settings_section_navigation">ナビゲーション表示</string>
+    <string name="settings_section_testcase_dir">テストケースディレクトリ</string>
+    <string name="settings_section_about">情報</string>
+    <string name="settings_section_language">言語</string>
+    <string name="settings_theme_label">テーマ</string>
+    <string name="settings_navigation_label">ナビゲーション位置</string>
+    <string name="settings_testcase_dir_description">テストケースファイルを含むディレクトリを選択</string>
+    <string name="settings_testcase_dir_button">ディレクトリを選択</string>
+    <string name="settings_theme_mode_light">ライト</string>
+    <string name="settings_theme_mode_dark">ダーク</string>
+    <string name="settings_theme_mode_system">システム</string>
+    <string name="settings_nav_mode_left">左</string>
+    <string name="settings_nav_mode_bottom">下</string>
+    <string name="settings_nav_mode_auto">自動</string>
+    <string name="settings_connection_title">接続設定</string>
+    <string name="settings_connection_description">最大%d個のサーバー接続を管理</string>
+    <string name="settings_connection_add_button">接続を追加 (%1$d/%2$d)</string>
+    <string name="settings_connection_new_name">新しい接続 %d</string>
+
+    <!-- Common -->
+    <string name="common_not_set">未設定</string>
+    <string name="common_version">バージョン</string>
+    <string name="common_license">ライセンス</string>
+    <string name="common_repository">リポジトリ</string>
+</resources>

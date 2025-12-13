@@ -2,12 +2,14 @@ package com.github.syunpeii.mockstation.app.ui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import java.util.UUID
+import com.github.syunpeii.mockstation.core.designsystem.resources.ComposeStringResource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import mockstation.composeapp.generated.resources.Res
+import mockstation.composeapp.generated.resources.settings_connection_new_name
 
 class SettingsViewModel : ViewModel() {
     private val _uiState = MutableStateFlow<SettingsUiState>(SettingsUiState.Loading)
@@ -56,10 +58,12 @@ class SettingsViewModel : ViewModel() {
         val currentState = _uiState.value
         if (currentState is SettingsUiState.Stable && currentState.canAddConnection) {
             val newConnection = Connection(
-                id = UUID.randomUUID().toString(),
-                name = "New Connection ${currentState.connections.size + 1}",
                 url = "http://localhost:8080",
                 description = "",
+                nameResource = ComposeStringResource(
+                    resourceId = Res.string.settings_connection_new_name,
+                    currentState.connections.size + 1,
+                ),
             )
             _uiState.value = currentState.copy(
                 connections = currentState.connections + newConnection,

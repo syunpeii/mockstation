@@ -5,11 +5,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.AppIconButton
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyLargeText
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodySmallText
@@ -22,19 +24,26 @@ fun ExternalLinkRow(
     onLinkClick: () -> Unit,
     modifier: Modifier = Modifier,
     value: String = "",
+    titleColor: Color = MockStationTheme.colors.onBackground,
+    valueColor: Color = MockStationTheme.colors.onBackground,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Column(modifier = Modifier.weight(1f)) {
+        Column(
+            modifier = Modifier.weight(1f),
+        ) {
             BodyLargeText(
                 text = label,
+                color = titleColor,
             )
             if (value.isNotBlank()) {
                 BodySmallText(
                     text = value,
+                    modifier = Modifier.padding(top = MockStationTheme.spacing.extraSmall),
+                    color = valueColor,
                 )
             }
         }
