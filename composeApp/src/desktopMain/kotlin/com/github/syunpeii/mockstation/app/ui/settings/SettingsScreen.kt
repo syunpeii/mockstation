@@ -44,11 +44,11 @@ import mockstation.composeapp.generated.resources.settings_testcase_dir_descript
 import mockstation.composeapp.generated.resources.settings_theme_label
 import mockstation.composeapp.generated.resources.settings_title
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 internal fun SettingsScreen(
-    viewModel: SettingsViewModel = koinInject(),
+    viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
 

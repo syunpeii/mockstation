@@ -40,11 +40,11 @@ import mockstation.composeapp.generated.resources.home_summary_requests_count
 import mockstation.composeapp.generated.resources.home_summary_total_devices
 import mockstation.composeapp.generated.resources.nav_home
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 internal fun HomeScreen(
-    viewModel: HomeViewModel = koinInject(),
+    viewModel: HomeViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
 

@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavHostController
 import mockstation.composeapp.generated.resources.Res
 import mockstation.composeapp.generated.resources.nav_home
 import mockstation.composeapp.generated.resources.nav_settings
@@ -32,3 +33,15 @@ enum class TopLevelDestination(
 }
 
 sealed interface TopLevelRoute
+
+fun NavHostController.navigateToTopLevelDestination(
+    destination: TopLevelDestination,
+) {
+    navigate(destination.route) {
+        launchSingleTop = true
+        restoreState = true
+        popUpTo(graph.startDestinationId) {
+            saveState = true
+        }
+    }
+}

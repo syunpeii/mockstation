@@ -38,7 +38,7 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.swing)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.bundles.koinCommon)
-                implementation(libs.koin.compose)
+                implementation(libs.bundles.koinCompose)
                 implementation(libs.bundles.navigation)
             }
         }

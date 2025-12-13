@@ -34,6 +34,7 @@ import com.github.syunpeii.mockstation.app.navigation.HomeRoute
 import com.github.syunpeii.mockstation.app.navigation.SettingsRoute
 import com.github.syunpeii.mockstation.app.navigation.TopLevelDestination
 import com.github.syunpeii.mockstation.app.navigation.WindowSizeClass
+import com.github.syunpeii.mockstation.app.navigation.navigateToTopLevelDestination
 import com.github.syunpeii.mockstation.app.ui.home.HomeScreen
 import com.github.syunpeii.mockstation.app.ui.settings.SettingsScreen
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.AppIconButton
@@ -98,7 +99,8 @@ private fun MainScreen() {
             navHost = { MainNavHost(navController) },
             onItemClick = { index ->
                 selectedItemIndex = index
-                navController.navigate(TopLevelDestination.entries[index].route)
+                val destination = TopLevelDestination.entries[index]
+                navController.navigateToTopLevelDestination(destination)
             },
         )
     }
@@ -211,8 +213,12 @@ private fun MainNavHost(navController: NavHostController) {
             .padding(MockStationTheme.spacing.extraSmall)
             .clip(MockStationTheme.shapes.small),
     ) {
-        composable<HomeRoute> { HomeScreen() }
-        composable<SettingsRoute> { SettingsScreen() }
+        composable<HomeRoute> { _ ->
+            HomeScreen()
+        }
+        composable<SettingsRoute> { _ ->
+            SettingsScreen()
+        }
     }
 }
 
