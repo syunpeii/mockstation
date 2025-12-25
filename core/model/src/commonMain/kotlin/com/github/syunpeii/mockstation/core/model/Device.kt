@@ -7,21 +7,14 @@ import kotlinx.serialization.Serializable
 
 @OptIn(ExperimentalTime::class)
 @Serializable
-data class TestCase(
+data class Device(
     val id: String,
-    val title: String,
-    val description: String,
-    val status: TestCaseStatus,
+    val name: String,
+    val testCaseId: String,
+    val isEnabled: Boolean,
+    val delaySettings: DelaySettings,
     @Contextual
     val createdAt: Instant,
     @Contextual
     val updatedAt: Instant,
 )
-
-@Serializable
-enum class TestCaseStatus {
-    PENDING,
-    IN_PROGRESS,
-    PASSED,
-    FAILED,
-}

@@ -3,6 +3,7 @@
     <!-- Navigation -->
     <string name="nav_home">ホーム</string>
     <string name="nav_settings">設定</string>
+    <string name="nav_device_management">デバイス管理</string>
 
     <!-- Accessibility -->
     <string name="accessibility_add">追加</string>
@@ -12,24 +13,16 @@
     <string name="home_title">Mock Station デスクトップアプリ</string>
     <string name="home_subtitle">KMP Desktop + Ktor Server</string>
     <string name="home_button_get_started">開始する</string>
-
-    <!-- Home Screen Sections -->
     <string name="home_section_connection">現在の接続先</string>
     <string name="home_section_devices">有効なデバイス</string>
     <string name="home_section_summary">サーバーサマリー</string>
-
-    <!-- Home Screen Connection -->
     <string name="home_connection_name">接続名</string>
     <string name="home_connection_url">URL</string>
     <string name="home_connection_button">設定画面へ</string>
-
-    <!-- Home Screen Devices -->
     <string name="home_devices_empty">有効なデバイスがありません</string>
     <string name="home_devices_device_id">デバイスID</string>
     <string name="home_devices_device_name">デバイス名</string>
     <string name="home_devices_last_request">最終リクエスト</string>
-
-    <!-- Home Screen Summary -->
     <string name="home_summary_current_testcase">現在のテストケース</string>
     <string name="home_summary_total_devices">デバイス総数</string>
     <string name="home_summary_recent_requests">直近のリクエスト数</string>
@@ -58,9 +51,104 @@
     <string name="settings_connection_add_button">接続を追加 (%1$d/%2$d)</string>
     <string name="settings_connection_new_name">新しい接続 %d</string>
 
+    <!-- Device Management Screen -->
+    <string name="device_management_title">デバイス管理</string>
+    <string name="device_management_tab_registered">登録済みデバイス</string>
+    <string name="device_management_tab_server">サーバーデバイス一覧</string>
+    <string name="device_management_tab_history">APIリクエスト履歴</string>
+    <string name="device_management_device_id">デバイスID</string>
+    <string name="device_management_device_name">デバイス名</string>
+    <string name="device_management_test_case">テストケース</string>
+    <string name="device_management_delay_settings">遅延設定</string>
+    <string name="device_management_enabled">有効</string>
+    <string name="device_management_disabled">無効</string>
+    <string name="device_management_edit_name">名前を編集</string>
+    <string name="device_management_delete">削除</string>
+    <string name="device_management_empty_devices">登録されているデバイスがありません</string>
+    <string name="device_management_empty_devices_hint">サーバーデバイス一覧タブからデバイスを追加してください</string>
+    <string name="device_management_add_device">デバイスを追加</string>
+    <string name="device_management_search_hint">デバイスIDで絞り込み...</string>
+    <string name="device_management_register">登録</string>
+    <string name="device_management_registered">登録済み</string>
+    <string name="device_management_loading_devices">デバイスを読み込み中...</string>
+    <string name="device_management_no_devices_found">デバイスが見つかりません</string>
+    <string name="device_management_adjust_filter">フィルターを調整してください</string>
+    <string name="device_management_error_loading">デバイスの読み込みに失敗しました</string>
+    <string name="device_management_no_history">リクエスト履歴がありません</string>
+    <string name="device_management_enable_devices_hint">デバイスを有効にしてAPIリクエストの追跡を開始します</string>
+    <string name="device_management_device">デバイス</string>
+    <string name="device_management_unnamed_device">名前未設定のデバイス</string>
+    <string name="device_management_requests">リクエスト (%d件)</string>
+    <string name="device_management_no_requests">まだリクエストがありません</string>
+    <string name="device_management_history_search_placeholder">パスで検索...</string>
+    <string name="device_management_history_filter_advanced">詳細フィルター</string>
+    <string name="device_management_history_filter_methods">メソッド</string>
+    <string name="device_management_history_filter_status">ステータス</string>
+    <string name="device_management_history_filter_time_range">期間</string>
+    <string name="device_management_history_time_last_hour">直近1時間</string>
+    <string name="device_management_history_time_last_24h">直近24時間</string>
+    <string name="device_management_history_time_last_7d">直近7日間</string>
+    <string name="device_management_history_time_all">すべて</string>
+    <string name="device_management_history_sort_newest">新しい順</string>
+    <string name="device_management_history_sort_oldest">古い順</string>
+    <string name="device_management_history_status_2xx">2xx</string>
+    <string name="device_management_history_status_3xx">3xx</string>
+    <string name="device_management_history_status_4xx">4xx</string>
+    <string name="device_management_history_status_5xx">5xx</string>
+    <string name="device_management_history_status_other">その他</string>
+    <string name="device_management_history_timestamp_just_now">たった今</string>
+    <string name="device_management_history_timestamp_minutes_ago">%d分前</string>
+    <string name="device_management_history_timestamp_hours_ago">%d時間前</string>
+    <string name="device_management_history_timestamp_days_ago">%d日前</string>
+    <string name="device_management_history_no_matches">フィルターに一致するリクエストがありません</string>
+    <string name="device_management_history_adjust_filters">フィルター条件を調整してください</string>
+    <string name="device_management_detail_title">リクエスト詳細</string>
+    <string name="device_management_detail_method">メソッド</string>
+    <string name="device_management_detail_path">パス</string>
+    <string name="device_management_detail_status">ステータス</string>
+    <string name="device_management_detail_timestamp">タイムスタンプ</string>
+    <string name="device_management_detail_duration">処理時間</string>
+    <string name="device_management_detail_request_headers">リクエストヘッダー</string>
+    <string name="device_management_detail_response_headers">レスポンスヘッダー</string>
+    <string name="device_management_detail_request_body">リクエストボディ</string>
+    <string name="device_management_detail_response_body">レスポンスボディ</string>
+    <string name="device_management_detail_close">閉じる</string>
+    <string name="device_management_delay_type_off">OFF</string>
+    <string name="device_management_delay_type_preset">プリセット</string>
+    <string name="device_management_delay_type_custom">カスタム</string>
+    <string name="device_management_delay_value">%d ms</string>
+    <string name="device_management_delay_all_files">全ファイル</string>
+    <string name="device_management_delay_files_count">%d ファイル</string>
+    <string name="device_management_delay_card_type_label">タイプ:</string>
+    <string name="device_management_delay_card_delay_label">遅延:</string>
+    <string name="device_management_delay_card_target_label">対象:</string>
+    <string name="device_management_delay_card_edit_settings">設定を編集</string>
+    <string name="device_management_dialog_edit_name_title">デバイス名を編集</string>
+    <string name="device_management_dialog_delete_title">デバイスを削除</string>
+    <string name="device_management_dialog_delete_message">「%s」を削除してもよろしいですか？この操作は取り消せません。</string>
+    <string name="device_management_dialog_delay_title">遅延設定</string>
+    <string name="device_management_dialog_delay_type">遅延タイプ</string>
+    <string name="device_management_dialog_delay_preset">プリセット遅延を選択</string>
+    <string name="device_management_dialog_delay_custom">カスタム遅延 (ms)</string>
+    <string name="device_management_dialog_delay_enable">遅延を有効化</string>
+    <string name="device_management_dialog_delay_target_files">対象ファイル (空=全て)</string>
+    <string name="device_management_dialog_delay_selected">選択中: %d ms</string>
+    <string name="device_management_dialog_delay_placeholder">遅延をミリ秒で入力</string>
+    <string name="device_management_dialog_delay_select_all">全て選択</string>
+    <string name="device_management_dialog_delay_clear_all">全て解除</string>
+    <string name="device_management_dialog_delay_no_files">利用可能なファイルがありません</string>
+    <string name="device_management_dialog_testcase_title">テストケース: %s</string>
+
     <!-- Common -->
     <string name="common_not_set">未設定</string>
     <string name="common_version">バージョン</string>
     <string name="common_license">ライセンス</string>
     <string name="common_repository">リポジトリ</string>
+    <string name="common_error">エラー</string>
+    <string name="common_search">検索</string>
+    <string name="common_clear">クリア</string>
+    <string name="common_save">保存</string>
+    <string name="common_cancel">キャンセル</string>
+    <string name="common_close">閉じる</string>
+    <string name="common_confirm">確認</string>
 </resources>

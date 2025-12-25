@@ -10,17 +10,17 @@ import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
 @Composable
-fun BodyMediumText(
+fun LabelSmallText(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = MockStationTheme.colors.onSurface,
+    color: Color = MockStationTheme.colors.onSurfaceVariant,
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip,
 ) {
     Text(
         text = text,
         modifier = modifier,
-        style = MockStationTheme.typography.bodyMedium,
+        style = MockStationTheme.typography.labelSmall,
         color = color,
         maxLines = maxLines,
         overflow = overflow,
@@ -29,22 +29,36 @@ fun BodyMediumText(
 
 @Preview
 @Composable
-private fun PreviewBodyMediumText() {
+private fun PreviewLabelSmallText() {
     MockStationTheme {
         PreviewBox {
-            BodyMediumText(text = "Body Medium Text")
+            LabelSmallText(text = "Label Small Text")
         }
     }
 }
 
 @Preview
 @Composable
-private fun PreviewBodyMediumTextWithColor() {
+private fun PreviewLabelSmallTextWithColor() {
     MockStationTheme {
         PreviewBox {
-            BodyMediumText(
-                text = "Colored Text",
+            LabelSmallText(
+                text = "Primary Label Small",
                 color = MockStationTheme.colors.primary,
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewLabelSmallTextTruncated() {
+    MockStationTheme {
+        PreviewBox {
+            LabelSmallText(
+                text = "This is a very long label that should be truncated when maxLines is set to 1",
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
         }
     }

@@ -9,7 +9,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.bundles.kotlinxSerialization)
-            implementation(libs.kotlinx.datetime)
         }
 
         commonTest.dependencies {

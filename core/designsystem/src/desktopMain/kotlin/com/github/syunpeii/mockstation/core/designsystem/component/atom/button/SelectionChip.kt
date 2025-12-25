@@ -1,9 +1,6 @@
 package com.github.syunpeii.mockstation.core.designsystem.component.atom.button
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
@@ -17,7 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
+import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewRow
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,22 +63,17 @@ fun SelectionChip(
 @Composable
 private fun PreviewSelectionChip() {
     MockStationTheme {
-        PreviewBox {
-            Row(
-                modifier = Modifier.padding(MockStationTheme.spacing.medium),
-                horizontalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
-            ) {
-                SelectionChip(
-                    label = "Selected",
-                    selected = true,
-                    onClick = {},
-                )
-                SelectionChip(
-                    label = "Unselected",
-                    selected = false,
-                    onClick = {},
-                )
-            }
+        PreviewRow {
+            SelectionChip(
+                label = "Selected",
+                selected = true,
+                onClick = {},
+            )
+            SelectionChip(
+                label = "Unselected",
+                selected = false,
+                onClick = {},
+            )
         }
     }
 }
@@ -90,8 +82,9 @@ private fun PreviewSelectionChip() {
 @Composable
 private fun PreviewSelectionChipInteractive() {
     MockStationTheme {
-        PreviewBox {
-            var selected by remember { mutableStateOf(false) }
+        var selected by remember { mutableStateOf(false) }
+
+        PreviewRow {
             SelectionChip(
                 label = "Click me",
                 selected = selected,

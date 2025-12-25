@@ -7,3 +7,6 @@ data object HomeRoute : TopLevelRoute
 
 @Serializable
 data object SettingsRoute : TopLevelRoute
+
+@Serializable
+data object DeviceManagementRoute : TopLevelRoute

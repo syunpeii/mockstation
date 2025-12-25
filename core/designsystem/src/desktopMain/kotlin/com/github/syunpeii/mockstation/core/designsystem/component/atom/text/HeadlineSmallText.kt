@@ -5,47 +5,29 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextOverflow
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
 @Composable
-fun BodyMediumText(
+fun HeadlineSmallText(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = MockStationTheme.colors.onSurface,
-    maxLines: Int = Int.MAX_VALUE,
-    overflow: TextOverflow = TextOverflow.Clip,
+    color: Color = MockStationTheme.colors.onBackground,
 ) {
     Text(
         text = text,
         modifier = modifier,
-        style = MockStationTheme.typography.bodyMedium,
+        style = MockStationTheme.typography.headlineSmall,
         color = color,
-        maxLines = maxLines,
-        overflow = overflow,
     )
 }
 
 @Preview
 @Composable
-private fun PreviewBodyMediumText() {
+private fun PreviewHeadlineSmallText() {
     MockStationTheme {
         PreviewBox {
-            BodyMediumText(text = "Body Medium Text")
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewBodyMediumTextWithColor() {
-    MockStationTheme {
-        PreviewBox {
-            BodyMediumText(
-                text = "Colored Text",
-                color = MockStationTheme.colors.primary,
-            )
+            HeadlineSmallText(text = "Headline Small Text")
         }
     }
 }

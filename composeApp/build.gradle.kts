@@ -36,7 +36,6 @@ kotlin {
                 implementation(libs.androidx.lifecycle.runtimeCompose)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.coroutines.swing)
-                implementation(libs.kotlinx.datetime)
                 implementation(libs.bundles.koinCommon)
                 implementation(libs.bundles.koinCompose)
                 implementation(libs.bundles.navigation)

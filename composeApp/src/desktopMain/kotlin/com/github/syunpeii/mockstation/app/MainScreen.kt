@@ -10,7 +10,6 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,14 +29,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.github.syunpeii.mockstation.app.navigation.DeviceManagementRoute
 import com.github.syunpeii.mockstation.app.navigation.HomeRoute
 import com.github.syunpeii.mockstation.app.navigation.SettingsRoute
 import com.github.syunpeii.mockstation.app.navigation.TopLevelDestination
 import com.github.syunpeii.mockstation.app.navigation.WindowSizeClass
 import com.github.syunpeii.mockstation.app.navigation.navigateToTopLevelDestination
+import com.github.syunpeii.mockstation.app.ui.devicemanagement.DeviceManagementScreen
 import com.github.syunpeii.mockstation.app.ui.home.HomeScreen
 import com.github.syunpeii.mockstation.app.ui.settings.SettingsScreen
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.AppIconButton
+import com.github.syunpeii.mockstation.core.designsystem.component.atom.util.BoxContainer
 import com.github.syunpeii.mockstation.core.designsystem.component.navigation.BottomNavigationWrapper
 import com.github.syunpeii.mockstation.core.designsystem.component.navigation.CustomTopBar
 import com.github.syunpeii.mockstation.core.designsystem.component.navigation.NavigationItem
@@ -83,7 +85,7 @@ private fun MainScreen() {
 
     var selectedItemIndex by remember { mutableIntStateOf(0) }
 
-    BoxWithConstraints(
+    BoxContainer(
         modifier = Modifier
             .background(MockStationTheme.colors.surfaceVariant)
             .fillMaxSize(),
@@ -218,6 +220,9 @@ private fun MainNavHost(navController: NavHostController) {
         }
         composable<SettingsRoute> { _ ->
             SettingsScreen()
+        }
+        composable<DeviceManagementRoute> { _ ->
+            DeviceManagementScreen()
         }
     }
 }

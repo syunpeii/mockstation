@@ -3,6 +3,7 @@
     <!-- Navigation -->
     <string name="nav_home">Home</string>
     <string name="nav_settings">Settings</string>
+    <string name="nav_device_management">Device Management</string>
 
     <!-- Accessibility -->
     <string name="accessibility_add">Add</string>
@@ -12,24 +13,16 @@
     <string name="home_title">Mock Station Desktop App</string>
     <string name="home_subtitle">KMP Desktop + Ktor Server</string>
     <string name="home_button_get_started">Get Started</string>
-
-    <!-- Home Screen Sections -->
     <string name="home_section_connection">Current Connection</string>
     <string name="home_section_devices">Active Devices</string>
     <string name="home_section_summary">Server Summary</string>
-
-    <!-- Home Screen Connection -->
     <string name="home_connection_name">Connection Name</string>
     <string name="home_connection_url">URL</string>
     <string name="home_connection_button">Go to Settings</string>
-
-    <!-- Home Screen Devices -->
     <string name="home_devices_empty">No active devices</string>
     <string name="home_devices_device_id">Device ID</string>
     <string name="home_devices_device_name">Device Name</string>
     <string name="home_devices_last_request">Last Request</string>
-
-    <!-- Home Screen Summary -->
     <string name="home_summary_current_testcase">Current Test Case</string>
     <string name="home_summary_total_devices">Total Devices</string>
     <string name="home_summary_recent_requests">Recent Requests</string>
@@ -58,9 +51,104 @@
     <string name="settings_connection_add_button">Add Connection (%1$d/%2$d)</string>
     <string name="settings_connection_new_name">New Connection %d</string>
 
+    <!-- Device Management Screen -->
+    <string name="device_management_title">Device Management</string>
+    <string name="device_management_tab_registered">Registered Devices</string>
+    <string name="device_management_tab_server">Server Device List</string>
+    <string name="device_management_tab_history">API Request History</string>
+    <string name="device_management_device_id">Device ID</string>
+    <string name="device_management_device_name">Device Name</string>
+    <string name="device_management_test_case">Test Case</string>
+    <string name="device_management_delay_settings">Delay Settings</string>
+    <string name="device_management_enabled">Enabled</string>
+    <string name="device_management_disabled">Disabled</string>
+    <string name="device_management_edit_name">Edit Name</string>
+    <string name="device_management_delete">Delete</string>
+    <string name="device_management_empty_devices">No devices registered</string>
+    <string name="device_management_empty_devices_hint">Add devices from the Server Device List tab</string>
+    <string name="device_management_add_device">Add Device</string>
+    <string name="device_management_search_hint">Filter by device ID...</string>
+    <string name="device_management_register">Register</string>
+    <string name="device_management_registered">Registered</string>
+    <string name="device_management_loading_devices">Loading devices...</string>
+    <string name="device_management_no_devices_found">No devices found</string>
+    <string name="device_management_adjust_filter">Try adjusting your filter</string>
+    <string name="device_management_error_loading">Error loading devices</string>
+    <string name="device_management_no_history">No request history</string>
+    <string name="device_management_enable_devices_hint">Enable devices to start tracking API requests</string>
+    <string name="device_management_device">Device</string>
+    <string name="device_management_unnamed_device">Unnamed Device</string>
+    <string name="device_management_requests">Requests (%d)</string>
+    <string name="device_management_no_requests">No requests yet</string>
+    <string name="device_management_history_search_placeholder">Search by path...</string>
+    <string name="device_management_history_filter_advanced">Advanced Filters</string>
+    <string name="device_management_history_filter_methods">Methods</string>
+    <string name="device_management_history_filter_status">Status</string>
+    <string name="device_management_history_filter_time_range">Time Range</string>
+    <string name="device_management_history_time_last_hour">Last 1h</string>
+    <string name="device_management_history_time_last_24h">Last 24h</string>
+    <string name="device_management_history_time_last_7d">Last 7d</string>
+    <string name="device_management_history_time_all">All</string>
+    <string name="device_management_history_sort_newest">Newest First</string>
+    <string name="device_management_history_sort_oldest">Oldest First</string>
+    <string name="device_management_history_status_2xx">2xx</string>
+    <string name="device_management_history_status_3xx">3xx</string>
+    <string name="device_management_history_status_4xx">4xx</string>
+    <string name="device_management_history_status_5xx">5xx</string>
+    <string name="device_management_history_status_other">Other</string>
+    <string name="device_management_history_timestamp_just_now">Just now</string>
+    <string name="device_management_history_timestamp_minutes_ago">%dm ago</string>
+    <string name="device_management_history_timestamp_hours_ago">%dh ago</string>
+    <string name="device_management_history_timestamp_days_ago">%dd ago</string>
+    <string name="device_management_history_no_matches">No requests match your filters</string>
+    <string name="device_management_history_adjust_filters">Try adjusting your filter criteria</string>
+    <string name="device_management_detail_title">Request Details</string>
+    <string name="device_management_detail_method">Method</string>
+    <string name="device_management_detail_path">Path</string>
+    <string name="device_management_detail_status">Status</string>
+    <string name="device_management_detail_timestamp">Timestamp</string>
+    <string name="device_management_detail_duration">Duration</string>
+    <string name="device_management_detail_request_headers">Request Headers</string>
+    <string name="device_management_detail_response_headers">Response Headers</string>
+    <string name="device_management_detail_request_body">Request Body</string>
+    <string name="device_management_detail_response_body">Response Body</string>
+    <string name="device_management_detail_close">Close</string>
+    <string name="device_management_delay_type_off">OFF</string>
+    <string name="device_management_delay_type_preset">Preset</string>
+    <string name="device_management_delay_type_custom">Custom</string>
+    <string name="device_management_delay_value">%d ms</string>
+    <string name="device_management_delay_all_files">All files</string>
+    <string name="device_management_delay_files_count">%d files</string>
+    <string name="device_management_delay_card_type_label">Type:</string>
+    <string name="device_management_delay_card_delay_label">Delay:</string>
+    <string name="device_management_delay_card_target_label">Target:</string>
+    <string name="device_management_delay_card_edit_settings">Edit Settings</string>
+    <string name="device_management_dialog_edit_name_title">Edit Device Name</string>
+    <string name="device_management_dialog_delete_title">Delete Device</string>
+    <string name="device_management_dialog_delete_message">Are you sure you want to delete \"%s\"? This action cannot be undone.</string>
+    <string name="device_management_dialog_delay_title">Delay Settings</string>
+    <string name="device_management_dialog_delay_type">Delay Type</string>
+    <string name="device_management_dialog_delay_preset">Select Preset Delay</string>
+    <string name="device_management_dialog_delay_custom">Custom Delay (ms)</string>
+    <string name="device_management_dialog_delay_enable">Enable Delay</string>
+    <string name="device_management_dialog_delay_target_files">Target Files (empty = all)</string>
+    <string name="device_management_dialog_delay_selected">Selected: %d ms</string>
+    <string name="device_management_dialog_delay_placeholder">Enter delay in milliseconds</string>
+    <string name="device_management_dialog_delay_select_all">Select All</string>
+    <string name="device_management_dialog_delay_clear_all">Clear All</string>
+    <string name="device_management_dialog_delay_no_files">No files available</string>
+    <string name="device_management_dialog_testcase_title">Test Case: %s</string>
+
     <!-- Common -->
     <string name="common_not_set">Not set</string>
     <string name="common_version">Version</string>
     <string name="common_license">License</string>
     <string name="common_repository">Repository</string>
+    <string name="common_error">Error</string>
+    <string name="common_search">Search</string>
+    <string name="common_clear">Clear</string>
+    <string name="common_save">Save</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_close">Close</string>
+    <string name="common_confirm">Confirm</string>
 </resources>

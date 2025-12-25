@@ -9,7 +9,7 @@ junit = "4.13.2"
 kotlin = "2.2.20"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.8.0"
-kotlinx-datetime = "0.6.1"
+kotlinx-datetime = "0.7.1"
 # current ktlint version: 0.47.1
 ktlint-plugin = "11.6.1"
 ktor = "3.3.1"

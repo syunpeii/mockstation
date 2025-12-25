@@ -1,5 +1,6 @@
 package com.github.syunpeii.mockstation.app.di
 
+import com.github.syunpeii.mockstation.app.ui.devicemanagement.DeviceManagementViewModel
 import com.github.syunpeii.mockstation.app.ui.home.HomeViewModel
 import com.github.syunpeii.mockstation.app.ui.settings.SettingsViewModel
 import com.github.syunpeii.mockstation.core.data.di.dataModule
@@ -13,6 +14,7 @@ import org.koin.dsl.module
 val appModule: Module = module {
     factory { SettingsViewModel() }
     factory { HomeViewModel() }
+    factory { DeviceManagementViewModel() }
 }
 
 val allModules = listOf(
