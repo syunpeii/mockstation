@@ -32,12 +32,14 @@ import androidx.navigation.compose.rememberNavController
 import com.github.syunpeii.mockstation.app.navigation.DeviceManagementRoute
 import com.github.syunpeii.mockstation.app.navigation.HomeRoute
 import com.github.syunpeii.mockstation.app.navigation.SettingsRoute
+import com.github.syunpeii.mockstation.app.navigation.TestCaseSearchRoute
 import com.github.syunpeii.mockstation.app.navigation.TopLevelDestination
 import com.github.syunpeii.mockstation.app.navigation.WindowSizeClass
 import com.github.syunpeii.mockstation.app.navigation.navigateToTopLevelDestination
 import com.github.syunpeii.mockstation.app.ui.devicemanagement.DeviceManagementScreen
 import com.github.syunpeii.mockstation.app.ui.home.HomeScreen
 import com.github.syunpeii.mockstation.app.ui.settings.SettingsScreen
+import com.github.syunpeii.mockstation.app.ui.testcasesearch.TestCaseSearchScreen
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.AppIconButton
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.util.BoxContainer
 import com.github.syunpeii.mockstation.core.designsystem.component.navigation.BottomNavigationWrapper
@@ -223,6 +225,9 @@ private fun MainNavHost(navController: NavHostController) {
         }
         composable<DeviceManagementRoute> { _ ->
             DeviceManagementScreen()
+        }
+        composable<TestCaseSearchRoute> { _ ->
+            TestCaseSearchScreen()
         }
     }
 }

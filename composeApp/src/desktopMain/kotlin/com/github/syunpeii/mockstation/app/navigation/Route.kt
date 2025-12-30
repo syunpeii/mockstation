@@ -10,3 +10,6 @@ data object SettingsRoute : TopLevelRoute
 
 @Serializable
 data object DeviceManagementRoute : TopLevelRoute
+
+@Serializable
+data object TestCaseSearchRoute : TopLevelRoute

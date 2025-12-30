@@ -3,7 +3,6 @@ package com.github.syunpeii.mockstation.core.designsystem.component.atom.button
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton as MaterialTextButton
@@ -13,7 +12,6 @@ import androidx.compose.ui.Modifier
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextButton(
     text: String,

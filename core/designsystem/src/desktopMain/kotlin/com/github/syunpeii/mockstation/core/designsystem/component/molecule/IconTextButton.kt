@@ -8,7 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.TextButton as MaterialTextButton
@@ -21,7 +20,6 @@ import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.Bod
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconTextButton(
     text: String,

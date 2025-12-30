@@ -3,8 +3,6 @@ package com.github.syunpeii.mockstation.core.designsystem.component.atom.button
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton as Material3IconButton
@@ -37,7 +35,7 @@ fun AppIconButton(
             Icon(
                 imageVector = imageVector,
                 contentDescription = contentDescription,
-                tint = tint,
+                tint = if (enabled) tint else MockStationTheme.colors.onSurfaceVariant.copy(alpha = 0.38f),
             )
         }
     }
@@ -69,26 +67,6 @@ private fun PreviewAppIconButton() {
                 contentDescription = "Settings with custom tint",
                 onClick = {},
                 tint = MockStationTheme.colors.primary,
-            )
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewAppIconButtonActions() {
-    MockStationTheme {
-        PreviewRow {
-            AppIconButton(
-                imageVector = Icons.Filled.Edit,
-                contentDescription = "Edit",
-                onClick = {},
-            )
-            AppIconButton(
-                imageVector = Icons.Filled.Delete,
-                contentDescription = "Delete",
-                onClick = {},
-                tint = MockStationTheme.colors.error,
             )
         }
     }

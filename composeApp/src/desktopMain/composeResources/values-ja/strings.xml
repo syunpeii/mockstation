@@ -4,6 +4,7 @@
     <string name="nav_home">ホーム</string>
     <string name="nav_settings">設定</string>
     <string name="nav_device_management">デバイス管理</string>
+    <string name="nav_testcase_search">テストケース</string>
 
     <!-- Accessibility -->
     <string name="accessibility_add">追加</string>
@@ -138,6 +139,24 @@
     <string name="device_management_dialog_delay_clear_all">全て解除</string>
     <string name="device_management_dialog_delay_no_files">利用可能なファイルがありません</string>
     <string name="device_management_dialog_testcase_title">テストケース: %s</string>
+
+    <!-- Test Case Search Screen -->
+    <string name="testcase_search_title">テストケース検索</string>
+    <string name="testcase_search_search_hint">検索ワードを入力、または+ボタンでタグ追加</string>
+    <string name="testcase_search_refresh">更新</string>
+    <string name="testcase_search_tags_label">検索タグ</string>
+    <string name="testcase_search_clear_all_tags">すべてクリア</string>
+    <string name="testcase_search_testcase_id">テストケースID</string>
+    <string name="testcase_search_description">説明</string>
+    <string name="testcase_search_tags">タグ</string>
+    <string name="testcase_search_content">内容</string>
+    <string name="testcase_search_switch_testcase">切替</string>
+    <string name="testcase_search_no_results">テストケースが見つかりません</string>
+    <string name="testcase_search_adjust_tags">検索タグを調整してください</string>
+    <string name="testcase_search_select_hint">テストケースを選択して詳細を表示</string>
+    <string name="testcase_search_loading">テストケースを読み込み中...</string>
+    <string name="testcase_search_error">テストケースの読み込みに失敗しました</string>
+    <string name="testcase_search_close">閉じる</string>
 
     <!-- Common -->
     <string name="common_not_set">未設定</string>

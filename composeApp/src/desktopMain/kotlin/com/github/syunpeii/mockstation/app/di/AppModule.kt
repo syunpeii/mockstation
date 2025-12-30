@@ -3,6 +3,7 @@ package com.github.syunpeii.mockstation.app.di
 import com.github.syunpeii.mockstation.app.ui.devicemanagement.DeviceManagementViewModel
 import com.github.syunpeii.mockstation.app.ui.home.HomeViewModel
 import com.github.syunpeii.mockstation.app.ui.settings.SettingsViewModel
+import com.github.syunpeii.mockstation.app.ui.testcasesearch.TestCaseSearchViewModel
 import com.github.syunpeii.mockstation.core.data.di.dataModule
 import com.github.syunpeii.mockstation.core.database.di.databaseModule
 import com.github.syunpeii.mockstation.core.datastore.di.dataStoreModule
@@ -15,6 +16,7 @@ val appModule: Module = module {
     factory { SettingsViewModel() }
     factory { HomeViewModel() }
     factory { DeviceManagementViewModel() }
+    factory { TestCaseSearchViewModel() }
 }
 
 val allModules = listOf(

@@ -4,6 +4,7 @@
     <string name="nav_home">Home</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_device_management">Device Management</string>
+    <string name="nav_testcase_search">Test Cases</string>
 
     <!-- Accessibility -->
     <string name="accessibility_add">Add</string>
@@ -138,6 +139,24 @@
     <string name="device_management_dialog_delay_clear_all">Clear All</string>
     <string name="device_management_dialog_delay_no_files">No files available</string>
     <string name="device_management_dialog_testcase_title">Test Case: %s</string>
+
+    <!-- Test Case Search Screen -->
+    <string name="testcase_search_title">Test Case Search</string>
+    <string name="testcase_search_search_hint">Enter search term or press + button to add tag</string>
+    <string name="testcase_search_refresh">Refresh</string>
+    <string name="testcase_search_tags_label">Search Tags</string>
+    <string name="testcase_search_clear_all_tags">Clear all</string>
+    <string name="testcase_search_testcase_id">Test Case ID</string>
+    <string name="testcase_search_description">Description</string>
+    <string name="testcase_search_tags">Tags</string>
+    <string name="testcase_search_content">Content</string>
+    <string name="testcase_search_switch_testcase">Switch</string>
+    <string name="testcase_search_no_results">No test cases found</string>
+    <string name="testcase_search_adjust_tags">Try adjusting your search tags</string>
+    <string name="testcase_search_select_hint">Select a test case to view details</string>
+    <string name="testcase_search_loading">Loading test cases...</string>
+    <string name="testcase_search_error">Error loading test cases</string>
+    <string name="testcase_search_close">Close</string>
 
     <!-- Common -->
     <string name="common_not_set">Not set</string>
