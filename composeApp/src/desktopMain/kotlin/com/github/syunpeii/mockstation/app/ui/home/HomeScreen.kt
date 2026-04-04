@@ -9,13 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.HeadlineMediumText
 import com.github.syunpeii.mockstation.core.designsystem.component.organism.ActiveDevicesSection
 import com.github.syunpeii.mockstation.core.designsystem.component.organism.ConnectionStatusSection
 import com.github.syunpeii.mockstation.core.designsystem.component.organism.DeviceInfo
@@ -101,8 +100,10 @@ private fun HomeScreenContent(
         verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
     ) {
         item {
-            HeadlineMediumText(
+            Text(
                 text = stringResource(Res.string.nav_home),
+                style = MockStationTheme.typography.headlineMedium,
+                color = MockStationTheme.colors.onBackground,
             )
         }
 
@@ -165,8 +166,9 @@ private fun HomeScreenError(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        BodyMediumText(
+        Text(
             text = message,
+            style = MockStationTheme.typography.bodyMedium,
             color = MockStationTheme.colors.error,
         )
     }

@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.DeviceInfoCard
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.SettingSectionHeader
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
@@ -47,8 +47,9 @@ fun ActiveDevicesSection(
                     containerColor = MockStationTheme.colors.surface,
                 ),
             ) {
-                BodyMediumText(
+                Text(
                     text = emptyMessage,
+                    style = MockStationTheme.typography.bodyMedium,
                     color = MockStationTheme.colors.onSurfaceVariant,
                     modifier = Modifier.padding(MockStationTheme.spacing.medium),
                 )

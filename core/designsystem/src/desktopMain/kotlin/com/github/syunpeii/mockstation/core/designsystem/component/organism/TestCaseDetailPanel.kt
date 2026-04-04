@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,9 +25,6 @@ import androidx.compose.ui.unit.dp
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.AppIconButton
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.PrimaryButton
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.SelectionChip
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.HeadlineSmallText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.LabelText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
@@ -68,9 +66,10 @@ fun TestCaseDetailPanel(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                HeadlineSmallText(
+                Text(
                     text = testCaseId,
-                    color = MockStationTheme.colors.onSurface,
+                    style = MockStationTheme.typography.headlineSmall,
+                    color = MockStationTheme.colors.onBackground,
                 )
 
                 if (onClose != null) {
@@ -94,8 +93,9 @@ fun TestCaseDetailPanel(
                     label = testCaseIdLabel,
                     content = {
                         SelectionContainer {
-                            BodyMediumText(
+                            Text(
                                 text = testCaseId,
+                                style = MockStationTheme.typography.bodyMedium,
                                 color = MockStationTheme.colors.onSurface,
                             )
                         }
@@ -106,8 +106,9 @@ fun TestCaseDetailPanel(
                     label = descriptionLabel,
                     content = {
                         SelectionContainer {
-                            BodyMediumText(
+                            Text(
                                 text = description,
+                                style = MockStationTheme.typography.bodyMedium,
                                 color = MockStationTheme.colors.onSurface,
                             )
                         }
@@ -138,8 +139,9 @@ fun TestCaseDetailPanel(
                     label = contentLabel,
                     content = {
                         SelectionContainer {
-                            BodyMediumText(
+                            Text(
                                 text = content,
+                                style = MockStationTheme.typography.bodyMedium,
                                 color = MockStationTheme.colors.onSurface,
                             )
                         }
@@ -166,8 +168,9 @@ private fun DetailSection(
     Column(
         verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
     ) {
-        LabelText(
+        Text(
             text = label,
+            style = MockStationTheme.typography.labelMedium,
             color = MockStationTheme.colors.onSurfaceVariant,
         )
         content()

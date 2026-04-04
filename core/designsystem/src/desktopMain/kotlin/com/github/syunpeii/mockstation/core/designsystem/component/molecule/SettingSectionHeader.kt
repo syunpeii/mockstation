@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.SectionItemTitleText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
@@ -26,7 +26,8 @@ fun SettingSectionHeader(
                 modifier = Modifier.padding(bottom = MockStationTheme.spacing.small),
             )
         }
-        SectionItemTitleText(
+        Text(
+            style = MockStationTheme.typography.titleMedium,
             text = title,
             color = MockStationTheme.colors.onSurfaceVariant,
             modifier = Modifier.padding(vertical = MockStationTheme.spacing.small),

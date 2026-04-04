@@ -2,6 +2,7 @@ package com.github.syunpeii.mockstation.core.designsystem.theme
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
@@ -119,3 +120,9 @@ val DefaultTypography = MockStationTypography(
 val LocalMockStationTypography = staticCompositionLocalOf {
     DefaultTypography
 }
+
+val MockStationTypography.bodyMediumMonospace: TextStyle
+    get() = bodyMedium.copy(fontFamily = FontFamily.Monospace)
+
+val MockStationTypography.bodySmallMonospace: TextStyle
+    get() = bodySmall.copy(fontFamily = FontFamily.Monospace)

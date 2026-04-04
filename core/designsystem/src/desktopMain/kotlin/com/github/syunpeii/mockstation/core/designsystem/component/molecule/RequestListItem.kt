@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,8 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.badge.MethodBadge
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.badge.StatusBadge
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.LabelSmallText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 import com.github.syunpeii.mockstation.core.model.HttpMethod
@@ -54,7 +53,8 @@ fun RequestListItem(
                 method = request.method,
                 modifier = Modifier.padding(end = MockStationTheme.spacing.small),
             )
-            BodyMediumText(
+            Text(
+                style = MockStationTheme.typography.bodyMedium,
                 text = request.path,
                 color = MockStationTheme.colors.onSurface,
                 maxLines = 1,
@@ -64,7 +64,8 @@ fun RequestListItem(
             StatusBadge(
                 statusCode = request.statusCode,
             )
-            LabelSmallText(
+            Text(
+                style = MockStationTheme.typography.labelSmall,
                 text = timestampLabel,
                 color = MockStationTheme.colors.onSurfaceVariant,
                 modifier = Modifier.padding(start = MockStationTheme.spacing.small),

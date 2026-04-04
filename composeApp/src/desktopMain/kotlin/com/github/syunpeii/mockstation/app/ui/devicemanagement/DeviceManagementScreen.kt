@@ -15,8 +15,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.github.syunpeii.mockstation.app.ui.devicemanagement.model.DeviceManagementTab
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyLargeText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.HeadlineMediumText
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.DelaySettings
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.DelaySettingsDialog
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.DelayType
@@ -121,7 +119,6 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 internal fun DeviceManagementScreen(
-    modifier: Modifier = Modifier,
     viewModel: DeviceManagementViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -133,7 +130,7 @@ internal fun DeviceManagementScreen(
         onRegisterDevice = viewModel::onRegisterDevice,
         onEditName = viewModel::onEditDeviceName,
         onSaveDeviceName = viewModel::onSaveDeviceName,
-        onDelete = viewModel::onDeleteDevice,
+        onDeleteDevice = viewModel::onDeleteDevice,
         onConfirmDelete = viewModel::onConfirmDelete,
         onToggleEnabled = viewModel::onToggleEnabled,
         onTestCaseClick = viewModel::onTestCaseClick,
@@ -148,7 +145,6 @@ internal fun DeviceManagementScreen(
         onSortOrderToggle = viewModel::onSortOrderToggle,
         onShowAdvancedFiltersChange = viewModel::onShowAdvancedFiltersChange,
         onRequestClick = viewModel::onRequestClick,
-        modifier = modifier,
     )
 }
 
@@ -160,7 +156,7 @@ private fun DeviceManagementBaseScreen(
     onRegisterDevice: (String) -> Unit,
     onEditName: (String) -> Unit,
     onSaveDeviceName: (String, String) -> Unit,
-    onDelete: (String) -> Unit,
+    onDeleteDevice: (String) -> Unit,
     onConfirmDelete: (String) -> Unit,
     onToggleEnabled: (String, Boolean) -> Unit,
     onTestCaseClick: (String) -> Unit,
@@ -175,10 +171,9 @@ private fun DeviceManagementBaseScreen(
     onSortOrderToggle: () -> Unit,
     onShowAdvancedFiltersChange: (Boolean) -> Unit,
     onRequestClick: (String) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(MockStationTheme.colors.background),
     ) {
@@ -191,7 +186,7 @@ private fun DeviceManagementBaseScreen(
                 onRegisterDevice = onRegisterDevice,
                 onEditName = onEditName,
                 onSaveDeviceName = onSaveDeviceName,
-                onDelete = onDelete,
+                onDeleteDevice = onDeleteDevice,
                 onConfirmDelete = onConfirmDelete,
                 onToggleEnabled = onToggleEnabled,
                 onTestCaseClick = onTestCaseClick,
@@ -224,7 +219,7 @@ private fun DeviceManagementScreenContent(
     onRegisterDevice: (String) -> Unit,
     onEditName: (String) -> Unit,
     onSaveDeviceName: (String, String) -> Unit,
-    onDelete: (String) -> Unit,
+    onDeleteDevice: (String) -> Unit,
     onConfirmDelete: (String) -> Unit,
     onToggleEnabled: (String, Boolean) -> Unit,
     onTestCaseClick: (String) -> Unit,
@@ -244,8 +239,10 @@ private fun DeviceManagementScreenContent(
     Column(
         modifier = modifier.fillMaxSize(),
     ) {
-        HeadlineMediumText(
+        Text(
             text = stringResource(Res.string.device_management_title),
+            style = MockStationTheme.typography.headlineMedium,
+            color = MockStationTheme.colors.onBackground,
             modifier = Modifier.padding(MockStationTheme.spacing.medium),
         )
 
@@ -271,8 +268,8 @@ private fun DeviceManagementScreenContent(
                         delaySettingsDisplay = buildDelaySettingsDisplay(device.delaySettings),
                     )
                 },
-                onEditName = onEditName,
-                onDelete = onDelete,
+                onEditDeviceName = onEditName,
+                onDeleteDevice = onDeleteDevice,
                 onToggleEnabled = onToggleEnabled,
                 onTestCaseClick = onTestCaseClick,
                 onDelaySettingsClick = onDelaySettingsClick,
@@ -524,14 +521,16 @@ private fun DeviceManagementScreenError(message: String) {
         contentAlignment = Alignment.Center,
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            BodyLargeText(
+            Text(
                 text = stringResource(Res.string.common_error),
+                style = MockStationTheme.typography.bodyLarge,
                 color = MockStationTheme.colors.error,
             )
             Text(
                 text = message,
-                modifier = Modifier.padding(top = MockStationTheme.spacing.small),
+                style = MockStationTheme.typography.bodyMedium,
                 color = MockStationTheme.colors.onBackground,
+                modifier = Modifier.padding(top = MockStationTheme.spacing.small),
             )
         }
     }
@@ -559,7 +558,7 @@ private fun PreviewDeviceManagementScreenLoading() {
             onRegisterDevice = {},
             onEditName = {},
             onSaveDeviceName = { _, _ -> },
-            onDelete = {},
+            onDeleteDevice = {},
             onConfirmDelete = {},
             onToggleEnabled = { _, _ -> },
             onTestCaseClick = {},
@@ -629,7 +628,7 @@ private fun PreviewDeviceManagementScreenStable() {
             onRegisterDevice = {},
             onEditName = {},
             onSaveDeviceName = { _, _ -> },
-            onDelete = {},
+            onDeleteDevice = {},
             onConfirmDelete = {},
             onToggleEnabled = { _, _ -> },
             onTestCaseClick = {},
@@ -659,7 +658,7 @@ private fun PreviewDeviceManagementScreenError() {
             onRegisterDevice = {},
             onEditName = {},
             onSaveDeviceName = { _, _ -> },
-            onDelete = {},
+            onDeleteDevice = {},
             onConfirmDelete = {},
             onToggleEnabled = { _, _ -> },
             onTestCaseClick = {},

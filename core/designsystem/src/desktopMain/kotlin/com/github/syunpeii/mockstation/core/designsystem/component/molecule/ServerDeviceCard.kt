@@ -9,16 +9,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.PrimaryButton
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumMonospaceText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodySmallText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.LabelText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
+import com.github.syunpeii.mockstation.core.designsystem.theme.bodyMediumMonospace
 
 @Composable
 fun ServerDeviceCard(
@@ -57,14 +56,20 @@ fun ServerDeviceCard(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.extraSmall),
             ) {
-                LabelText(text = deviceIdLabel)
-                BodyMediumMonospaceText(
+                Text(
+                    text = deviceIdLabel,
+                    style = MockStationTheme.typography.labelMedium,
+                    color = MockStationTheme.colors.onSurfaceVariant,
+                )
+                Text(
                     text = deviceId,
+                    style = MockStationTheme.typography.bodyMediumMonospace,
                     color = MockStationTheme.colors.onSurface,
                 )
                 if (isRegistered) {
-                    BodySmallText(
+                    Text(
                         text = "✓ $registeredLabel",
+                        style = MockStationTheme.typography.bodySmall,
                         color = MockStationTheme.colors.primary,
                     )
                 }

@@ -8,11 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyLargeText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.ExternalLinkRow
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.SettingSectionHeader
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
@@ -77,11 +76,14 @@ private fun InfoRow(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        BodyLargeText(
+        Text(
             text = label,
+            style = MockStationTheme.typography.bodyLarge,
+            color = MockStationTheme.colors.onSurface,
         )
-        BodyMediumText(
+        Text(
             text = value,
+            style = MockStationTheme.typography.bodyMedium,
             color = MockStationTheme.colors.onSurfaceVariant,
         )
     }

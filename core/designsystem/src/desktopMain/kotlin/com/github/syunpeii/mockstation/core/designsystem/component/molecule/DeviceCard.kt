@@ -15,17 +15,15 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumMonospaceText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodySmallText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.LabelText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
+import com.github.syunpeii.mockstation.core.designsystem.theme.bodyMediumMonospace
 
 @Composable
 fun DeviceCard(
@@ -76,9 +74,14 @@ fun DeviceCard(
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.extraSmall),
                 ) {
-                    LabelText(text = deviceIdLabel)
-                    BodyMediumMonospaceText(
+                    Text(
+                        text = deviceIdLabel,
+                        style = MockStationTheme.typography.labelMedium,
+                        color = MockStationTheme.colors.onSurfaceVariant,
+                    )
+                    Text(
                         text = deviceId,
+                        style = MockStationTheme.typography.bodyMediumMonospace,
                         color = MockStationTheme.colors.onSurface,
                     )
                 }
@@ -112,8 +115,16 @@ fun DeviceCard(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.extraSmall),
                 ) {
-                    LabelText(text = deviceNameLabel)
-                    BodyMediumText(text = deviceName)
+                    Text(
+                        text = deviceNameLabel,
+                        style = MockStationTheme.typography.labelMedium,
+                        color = MockStationTheme.colors.onSurfaceVariant,
+                    )
+                    Text(
+                        text = deviceName,
+                        style = MockStationTheme.typography.bodyMedium,
+                        color = MockStationTheme.colors.onSurface,
+                    )
                 }
             }
 
@@ -125,10 +136,15 @@ fun DeviceCard(
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.extraSmall),
                 ) {
-                    LabelText(text = testCaseLabel)
+                    Text(
+                        text = testCaseLabel,
+                        style = MockStationTheme.typography.labelMedium,
+                        color = MockStationTheme.colors.onSurfaceVariant,
+                    )
                     TextButton(onClick = onTestCaseClick) {
-                        BodyMediumText(
+                        Text(
                             text = testCaseId,
+                            style = MockStationTheme.typography.bodyMedium,
                             color = MockStationTheme.colors.primary,
                         )
                     }
@@ -143,10 +159,15 @@ fun DeviceCard(
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.extraSmall),
                 ) {
-                    LabelText(text = delaySettingsLabel)
+                    Text(
+                        text = delaySettingsLabel,
+                        style = MockStationTheme.typography.labelMedium,
+                        color = MockStationTheme.colors.onSurfaceVariant,
+                    )
                     TextButton(onClick = onDelaySettingsClick) {
-                        BodySmallText(
+                        Text(
                             text = delaySettingsDisplay,
+                            style = MockStationTheme.typography.bodySmall,
                             color = MockStationTheme.colors.primary,
                         )
                     }
@@ -158,12 +179,14 @@ fun DeviceCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                LabelText(
+                Text(
                     text = if (isEnabled) {
                         enabledLabel
                     } else {
                         disabledLabel
                     },
+                    style = MockStationTheme.typography.labelMedium,
+                    color = MockStationTheme.colors.onSurfaceVariant,
                 )
                 Switch(
                     checked = isEnabled,

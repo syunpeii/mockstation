@@ -14,6 +14,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,9 +28,6 @@ import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.S
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.SelectionChip
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.TextButton
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.input.NumberField
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.HeadlineSmallText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.LabelText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
@@ -65,7 +63,11 @@ fun DelaySettingsDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            HeadlineSmallText(text = title)
+            Text(
+                text = title,
+                style = MockStationTheme.typography.headlineSmall,
+                color = MockStationTheme.colors.onBackground,
+            )
         },
         text = {
             val scrollState = rememberScrollState()
@@ -79,7 +81,11 @@ fun DelaySettingsDialog(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
                 ) {
-                    LabelText(text = delayTypeLabel)
+                    Text(
+                        text = delayTypeLabel,
+                        style = MockStationTheme.typography.labelMedium,
+                        color = MockStationTheme.colors.onSurfaceVariant,
+                    )
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
                     ) {
@@ -104,7 +110,11 @@ fun DelaySettingsDialog(
                         Column(
                             verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
                         ) {
-                            LabelText(text = presetDelayLabel)
+                            Text(
+                                text = presetDelayLabel,
+                                style = MockStationTheme.typography.labelMedium,
+                                color = MockStationTheme.colors.onSurfaceVariant,
+                            )
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
                                 modifier = Modifier.fillMaxWidth(),
@@ -123,7 +133,8 @@ fun DelaySettingsDialog(
                                 }
                             }
                             if (delayMs.isNotEmpty()) {
-                                BodyMediumText(
+                                Text(
+                                    style = MockStationTheme.typography.bodyMedium,
                                     text = delayMs.toInt().toString(),
                                     color = MockStationTheme.colors.primary,
                                 )
@@ -133,7 +144,11 @@ fun DelaySettingsDialog(
                         Column(
                             verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
                         ) {
-                            LabelText(text = customDelayLabel)
+                            Text(
+                                text = customDelayLabel,
+                                style = MockStationTheme.typography.labelMedium,
+                                color = MockStationTheme.colors.onSurfaceVariant,
+                            )
                             NumberField(
                                 value = delayMs,
                                 onValueChange = { delayMs = it },
@@ -153,7 +168,11 @@ fun DelaySettingsDialog(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            LabelText(text = targetFilesLabel)
+                            Text(
+                                text = targetFilesLabel,
+                                style = MockStationTheme.typography.labelMedium,
+                                color = MockStationTheme.colors.onSurfaceVariant,
+                            )
                             TextButton(
                                 text = if (targetFiles.isEmpty()) {
                                     selectAllLabel
@@ -193,12 +212,17 @@ fun DelaySettingsDialog(
                                                 }
                                             },
                                         )
-                                        BodyMediumText(text = file)
+                                        Text(
+                                            text = file,
+                                            style = MockStationTheme.typography.bodyMedium,
+                                            color = MockStationTheme.colors.onSurface,
+                                        )
                                     }
                                 }
                             }
                         } else {
-                            BodyMediumText(
+                            Text(
+                                style = MockStationTheme.typography.bodyMedium,
                                 text = noFilesLabel,
                                 color = MockStationTheme.colors.onSurface,
                             )
@@ -212,7 +236,11 @@ fun DelaySettingsDialog(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        LabelText(text = enableLabel)
+                        Text(
+                            text = enableLabel,
+                            style = MockStationTheme.typography.labelMedium,
+                            color = MockStationTheme.colors.onSurfaceVariant,
+                        )
                         Switch(
                             checked = isEnabled,
                             onCheckedChange = { isEnabled = it },

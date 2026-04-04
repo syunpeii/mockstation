@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,9 +24,6 @@ import androidx.compose.ui.Modifier
 import com.github.syunpeii.mockstation.app.navigation.WindowSizeClass
 import com.github.syunpeii.mockstation.app.ui.testcasesearch.model.TestCaseDisplay
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.AppIconButton
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyLargeText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.HeadlineMediumText
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.SearchTagInput
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.TagChipGroup
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.TestCaseCard
@@ -129,8 +127,10 @@ private fun TestCaseSearchContent(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.fillMaxSize()) {
-        HeadlineMediumText(
+        Text(
             text = stringResource(Res.string.testcase_search_title),
+            style = MockStationTheme.typography.headlineMedium,
+            color = MockStationTheme.colors.onBackground,
             modifier = Modifier.padding(MockStationTheme.spacing.medium),
         )
 
@@ -332,12 +332,14 @@ private fun EmptyState(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        BodyLargeText(
+        Text(
             text = message,
+            style = MockStationTheme.typography.bodyLarge,
             color = MockStationTheme.colors.onBackground,
         )
-        BodyMediumText(
+        Text(
             text = hint,
+            style = MockStationTheme.typography.bodyMedium,
             color = MockStationTheme.colors.onBackground,
             modifier = Modifier.padding(top = MockStationTheme.spacing.small),
         )
@@ -363,14 +365,16 @@ private fun TestCaseSearchScreenError(message: String) {
         contentAlignment = Alignment.Center,
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            BodyLargeText(
+            Text(
                 text = stringResource(Res.string.testcase_search_error),
+                style = MockStationTheme.typography.bodyLarge,
                 color = MockStationTheme.colors.error,
             )
-            BodyMediumText(
+            Text(
                 text = message,
-                modifier = Modifier.padding(top = MockStationTheme.spacing.small),
+                style = MockStationTheme.typography.bodyMedium,
                 color = MockStationTheme.colors.onBackground,
+                modifier = Modifier.padding(top = MockStationTheme.spacing.small),
             )
         }
     }

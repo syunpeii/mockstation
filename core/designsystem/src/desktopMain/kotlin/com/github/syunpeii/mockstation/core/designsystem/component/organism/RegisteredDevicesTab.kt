@@ -7,12 +7,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.PrimaryButton
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyLargeText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.DeviceCard
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
@@ -20,8 +19,8 @@ import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 @Composable
 fun RegisteredDevicesTab(
     devices: List<RegisteredDevice>,
-    onEditName: (String) -> Unit,
-    onDelete: (String) -> Unit,
+    onEditDeviceName: (String) -> Unit,
+    onDeleteDevice: (String) -> Unit,
     onToggleEnabled: (String, Boolean) -> Unit,
     onTestCaseClick: (String) -> Unit,
     onDelaySettingsClick: (String) -> Unit,
@@ -50,12 +49,14 @@ fun RegisteredDevicesTab(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                BodyLargeText(
+                Text(
                     text = emptyDevicesLabel,
+                    style = MockStationTheme.typography.bodyLarge,
                     color = MockStationTheme.colors.onBackground,
                 )
-                BodyMediumText(
+                Text(
                     text = emptyDevicesHintLabel,
+                    style = MockStationTheme.typography.bodyMedium,
                     color = MockStationTheme.colors.onBackground,
                     modifier = Modifier.padding(top = MockStationTheme.spacing.small),
                 )
@@ -80,8 +81,8 @@ fun RegisteredDevicesTab(
                         testCaseId = device.testCaseId,
                         isEnabled = device.isEnabled,
                         delaySettingsDisplay = device.delaySettingsDisplay,
-                        onEditName = { onEditName(device.id) },
-                        onDelete = { onDelete(device.id) },
+                        onEditName = { onEditDeviceName(device.id) },
+                        onDelete = { onDeleteDevice(device.id) },
                         onToggleEnabled = { enabled -> onToggleEnabled(device.id, enabled) },
                         onTestCaseClick = { onTestCaseClick(device.testCaseId) },
                         onDelaySettingsClick = { onDelaySettingsClick(device.id) },
@@ -115,8 +116,8 @@ private fun PreviewRegisteredDevicesTabEmpty() {
         PreviewBox {
             RegisteredDevicesTab(
                 devices = emptyList(),
-                onEditName = {},
-                onDelete = {},
+                onEditDeviceName = {},
+                onDeleteDevice = {},
                 onToggleEnabled = { _, _ -> },
                 onTestCaseClick = {},
                 onDelaySettingsClick = {},
@@ -166,8 +167,8 @@ private fun PreviewRegisteredDevicesTabWithDevices() {
                         delaySettingsDisplay = "Custom: 30000ms (3 files)",
                     ),
                 ),
-                onEditName = {},
-                onDelete = {},
+                onEditDeviceName = {},
+                onDeleteDevice = {},
                 onToggleEnabled = { _, _ -> },
                 onTestCaseClick = {},
                 onDelaySettingsClick = {},

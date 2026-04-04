@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,16 +36,12 @@ import androidx.compose.ui.unit.dp
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.badge.MethodBadge
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.badge.StatusBadge
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.AppIconButton
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyLargeText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodySmallMonospaceText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodySmallText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.LabelText
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.util.BoxContainer
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.RequestHistoryFilters
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.RequestListItem
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
+import com.github.syunpeii.mockstation.core.designsystem.theme.bodySmallMonospace
 import com.github.syunpeii.mockstation.core.model.HttpMethod
 import com.github.syunpeii.mockstation.core.model.RequestInfo
 import com.github.syunpeii.mockstation.core.model.SortOrder
@@ -176,12 +173,14 @@ private fun ApiRequestHistoryEmptyContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        BodyLargeText(
+        Text(
             text = noHistoryLabel,
+            style = MockStationTheme.typography.bodyLarge,
             color = MockStationTheme.colors.onBackground,
         )
-        BodyMediumText(
+        Text(
             text = enableDevicesHintLabel,
+            style = MockStationTheme.typography.bodyMedium,
             color = MockStationTheme.colors.onBackground,
             modifier = Modifier.padding(top = MockStationTheme.spacing.small),
         )
@@ -416,8 +415,9 @@ private fun DeviceHistoryHeader(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            BodyMediumText(
+            Text(
                 text = title,
+                style = MockStationTheme.typography.bodyMedium,
                 color = MockStationTheme.colors.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -430,8 +430,10 @@ private fun DeviceHistoryHeader(
             }
         }
 
-        LabelText(
+        Text(
             text = subTitle ?: "",
+            style = MockStationTheme.typography.labelMedium,
+            color = MockStationTheme.colors.onSurfaceVariant,
             modifier = Modifier.padding(bottom = MockStationTheme.spacing.extraSmall),
         )
         HorizontalDivider()
@@ -471,8 +473,9 @@ private fun RequestDetailContent(
             label = pathLabel,
             content = {
                 SelectionContainer {
-                    BodyMediumText(
+                    Text(
                         text = request.path,
+                        style = MockStationTheme.typography.bodyMedium,
                         color = MockStationTheme.colors.onSurface,
                     )
                 }
@@ -487,8 +490,9 @@ private fun RequestDetailContent(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     StatusBadge(statusCode = request.statusCode)
-                    BodyMediumText(
+                    Text(
                         text = request.statusText,
+                        style = MockStationTheme.typography.bodyMedium,
                         color = MockStationTheme.colors.onSurface,
                     )
                 }
@@ -498,8 +502,9 @@ private fun RequestDetailContent(
         DetailSection(
             label = timestampLabel,
             content = {
-                BodyMediumText(
+                Text(
                     text = timestampValue,
+                    style = MockStationTheme.typography.bodyMedium,
                     color = MockStationTheme.colors.onSurface,
                 )
             },
@@ -509,8 +514,9 @@ private fun RequestDetailContent(
             DetailSection(
                 label = durationLabel,
                 content = {
-                    BodyMediumText(
+                    Text(
                         text = "${duration}ms",
+                        style = MockStationTheme.typography.bodyMedium,
                         color = MockStationTheme.colors.onSurface,
                     )
                 },
@@ -524,8 +530,9 @@ private fun RequestDetailContent(
                     SelectionContainer {
                         Column {
                             request.headers.forEach { (key, value) ->
-                                BodySmallMonospaceText(
+                                Text(
                                     text = "$key: $value",
+                                    style = MockStationTheme.typography.bodySmallMonospace,
                                     color = MockStationTheme.colors.onSurfaceVariant,
                                 )
                             }
@@ -542,8 +549,9 @@ private fun RequestDetailContent(
                     SelectionContainer {
                         Column {
                             request.responseHeaders.forEach { (key, value) ->
-                                BodySmallMonospaceText(
+                                Text(
                                     text = "$key: $value",
+                                    style = MockStationTheme.typography.bodySmallMonospace,
                                     color = MockStationTheme.colors.onSurfaceVariant,
                                 )
                             }
@@ -558,8 +566,9 @@ private fun RequestDetailContent(
                 label = requestBodyLabel,
                 content = {
                     SelectionContainer {
-                        BodySmallMonospaceText(
+                        Text(
                             text = body,
+                            style = MockStationTheme.typography.bodySmallMonospace,
                             color = MockStationTheme.colors.onSurface,
                         )
                     }
@@ -572,8 +581,9 @@ private fun RequestDetailContent(
                 label = responseBodyLabel,
                 content = {
                     SelectionContainer {
-                        BodySmallMonospaceText(
+                        Text(
                             text = body,
+                            style = MockStationTheme.typography.bodySmallMonospace,
                             color = MockStationTheme.colors.onSurface,
                         )
                     }
@@ -591,8 +601,9 @@ private fun DetailSection(
     Column(
         verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
     ) {
-        LabelText(
+        Text(
             text = label,
+            style = MockStationTheme.typography.labelMedium,
             color = MockStationTheme.colors.onSurfaceVariant,
         )
         content()
@@ -615,8 +626,9 @@ private fun RequestList(
                 .padding(MockStationTheme.spacing.large),
             contentAlignment = Alignment.Center,
         ) {
-            BodySmallText(
+            Text(
                 text = noRequestsLabel,
+                style = MockStationTheme.typography.bodySmall,
                 color = MockStationTheme.colors.onSurface,
             )
         }

@@ -9,11 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyLargeText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
@@ -32,7 +31,9 @@ fun SettingClickableItem(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        BodyLargeText(
+        Text(
+            style = MockStationTheme.typography.bodyLarge,
+            color = MockStationTheme.colors.onSurface,
             text = label,
             modifier = Modifier.weight(1f),
         )
@@ -40,7 +41,8 @@ fun SettingClickableItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
         ) {
-            BodyMediumText(
+            Text(
+                style = MockStationTheme.typography.bodyMedium,
                 text = value,
                 color = MockStationTheme.colors.onSurfaceVariant,
             )

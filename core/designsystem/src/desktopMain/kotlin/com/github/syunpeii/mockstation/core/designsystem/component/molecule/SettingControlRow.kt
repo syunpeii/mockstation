@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,8 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyLargeText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
@@ -36,12 +35,15 @@ fun SettingControlRow(
         Column(
             modifier = Modifier.weight(1f).padding(end = MockStationTheme.spacing.medium),
         ) {
-            BodyLargeText(
+            Text(
                 text = label,
+                style = MockStationTheme.typography.bodyLarge,
+                color = MockStationTheme.colors.onSurface,
             )
             if (description != null) {
-                BodyMediumText(
+                Text(
                     text = description,
+                    style = MockStationTheme.typography.bodyMedium,
                     color = MockStationTheme.colors.onSurfaceVariant,
                     modifier = Modifier.padding(top = MockStationTheme.spacing.extraSmall),
                 )

@@ -5,13 +5,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.LabelLargeText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
@@ -40,7 +40,8 @@ fun TabBar(
                 selected = isSelected,
                 onClick = { onTabSelected(index) },
                 text = {
-                    LabelLargeText(
+                    Text(
+                        style = MockStationTheme.typography.labelLarge,
                         text = title,
                         color = if (isSelected) {
                             MockStationTheme.colors.primary

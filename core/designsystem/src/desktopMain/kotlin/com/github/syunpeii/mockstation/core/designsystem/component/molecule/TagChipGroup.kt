@@ -6,11 +6,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.TextButton
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.LabelText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
@@ -32,7 +32,11 @@ fun TagChipGroup(
                 horizontalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                LabelText(text = label)
+                Text(
+                    text = label,
+                    style = MockStationTheme.typography.labelMedium,
+                    color = MockStationTheme.colors.onSurfaceVariant,
+                )
 
                 TextButton(
                     text = clearAllLabel,

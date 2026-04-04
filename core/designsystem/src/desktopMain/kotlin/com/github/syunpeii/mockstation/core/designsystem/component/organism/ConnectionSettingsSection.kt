@@ -4,10 +4,10 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.PrimaryButton
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.SelectableCard
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.SettingSectionHeader
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
@@ -34,8 +34,9 @@ fun ConnectionSettingsSection(
     ) {
         SettingSectionHeader(title = sectionTitle)
 
-        BodyMediumText(
+        Text(
             text = description,
+            style = MockStationTheme.typography.bodyMedium,
             color = MockStationTheme.colors.onSurfaceVariant,
         )
 

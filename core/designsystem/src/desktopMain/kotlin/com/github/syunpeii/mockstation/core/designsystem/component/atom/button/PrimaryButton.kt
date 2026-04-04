@@ -35,7 +35,9 @@ fun PrimaryButton(
                 vertical = MockStationTheme.spacing.small,
             ),
         ) {
-            Text(text = text)
+            Text(
+                text = text,
+            )
         }
     }
 }

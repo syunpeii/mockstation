@@ -32,8 +32,8 @@ fun NumberField(
             }
         },
         modifier = modifier,
-        label = label?.let { { Text(it) } },
-        placeholder = placeholder?.let { { Text(it) } },
+        label = label?.let { { Text(text = it) } },
+        placeholder = placeholder?.let { { Text(text = it) } },
         enabled = enabled,
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),

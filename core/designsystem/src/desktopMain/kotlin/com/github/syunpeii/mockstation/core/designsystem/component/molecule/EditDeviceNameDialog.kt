@@ -4,6 +4,7 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,7 +14,6 @@ import androidx.compose.ui.Modifier
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.PrimaryButton
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.TextButton
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.input.TextField
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.HeadlineSmallText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
@@ -33,7 +33,11 @@ fun EditDeviceNameDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            HeadlineSmallText(text = title)
+            Text(
+                text = title,
+                style = MockStationTheme.typography.headlineSmall,
+                color = MockStationTheme.colors.onBackground,
+            )
         },
         text = {
             Column {

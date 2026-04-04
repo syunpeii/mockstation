@@ -9,15 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyLargeText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumMonospaceText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.HeadlineMediumText
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.SettingButtonSection
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.SettingFilterSection
 import com.github.syunpeii.mockstation.core.designsystem.component.organism.AppInfoSection
@@ -25,6 +22,7 @@ import com.github.syunpeii.mockstation.core.designsystem.component.organism.Conn
 import com.github.syunpeii.mockstation.core.designsystem.component.organism.ConnectionSettingsSection
 import com.github.syunpeii.mockstation.core.designsystem.resources.ComposeStringResource
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
+import com.github.syunpeii.mockstation.core.designsystem.theme.bodyMediumMonospace
 import mockstation.composeapp.generated.resources.Res
 import mockstation.composeapp.generated.resources.common_license
 import mockstation.composeapp.generated.resources.common_not_set
@@ -120,8 +118,9 @@ private fun SettingsScreenError(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        BodyLargeText(
+        Text(
             text = message,
+            style = MockStationTheme.typography.bodyLarge,
             color = MockStationTheme.colors.error,
         )
     }
@@ -146,8 +145,10 @@ private fun SettingsScreenContent(
         verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
     ) {
         item {
-            HeadlineMediumText(
+            Text(
                 text = stringResource(Res.string.settings_title),
+                style = MockStationTheme.typography.headlineMedium,
+                color = MockStationTheme.colors.onBackground,
             )
         }
 
@@ -194,15 +195,18 @@ private fun SettingsScreenContent(
                 onButtonClick = onChooseDirectory,
             ) {
                 if (uiState.testCaseDirectory != null) {
-                    BodyMediumMonospaceText(
+                    Text(
                         text = uiState.testCaseDirectory,
+                        style = MockStationTheme.typography.bodyMediumMonospace,
+                        color = MockStationTheme.colors.onSurface,
                         modifier = Modifier.padding(
                             vertical = MockStationTheme.spacing.small,
                         ),
                     )
                 } else {
-                    BodyMediumText(
+                    Text(
                         text = stringResource(Res.string.common_not_set),
+                        style = MockStationTheme.typography.bodyMedium,
                         color = MockStationTheme.colors.onSurfaceVariant,
                         modifier = Modifier.padding(
                             vertical = MockStationTheme.spacing.small,

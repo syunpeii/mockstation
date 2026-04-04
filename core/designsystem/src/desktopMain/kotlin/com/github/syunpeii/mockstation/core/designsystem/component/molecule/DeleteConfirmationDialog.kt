@@ -2,12 +2,11 @@ package com.github.syunpeii.mockstation.core.designsystem.component.molecule
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.PrimaryButton
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.TextButton
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.HeadlineSmallText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
@@ -24,10 +23,18 @@ fun DeleteConfirmationDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            HeadlineSmallText(text = title)
+            Text(
+                text = title,
+                style = MockStationTheme.typography.headlineSmall,
+                color = MockStationTheme.colors.onBackground,
+            )
         },
         text = {
-            BodyMediumText(text = message)
+            Text(
+                text = message,
+                style = MockStationTheme.typography.bodyMedium,
+                color = MockStationTheme.colors.onSurface,
+            )
         },
         confirmButton = {
             PrimaryButton(

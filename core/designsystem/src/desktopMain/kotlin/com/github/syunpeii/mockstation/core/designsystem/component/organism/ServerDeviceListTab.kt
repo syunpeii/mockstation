@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,8 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyLargeText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.SearchBar
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.ServerDeviceCard
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
@@ -65,8 +64,9 @@ fun ServerDeviceListTab(
                     CircularProgressIndicator(
                         color = MockStationTheme.colors.primary,
                     )
-                    BodyMediumText(
+                    Text(
                         text = loadingLabel,
+                        style = MockStationTheme.typography.bodyMedium,
                         modifier = Modifier.padding(top = MockStationTheme.spacing.medium),
                         color = MockStationTheme.colors.onBackground,
                     )
@@ -81,12 +81,14 @@ fun ServerDeviceListTab(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
                 ) {
-                    BodyLargeText(
+                    Text(
                         text = errorLabel,
+                        style = MockStationTheme.typography.bodyLarge,
                         color = MockStationTheme.colors.error,
                     )
-                    BodyMediumText(
+                    Text(
                         text = error,
+                        style = MockStationTheme.typography.bodyMedium,
                         color = MockStationTheme.colors.onBackground,
                         modifier = Modifier.padding(top = MockStationTheme.spacing.small),
                     )
@@ -101,12 +103,14 @@ fun ServerDeviceListTab(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
                 ) {
-                    BodyLargeText(
+                    Text(
                         text = noDevicesLabel,
+                        style = MockStationTheme.typography.bodyLarge,
                         color = MockStationTheme.colors.onBackground,
                     )
-                    BodyMediumText(
+                    Text(
                         text = adjustFilterLabel,
+                        style = MockStationTheme.typography.bodyMedium,
                         color = MockStationTheme.colors.onBackground,
                         modifier = Modifier.padding(top = MockStationTheme.spacing.small),
                     )

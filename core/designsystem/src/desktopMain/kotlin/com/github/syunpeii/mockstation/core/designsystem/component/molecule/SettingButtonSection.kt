@@ -7,13 +7,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.PrimaryButton
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumMonospaceText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
+import com.github.syunpeii.mockstation.core.designsystem.theme.bodyMediumMonospace
 
 @Composable
 fun SettingButtonSection(
@@ -40,7 +40,8 @@ fun SettingButtonSection(
                     .padding(MockStationTheme.spacing.medium),
                 verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.medium),
             ) {
-                BodyMediumText(
+                Text(
+                    style = MockStationTheme.typography.bodyMedium,
                     text = description,
                     color = MockStationTheme.colors.onSurfaceVariant,
                 )
@@ -68,7 +69,9 @@ private fun PreviewSettingButtonSectionWithValue() {
                 buttonText = "Choose File",
                 onButtonClick = {},
             ) {
-                BodyMediumMonospaceText(
+                Text(
+                    style = MockStationTheme.typography.bodyMediumMonospace,
+                    color = MockStationTheme.colors.onSurface,
                     text = "/Users/username/projects/mockstation/config.json",
                     modifier = Modifier.padding(
                         vertical = MockStationTheme.spacing.small,
@@ -90,7 +93,8 @@ private fun PreviewSettingButtonSectionWithoutValue() {
                 buttonText = "Choose Directory",
                 onButtonClick = {},
             ) {
-                BodyMediumText(
+                Text(
+                    style = MockStationTheme.typography.bodyMedium,
                     text = "Not set",
                     color = MockStationTheme.colors.onSurfaceVariant,
                     modifier = Modifier.padding(
@@ -114,7 +118,8 @@ private fun PreviewSettingButtonSectionDisabled() {
                 onButtonClick = {},
                 buttonEnabled = true,
             ) {
-                BodyMediumText(
+                Text(
+                    style = MockStationTheme.typography.bodyMedium,
                     text = "Available",
                     color = MockStationTheme.colors.onSurfaceVariant,
                     modifier = Modifier.padding(
@@ -129,7 +134,8 @@ private fun PreviewSettingButtonSectionDisabled() {
                 onButtonClick = {},
                 buttonEnabled = false,
             ) {
-                BodyMediumText(
+                Text(
+                    style = MockStationTheme.typography.bodyMedium,
                     text = "Not available",
                     color = MockStationTheme.colors.onSurfaceVariant,
                     modifier = Modifier.padding(

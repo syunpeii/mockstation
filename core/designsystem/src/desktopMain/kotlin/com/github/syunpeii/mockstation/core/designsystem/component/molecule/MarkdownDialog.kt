@@ -8,14 +8,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.TextButton
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodySmallMonospaceText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.HeadlineSmallText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
+import com.github.syunpeii.mockstation.core.designsystem.theme.bodySmallMonospace
 
 @Composable
 fun MarkdownDialog(
@@ -28,12 +28,17 @@ fun MarkdownDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            HeadlineSmallText(text = title)
+            Text(
+                text = title,
+                style = MockStationTheme.typography.headlineSmall,
+                color = MockStationTheme.colors.onBackground,
+            )
         },
         text = {
             val scrollState = rememberScrollState()
             SelectionContainer {
-                BodySmallMonospaceText(
+                Text(
+                    style = MockStationTheme.typography.bodySmallMonospace,
                     text = markdownContent,
                     modifier = Modifier
                         .fillMaxWidth()

@@ -13,14 +13,12 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.AppIconButton
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodySmallText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.SectionItemTitleText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
@@ -66,16 +64,21 @@ fun SelectableCard(
                 Column(
                     verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.extraSmall),
                 ) {
-                    SectionItemTitleText(
+                    Text(
                         text = name,
+                        style = MockStationTheme.typography.titleMedium,
+                        color = MockStationTheme.colors.onSurface,
                     )
-                    BodyMediumText(
+                    Text(
                         text = url,
+                        style = MockStationTheme.typography.bodyMedium,
                         color = MockStationTheme.colors.onSurfaceVariant,
                     )
                     if (description.isNotEmpty()) {
-                        BodySmallText(
+                        Text(
                             text = description,
+                            style = MockStationTheme.typography.bodySmall,
+                            color = MockStationTheme.colors.onSurfaceVariant,
                         )
                     }
                 }

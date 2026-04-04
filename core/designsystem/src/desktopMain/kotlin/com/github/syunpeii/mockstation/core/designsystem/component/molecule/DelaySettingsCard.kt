@@ -13,13 +13,11 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyMediumText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodySmallText
-import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.LabelText
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewColumn
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 
@@ -67,15 +65,24 @@ fun DelaySettingsCard(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.extraSmall),
             ) {
-                LabelText(text = titleLabel)
+                Text(
+                    text = titleLabel,
+                    style = MockStationTheme.typography.labelMedium,
+                    color = MockStationTheme.colors.onSurfaceVariant,
+                )
 
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    BodyMediumText(text = typeLabel)
-                    BodySmallText(
+                    Text(
+                        text = typeLabel,
+                        style = MockStationTheme.typography.bodyMedium,
+                        color = MockStationTheme.colors.onSurface,
+                    )
+                    Text(
                         text = delayType,
+                        style = MockStationTheme.typography.bodySmall,
                         color = if (isEnabled) {
                             MockStationTheme.colors.primary
                         } else {
@@ -89,9 +96,14 @@ fun DelaySettingsCard(
                         horizontalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        BodyMediumText(text = delayLabel)
-                        BodySmallText(
+                        Text(
+                            text = delayLabel,
+                            style = MockStationTheme.typography.bodyMedium,
+                            color = MockStationTheme.colors.onSurface,
+                        )
+                        Text(
                             text = delayValue,
+                            style = MockStationTheme.typography.bodySmall,
                             color = MockStationTheme.colors.onSurface,
                         )
                     }
@@ -100,16 +112,22 @@ fun DelaySettingsCard(
                         horizontalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.small),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        BodyMediumText(text = targetLabel)
-                        BodySmallText(
+                        Text(
+                            text = targetLabel,
+                            style = MockStationTheme.typography.bodyMedium,
+                            color = MockStationTheme.colors.onSurface,
+                        )
+                        Text(
                             text = targetFiles,
+                            style = MockStationTheme.typography.bodySmall,
                             color = MockStationTheme.colors.onSurfaceVariant,
                         )
                     }
                 }
 
-                BodySmallText(
+                Text(
                     text = if (isEnabled) enabledLabel else disabledLabel,
+                    style = MockStationTheme.typography.bodySmall,
                     color = if (isEnabled) {
                         MockStationTheme.colors.primary
                     } else {
