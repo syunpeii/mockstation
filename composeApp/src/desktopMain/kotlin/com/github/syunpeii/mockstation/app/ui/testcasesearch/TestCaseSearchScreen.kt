@@ -20,6 +20,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.github.syunpeii.mockstation.app.navigation.WindowSizeClass
 import com.github.syunpeii.mockstation.app.ui.testcasesearch.model.TestCaseDisplay
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.AppIconButton
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.BodyLargeText
@@ -28,6 +29,7 @@ import com.github.syunpeii.mockstation.core.designsystem.component.atom.text.Hea
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.SearchTagInput
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.TagChipGroup
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.TestCaseCard
+import com.github.syunpeii.mockstation.core.designsystem.component.molecule.TestCaseDetailBottomSheet
 import com.github.syunpeii.mockstation.core.designsystem.component.organism.TestCaseDetailPanel
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 import mockstation.composeapp.generated.resources.Res
@@ -51,12 +53,14 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 internal fun TestCaseSearchScreen(
     modifier: Modifier = Modifier,
+    windowSizeClass: WindowSizeClass = WindowSizeClass.Expanded,
     viewModel: TestCaseSearchViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
     TestCaseSearchBaseScreen(
         uiState = uiState,
+        windowSizeClass = windowSizeClass,
         onSearchInputChange = viewModel::onSearchInputChange,
         onAddTag = viewModel::onAddTag,
         onRemoveTag = viewModel::onRemoveTag,
@@ -72,6 +76,7 @@ internal fun TestCaseSearchScreen(
 @Composable
 private fun TestCaseSearchBaseScreen(
     uiState: TestCaseSearchUiState,
+    windowSizeClass: WindowSizeClass,
     onSearchInputChange: (String) -> Unit,
     onAddTag: () -> Unit,
     onRemoveTag: (String) -> Unit,
@@ -91,6 +96,7 @@ private fun TestCaseSearchBaseScreen(
             is TestCaseSearchUiState.Loading -> TestCaseSearchScreenLoading()
             is TestCaseSearchUiState.Stable -> TestCaseSearchContent(
                 uiState = uiState,
+                windowSizeClass = windowSizeClass,
                 onSearchInputChange = onSearchInputChange,
                 onAddTag = onAddTag,
                 onRemoveTag = onRemoveTag,
@@ -111,6 +117,7 @@ private fun TestCaseSearchBaseScreen(
 @Composable
 private fun TestCaseSearchContent(
     uiState: TestCaseSearchUiState.Stable,
+    windowSizeClass: WindowSizeClass,
     onSearchInputChange: (String) -> Unit,
     onAddTag: () -> Unit,
     onRemoveTag: (String) -> Unit,
@@ -162,8 +169,9 @@ private fun TestCaseSearchContent(
             )
         }
 
-        ExpandedLayout(
+        AdaptiveLayout(
             uiState = uiState,
+            windowSizeClass = windowSizeClass,
             onSelectTestCase = onSelectTestCase,
             onDeselectTestCase = onDeselectTestCase,
             onSwitchTestCase = onSwitchTestCase,
@@ -173,62 +181,99 @@ private fun TestCaseSearchContent(
 }
 
 @Composable
-private fun ExpandedLayout(
+private fun AdaptiveLayout(
     uiState: TestCaseSearchUiState.Stable,
+    windowSizeClass: WindowSizeClass,
     onSelectTestCase: (String) -> Unit,
     onDeselectTestCase: () -> Unit,
     onSwitchTestCase: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    if (uiState.selectedTestCaseId == null) {
-        TestCaseList(
-            testCases = uiState.testCases,
-            selectedTestCaseId = null,
-            onSelectTestCase = onSelectTestCase,
-            onSwitchTestCase = onSwitchTestCase,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = MockStationTheme.spacing.medium),
-        )
-    } else {
-        Row(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(horizontal = MockStationTheme.spacing.medium),
-            horizontalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.medium),
-        ) {
-            Column(
-                modifier = Modifier.weight(0.4f),
-            ) {
-                TestCaseList(
-                    testCases = uiState.testCases,
-                    selectedTestCaseId = uiState.selectedTestCaseId,
-                    onSelectTestCase = onSelectTestCase,
-                    onSwitchTestCase = onSwitchTestCase,
-                    modifier = Modifier.fillMaxSize(),
+    val isCompact = windowSizeClass == WindowSizeClass.Compact
+
+    when {
+        uiState.selectedTestCaseId == null -> {
+            TestCaseList(
+                testCases = uiState.testCases,
+                selectedTestCaseId = null,
+                onSelectTestCase = onSelectTestCase,
+                onSwitchTestCase = onSwitchTestCase,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = MockStationTheme.spacing.medium),
+            )
+        }
+
+        isCompact -> {
+            TestCaseList(
+                testCases = uiState.testCases,
+                selectedTestCaseId = uiState.selectedTestCaseId,
+                onSelectTestCase = onSelectTestCase,
+                onSwitchTestCase = onSwitchTestCase,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = MockStationTheme.spacing.medium),
+            )
+
+            val selectedTestCase = uiState.testCases.find { it.id == uiState.selectedTestCaseId }
+            selectedTestCase?.let {
+                TestCaseDetailBottomSheet(
+                    testCaseId = it.id,
+                    description = it.description,
+                    tags = it.tags,
+                    content = it.content,
+                    onDismiss = onDeselectTestCase,
+                    onSwitchClick = { onSwitchTestCase(it.id) },
+                    testCaseIdLabel = stringResource(Res.string.testcase_search_testcase_id),
+                    descriptionLabel = stringResource(Res.string.testcase_search_description),
+                    tagsLabel = stringResource(Res.string.testcase_search_tags),
+                    contentLabel = stringResource(Res.string.testcase_search_content),
+                    switchButtonLabel = stringResource(Res.string.testcase_search_switch_testcase),
+                    closeLabel = stringResource(Res.string.testcase_search_close),
                 )
             }
+        }
 
-            Box(
-                modifier = Modifier
-                    .weight(0.6f)
-                    .padding(vertical = MockStationTheme.spacing.medium),
+        else -> {
+            Row(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(horizontal = MockStationTheme.spacing.medium),
+                horizontalArrangement = Arrangement.spacedBy(MockStationTheme.spacing.medium),
             ) {
-                val selectedTestCase = uiState.testCases.find { it.id == uiState.selectedTestCaseId }
-                selectedTestCase?.let {
-                    TestCaseDetailPanel(
-                        testCaseId = it.id,
-                        description = it.description,
-                        tags = it.tags,
-                        content = it.content,
-                        onClose = onDeselectTestCase,
-                        testCaseIdLabel = stringResource(Res.string.testcase_search_testcase_id),
-                        descriptionLabel = stringResource(Res.string.testcase_search_description),
-                        tagsLabel = stringResource(Res.string.testcase_search_tags),
-                        contentLabel = stringResource(Res.string.testcase_search_content),
-                        closeLabel = stringResource(Res.string.testcase_search_close),
+                Column(
+                    modifier = Modifier.weight(0.4f),
+                ) {
+                    TestCaseList(
+                        testCases = uiState.testCases,
+                        selectedTestCaseId = uiState.selectedTestCaseId,
+                        onSelectTestCase = onSelectTestCase,
+                        onSwitchTestCase = onSwitchTestCase,
                         modifier = Modifier.fillMaxSize(),
                     )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .weight(0.6f)
+                        .padding(vertical = MockStationTheme.spacing.medium),
+                ) {
+                    val selectedTestCase = uiState.testCases.find { it.id == uiState.selectedTestCaseId }
+                    selectedTestCase?.let {
+                        TestCaseDetailPanel(
+                            testCaseId = it.id,
+                            description = it.description,
+                            tags = it.tags,
+                            content = it.content,
+                            onClose = onDeselectTestCase,
+                            testCaseIdLabel = stringResource(Res.string.testcase_search_testcase_id),
+                            descriptionLabel = stringResource(Res.string.testcase_search_description),
+                            tagsLabel = stringResource(Res.string.testcase_search_tags),
+                            contentLabel = stringResource(Res.string.testcase_search_content),
+                            closeLabel = stringResource(Res.string.testcase_search_close),
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
                 }
             }
         }
@@ -333,7 +378,7 @@ private fun TestCaseSearchScreenError(message: String) {
 
 @Preview
 @Composable
-private fun PreviewTestCaseSearchScreenStable() {
+private fun PreviewTestCaseSearchScreenStableExpanded() {
     MockStationTheme {
         TestCaseSearchBaseScreen(
             uiState = TestCaseSearchUiState.Stable(
@@ -355,6 +400,60 @@ private fun PreviewTestCaseSearchScreenStable() {
                 selectedTestCaseId = "TC-001",
                 currentInput = "",
             ),
+            windowSizeClass = WindowSizeClass.Expanded,
+            onSearchInputChange = {},
+            onAddTag = {},
+            onRemoveTag = {},
+            onClearAllTags = {},
+            onSelectTestCase = {},
+            onDeselectTestCase = {},
+            onRefresh = {},
+            onSwitchTestCase = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewTestCaseSearchScreenStableCompact() {
+    MockStationTheme {
+        TestCaseSearchBaseScreen(
+            uiState = TestCaseSearchUiState.Stable(
+                testCases = listOf(
+                    TestCaseDisplay(
+                        id = "TC-001",
+                        description = "User login with valid credentials",
+                        tags = listOf("login", "authentication", "user"),
+                        content = """
+                            # Test Case: User Login
+
+                            ## Objective
+                            Verify that users can successfully log in with valid credentials.
+
+                            ## Test Steps
+                            1. Navigate to the login page
+                            2. Enter valid username
+                            3. Enter valid password
+                            4. Click the login button
+
+                            ## Expected Result
+                            - User should be authenticated
+                            - User should be redirected to dashboard
+                            - Welcome message should be displayed
+                        """.trimIndent(),
+                    ),
+                    TestCaseDisplay(
+                        id = "TC-002",
+                        description = "Device registration flow",
+                        tags = listOf("device", "registration"),
+                        content = "# Device Registration\n\nSteps...",
+                    ),
+                ),
+                searchTags = listOf("login"),
+                selectedTestCaseId = "TC-001",
+                currentInput = "",
+            ),
+            windowSizeClass = WindowSizeClass.Compact,
             onSearchInputChange = {},
             onAddTag = {},
             onRemoveTag = {},

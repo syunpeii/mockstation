@@ -100,7 +100,7 @@ private fun MainScreen() {
             windowSizeClass = windowSizeClass,
             navigationItems = navigationItems,
             selectedItemIndex = selectedItemIndex,
-            navHost = { MainNavHost(navController) },
+            navHost = { MainNavHost(navController, windowSizeClass) },
             onItemClick = { index ->
                 selectedItemIndex = index
                 val destination = TopLevelDestination.entries[index]
@@ -208,7 +208,10 @@ private fun MainScreenContent(
 }
 
 @Composable
-private fun MainNavHost(navController: NavHostController) {
+private fun MainNavHost(
+    navController: NavHostController,
+    windowSizeClass: WindowSizeClass,
+) {
     NavHost(
         navController = navController,
         startDestination = TopLevelDestination.HOME.route,
@@ -227,7 +230,7 @@ private fun MainNavHost(navController: NavHostController) {
             DeviceManagementScreen()
         }
         composable<TestCaseSearchRoute> { _ ->
-            TestCaseSearchScreen()
+            TestCaseSearchScreen(windowSizeClass = windowSizeClass)
         }
     }
 }
