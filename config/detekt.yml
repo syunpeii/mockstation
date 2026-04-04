@@ -34,9 +34,13 @@ style:
         active: true
         ignorePropertyDeclaration: true
         ignoreEnums: true
-        ignoreAnnotated: [ 'Preview' ]
+        ignoreAnnotated: [ 'Composable' ]
+        ignoreNumbers: [ '-1', '0' ]
         excludes: [ '**/*.gradle.kts' ,'**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**' ]
 
     UnusedPrivateMember:
         active: true
         allowedNames: 'Preview.*'
+
+    ForbiddenComment:
+        active: false
