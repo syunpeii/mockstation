@@ -32,8 +32,6 @@ import com.github.syunpeii.mockstation.core.designsystem.resources.ComposeString
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 import com.github.syunpeii.mockstation.core.model.SortOrder
 import com.github.syunpeii.mockstation.core.model.TimeRange
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 import mockstation.composeapp.generated.resources.Res
 import mockstation.composeapp.generated.resources.common_cancel
 import mockstation.composeapp.generated.resources.common_close
@@ -116,6 +114,8 @@ import mockstation.composeapp.generated.resources.device_management_title
 import mockstation.composeapp.generated.resources.device_management_unnamed_device
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Composable
 internal fun DeviceManagementScreen(

@@ -7,15 +7,15 @@ import com.github.syunpeii.mockstation.core.model.RequestInfo
 import com.github.syunpeii.mockstation.core.model.SortOrder
 import com.github.syunpeii.mockstation.core.model.StatusCategory
 import com.github.syunpeii.mockstation.core.model.TimeRange
-import kotlin.time.Clock
-import kotlin.time.Duration.Companion.hours
-import kotlin.time.Duration.Companion.minutes
-import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlin.time.Clock
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
 class DeviceManagementViewModel : ViewModel() {

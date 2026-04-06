@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton as MaterialTextButton
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
@@ -22,7 +22,7 @@ fun TextButton(
     CompositionLocalProvider(
         LocalRippleConfiguration provides MockStationTheme.ripple.forSurfaceBackground(),
     ) {
-        MaterialTextButton(
+        TextButton(
             onClick = onClick,
             modifier = modifier,
             enabled = enabled,

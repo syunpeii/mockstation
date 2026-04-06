@@ -5,7 +5,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton as Material3IconButton
 import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -14,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewRow
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
+import androidx.compose.material3.IconButton as Material3IconButton
 
 @Composable
 fun AppIconButton(
