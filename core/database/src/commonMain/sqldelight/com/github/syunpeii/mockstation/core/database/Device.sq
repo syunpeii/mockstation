@@ -1,0 +1,48 @@
+CREATE TABLE DeviceEntity (
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    testCaseId TEXT,
+    isEnabled INTEGER NOT NULL DEFAULT 1,
+    lastAccessedAt INTEGER NOT NULL,
+    createdAt INTEGER NOT NULL
+);
+
+CREATE TABLE DelayRuleEntity (
+    deviceId TEXT PRIMARY KEY NOT NULL,
+    type TEXT NOT NULL,
+    delayMs INTEGER NOT NULL DEFAULT 0,
+    isEnabled INTEGER NOT NULL DEFAULT 1,
+    targetFiles TEXT,
+    FOREIGN KEY (deviceId) REFERENCES DeviceEntity(id) ON DELETE CASCADE
+);
+
+selectAllDevices:
+SELECT * FROM DeviceEntity ORDER BY lastAccessedAt DESC;
+
+selectDeviceById:
+SELECT * FROM DeviceEntity WHERE id = ?;
+
+insertDevice:
+INSERT INTO DeviceEntity (id, name, testCaseId, isEnabled, lastAccessedAt, createdAt)
+VALUES (?, ?, ?, ?, ?, ?);
+
+updateDevice:
+UPDATE DeviceEntity
+SET name = ?, testCaseId = ?, isEnabled = ?, lastAccessedAt = ?
+WHERE id = ?;
+
+updateLastAccessed:
+UPDATE DeviceEntity SET lastAccessedAt = ? WHERE id = ?;
+
+deleteDevice:
+DELETE FROM DeviceEntity WHERE id = ?;
+
+selectDelayRuleByDeviceId:
+SELECT * FROM DelayRuleEntity WHERE deviceId = ?;
+
+upsertDelayRule:
+INSERT OR REPLACE INTO DelayRuleEntity (deviceId, type, delayMs, isEnabled, targetFiles)
+VALUES (?, ?, ?, ?, ?);
+
+deleteDelayRule:
+DELETE FROM DelayRuleEntity WHERE deviceId = ?;

@@ -11,6 +11,7 @@ val dataStoreModule: Module = module {
     single<DataStore<Preferences>> {
         DataStoreFactory.createDataStore()
     }
+
     single<AppSettings> {
         AppSettings(dataStore = get())
     }

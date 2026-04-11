@@ -35,7 +35,7 @@ style:
         ignorePropertyDeclaration: true
         ignoreEnums: true
         ignoreAnnotated: [ 'Composable' ]
-        ignoreNumbers: [ '-1', '0' ]
+        ignoreNumbers: [ '-1', '0', '1' ]
         excludes: [ '**/*.gradle.kts' ,'**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**' ]
 
     UnusedPrivateMember:

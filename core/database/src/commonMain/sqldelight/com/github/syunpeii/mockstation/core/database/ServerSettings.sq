@@ -1,0 +1,15 @@
+CREATE TABLE ServerSettingsEntity (
+    id INTEGER PRIMARY KEY NOT NULL DEFAULT 1,
+    resFileFormat INTEGER NOT NULL DEFAULT 1,
+    testCaseDirectory TEXT NOT NULL,
+    defaultDelayMs INTEGER NOT NULL DEFAULT 0,
+    port INTEGER NOT NULL DEFAULT 8080,
+    CHECK (id = 1)
+);
+
+selectSettings:
+SELECT * FROM ServerSettingsEntity WHERE id = 1;
+
+upsertSettings:
+INSERT OR REPLACE INTO ServerSettingsEntity (id, resFileFormat, testCaseDirectory, defaultDelayMs, port)
+VALUES (1, ?, ?, ?, ?);

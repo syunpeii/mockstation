@@ -30,16 +30,22 @@
     - `core/database`
     - `core/datastore`
 
+### 実装済み（Phase S0～S4）
+
+- ✅ Server の mock server 本体機能（MockResponseResolver, ResFileParser）
+- ✅ ファイルベースのテストケース読込（TestCaseFileService）
+- ✅ デバイス管理 API（/api/devices/*）
+- ✅ テストケース切替 API（/api/testcases/activate）
+- ✅ 外部ディレクトリ対応（application.conf, ServerSettings）
+- ✅ サーバー設定 API（/api/server/settings）
+
 ### 未実装またはモック状態
 
 - Desktop ViewModel の実データ接続
-- Server の mock server 本体機能
-- ファイルベースのテストケース読込
-- デバイス管理 API
-- テストケース切替 API
-- リクエスト履歴の永続化と配信
-- 遅延設定の適用
-- OSS 配布向けの設定、外部ディレクトリ対応、Docker、リリース整備
+- リクエスト履歴の永続化と配信（Phase S5）
+- WebSocket 配信（Phase S6）
+- 遅延設定の詳細拡張（Phase S7）
+- OSS 配布向けの Docker、リリース整備（Phase S8）
 
 ## 機能一覧と優先度
 
@@ -61,16 +67,18 @@
 | プロキシ/フォールバック       | Could  |
 | 静的ファイル配信           | Could  |
 
-## MVP の定義
+## MVP の定義と実装状況
 
 MVP では以下を満たすことを目標にする。
 
-1. Server が外部 `testCase` ディレクトリを読み込み、HTTP リクエストに対してモック応答を返せる
-2. Device ごとに現在の test case と delay 設定を保持できる
-3. Desktop から test case / device / delay / request history を操作できる
-4. Desktop と Server の接続先を設定できる
-5. リクエスト履歴を Desktop で確認できる
-6. OSS 利用者が README だけで起動できる最低限の起動手順がある
+| # | 要件                                                        | 実装状況               |
+|---|-----------------------------------------------------------|--------------------|
+| 1 | Server が外部 `testCase` ディレクトリを読み込み、HTTP リクエストに対してモック応答を返せる | ✅ 完了（Phase S1, S2） |
+| 2 | Device ごとに現在の test case と delay 設定を保持できる                  | ✅ 完了（Phase S3）     |
+| 3 | Desktop から test case / device / delay を操作できる              | ✅ 完了（Phase S4）     |
+| 4 | Desktop と Server の接続先を設定できる                               | ✅ 完了（Phase S0, S4） |
+| 5 | リクエスト履歴を Desktop で確認できる                                   | ⏳ Phase S5 で実装予定   |
+| 6 | OSS 利用者が README だけで起動できる起動手順がある                           | ⏳ Phase S8 で実装予定   |
 
 ## .res ファイル形式
 

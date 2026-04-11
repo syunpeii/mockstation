@@ -22,16 +22,22 @@
 - serialization plugin
 - DI エントリポイント
 
+### Phase S0～S4 で実装されたもの
+
+- ✅ 実際の testCase ディレクトリ読込（TestCaseFileService.kt）
+- ✅ mock response 解決（MockResponseResolver.kt, ResFileParser.kt）
+- ✅ 任意 path を受ける本体 routing（MockRouting.kt）
+- ✅ device 識別（DeviceService.kt）
+- ✅ Desktop 向け管理 API（ManagementApi.kt）
+- ✅ サーバー設定の外部化（application.conf, ServerSettings.kt）
+- ✅ サーバー設定の永続化（ServerSettingsRepository.kt）
+
 ### まだないもの
 
-- 実際の testCase ディレクトリ読込
-- mock response 解決
-- 任意 path を受ける本体 routing
-- device 識別
-- Desktop 向け管理 API
-- request history 保存
-- WebSocket 配信
-- OSS 配布前提の設定外部化
+- request history 保存（Phase S5）
+- WebSocket 配信（Phase S6）
+- 遅延設定拡張（Phase S7）
+- OSS 配布整備（Phase S8）
 
 ## 設計原則
 
@@ -105,16 +111,16 @@ sample API 中心の現在構成を、本体機能を入れられる構成へ改
 
 ### タスク
 
-- [ ] sample の `TestCaseApi` を暫定 API として位置付け直す
-- [ ] Desktop 管理 API と mock response routing を分離する
-- [ ] `server/plugins/Routing.kt` の責務を分割する
-- [ ] service / repository / resolver の層を整理する
-- [ ] Server 設定値の取得元を整理する
+- [x] sample の `TestCaseApi` を暫定 API として位置付け直す
+- [x] Desktop 管理 API と mock response routing を分離する
+- [x] `server/plugins/Routing.kt` の責務を分割する
+- [x] service / repository / resolver の層を整理する
+- [x] Server 設定値の取得元を整理する
     - ポート
     - testCase directory
     - DB パス
     - ログレベル
-- [ ] サーバー設定の永続化方式を決定する
+- [x] サーバー設定の永続化方式を決定する
     - デフォルト: 設定ファイル（JSON）または SQLDelight
     - 設定項目: `resFileFormat`, `testCaseDirectory`, `defaultDelayMs`, `port`
 
@@ -133,16 +139,16 @@ Mockstation のコア機能である file-based mock data を実装する。
 
 ### タスク
 
-- [ ] testCase ディレクトリのルート解決を実装する
-- [ ] 外部ディレクトリ指定に対応する
+- [x] testCase ディレクトリのルート解決を実装する
+- [x] 外部ディレクトリ指定に対応する
     - デフォルト: 環境変数または設定ファイルで指定可能
-- [ ] test case 一覧の走査ロジックを実装する
-- [ ] test case 詳細取得ロジックを実装する
-- [ ] README / meta / res ファイルの扱いを定義する
-- [ ] 存在しない/壊れた testCase の扱いを定義する
-- [ ] res ファイル形式の設定値を読み込む
+- [x] test case 一覧の走査ロジックを実装する
+- [x] test case 詳細取得ロジックを実装する
+- [x] README / meta / res ファイルの扱いを定義する
+- [x] 存在しない/壊れた testCase の扱いを定義する
+- [x] res ファイル形式の設定値を読み込む
     - `resFileFormat`: 1 (METHOD_SUFFIX) | 2 (SIMPLE)
-- [ ] 設定に応じた res ファイル探索ロジックを実装する
+- [x] 設定に応じた res ファイル探索ロジックを実装する
     - 1 (METHOD_SUFFIX): `{apiPath}/{METHOD}.res`
     - 2 (SIMPLE): `{apiPath}.res`
 
@@ -169,17 +175,17 @@ Mockstation のコア機能である file-based mock data を実装する。
 
 ### タスク
 
-- [ ] 任意 path/method を受ける routing を追加する
-- [ ] `default` testCase への fallback を実装する
-- [ ] レスポンスファイル parser を実装する
+- [x] 任意 path/method を受ける routing を追加する
+- [x] `default` testCase への fallback を実装する
+- [x] レスポンスファイル parser を実装する
     - status
     - headers
     - body
-- [ ] リクエスト path から対応する `.res` ファイルを解決する
-- [ ] path parameter / query parameter を考慮した探索仕様を定義する
+- [x] リクエスト path から対応する `.res` ファイルを解決する
+- [x] path parameter / query parameter を考慮した探索仕様を定義する
     - query parameter 条件分岐: `GET@page__1.res`, `GET@page__1--status__active.res`
     - 詳細は TASK_OVERVIEW.md「.res ファイル形式」を参照
-- [ ] res ファイル未発見時のエラー応答を整理する
+- [x] res ファイル未発見時のエラー応答を整理する
 - [ ] content type 推定または header 優先ロジックを実装する
 
 ### 完了条件
@@ -204,15 +210,15 @@ device ごとに test case と delay 設定を持てる状態にする。
 
 ### タスク
 
-- [ ] device 識別方式を実装する
+- [x] device 識別方式を実装する
     - デフォルト: `deviceId` header があれば使用
     - デフォルト: なければ新規発行して `X-Device-Id` で返却
-- [ ] device 状態の永続化先を決める
-    - デフォルト: SQLDelight
-- [ ] device と現在 test case の紐付けを保存する
-- [ ] device と delay rule の紐付けを保存する
-- [ ] last accessed などの管理情報を保存する
-- [ ] Desktop 管理 API で見せる項目を確定する
+- [x] device 状態の永続化先を決める
+    - デフォルト: SQLDelight → メモリベース実装を採用（MVP）
+- [x] device と現在 test case の紐付けを保存する
+- [x] device と delay rule の紐付けを保存する
+- [x] last accessed などの管理情報を保存する
+- [x] Desktop 管理 API で見せる項目を確定する
 
 ### 完了条件
 
@@ -236,26 +242,26 @@ Desktop 側が必要とする CRUD と状態取得を行えるようにする。
 
 ### タスク
 
-- [ ] `GET /api/server/status` を実装する
+- [x] `GET /api/server/status` を実装する
 - [ ] `GET /api/server/summary` を実装する
-- [ ] `GET /api/testcases` を本実装へ置換する
-- [ ] `GET /api/testcases/{id}` を本実装へ置換する
-- [ ] `POST /api/testcases/activate` を実装する
-- [ ] `GET /api/devices` を実装する
+- [x] `GET /api/testcases` を本実装へ置換する
+- [x] `GET /api/testcases/{id}` を本実装へ置換する
+- [x] `POST /api/testcases/activate` を実装する
+- [x] `GET /api/devices` を実装する
     - クエリパラメータ: `registered` (true/false) で登録済み/未登録をフィルタ
-- [ ] `GET /api/devices/{id}` を実装する
+- [x] `GET /api/devices/{id}` を実装する
 - [ ] `POST /api/devices/{id}/register` を実装する
     - サーバーデバイスを登録済みに変更
-- [ ] `PATCH /api/devices/{id}` を実装する
+- [x] `PATCH /api/devices/{id}` を実装する
     - 更新項目: `name`, `isEnabled`, `testCaseId`
 - [ ] `DELETE /api/devices/{id}` を実装する
     - Desktop の管理対象から外す（履歴は保持）
-- [ ] DTO と domain model の変換層を整理する
+- [x] DTO と domain model の変換層を整理する
 - [ ] API エラー形式を統一する
-- [ ] `GET /api/server/settings` を実装する
-- [ ] `PATCH /api/server/settings` を実装する
-- [ ] 設定変更時の永続化を実装する
-- [ ] 設定項目の一覧:
+- [x] `GET /api/server/settings` を実装する
+- [x] `PATCH /api/server/settings` を実装する
+- [x] 設定変更時の永続化を実装する
+- [x] 設定項目の一覧:
     - `resFileFormat`: number (1 = METHOD_SUFFIX, 2 = SIMPLE)
     - `testCaseDirectory`: string
     - `defaultDelayMs`: number
@@ -471,3 +477,89 @@ delay と条件分岐を整理した仕様で提供する。
     - デフォルト: HTTP 履歴レスポンスと同系統に揃える
 - request history export
     - デフォルト: MVP から外す
+
+---
+
+## 実装完了サマリー（Phase S0～S4）
+
+### 実装状況
+
+| Phase | 実装 | 完了度  | 説明                                  |
+|-------|----|------|-------------------------------------|
+| S0    | ✅  | 100% | 基盤設計の整理（設定外部化、DB接続）                 |
+| S1    | ✅  | 100% | testCaseディレクトリ読込                    |
+| S2    | ✅  | 95%  | mock response解決（content-type推定は未実装） |
+| S3    | ✅  | 100% | device識別と状態保持（メモリベース実装）             |
+| S4    | ✅  | 90%  | Desktop向け管理API（一部エンドポイント未実装）        |
+
+### 新規作成ファイル（30+）
+
+**サーバー実装:**
+
+- `server/src/main/kotlin/com/github/syunpeii/mockstation/server/`
+    - `database/ServerDatabaseDriverFactory.kt`
+    - `service/TestCaseFileService.kt`
+    - `service/DeviceService.kt`
+    - `service/MockResponseResolver.kt`
+    - `service/ResFileParser.kt`
+    - `plugins/MockRouting.kt`
+    - `routes/ManagementApi.kt`
+    - `di/ServerModule.kt` (更新)
+
+**モデル・DTO:**
+
+- `core/model/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/model/`
+    - `ServerSettings.kt`
+    - `TestCaseSummary.kt`
+    - `api/ServerStatusResponse.kt`
+    - `api/ServerSettingsResponse.kt`
+    - `api/DeviceResponse.kt`
+    - `api/ActivateTestCaseRequest.kt`
+
+**リポジトリ:**
+
+- `core/data/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/data/repository/`
+    - `ServerSettingsRepository.kt`
+    - `DeviceRepository.kt`
+
+**データベース:**
+
+- `core/database/src/commonMain/sqldelight/`
+    - `ServerSettings.sq`
+    - `Device.sq`
+
+**設定:**
+
+- `server/src/main/resources/application.conf`
+- `config/detekt.yml` (更新)
+- `build.gradle.kts` (更新)
+
+### 実装済みAPI一覧
+
+**サーバーステータス:**
+
+- `GET /api/server/status` ✅
+
+**サーバー設定:**
+
+- `GET /api/server/settings` ✅
+- `PATCH /api/server/settings` ✅
+
+**テストケース:**
+
+- `GET /api/testcases` ✅
+- `GET /api/testcases/{id}` ✅
+- `POST /api/testcases/activate` ✅
+
+**デバイス:**
+
+- `GET /api/devices` ✅
+- `GET /api/devices/{id}` ✅
+- `PATCH /api/devices/{id}` ✅
+
+### 次のPhase（S5～S8）
+
+- Phase S5: request history保存と検索
+- Phase S6: WebSocket配信
+- Phase S7: 遅延設定と response rule拡張
+- Phase S8: OSS配布と運用整備

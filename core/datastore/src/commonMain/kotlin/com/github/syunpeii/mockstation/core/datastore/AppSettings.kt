@@ -14,38 +14,22 @@ class AppSettings(private val dataStore: DataStore<Preferences>) {
         preferences[BASE_URL] ?: DEFAULT_BASE_URL
     }
 
-    /**
-     * Get whether logging is enabled as Flow
-     */
     val isLoggingEnabled: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[LOGGING_ENABLED] ?: true
     }
 
-    /**
-     * Save base URL
-     *
-     * @param url The base URL to be saved
-     */
     suspend fun setBaseUrl(url: String) {
         dataStore.edit { preferences ->
             preferences[BASE_URL] = url
         }
     }
 
-    /**
-     * Set logging enabled/disabled
-     *
-     * @param enabled True to enable logging, false to disable
-     */
     suspend fun setLoggingEnabled(enabled: Boolean) {
         dataStore.edit { preferences ->
             preferences[LOGGING_ENABLED] = enabled
         }
     }
 
-    /**
-     * Clear all settings
-     */
     suspend fun clear() {
         dataStore.edit { preferences ->
             preferences.clear()

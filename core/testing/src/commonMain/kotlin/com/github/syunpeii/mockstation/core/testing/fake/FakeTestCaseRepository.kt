@@ -1,3 +1,5 @@
+@file:OptIn(kotlin.time.ExperimentalTime::class)
+
 package com.github.syunpeii.mockstation.core.testing.fake
 
 import com.github.syunpeii.mockstation.core.data.repository.TestCaseRepository
@@ -6,7 +8,7 @@ import com.github.syunpeii.mockstation.core.model.TestCase
 import com.github.syunpeii.mockstation.core.model.TestCaseStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 
 class FakeTestCaseRepository : TestCaseRepository {
 
@@ -63,9 +65,6 @@ class FakeTestCaseRepository : TestCaseRepository {
         )
     }
 
-    /**
-     * Clear test data
-     */
     fun clear() {
         testCases.clear()
     }

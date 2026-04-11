@@ -18,11 +18,11 @@ data class RequestInfo(
     val timestamp: Instant,
 
     val deviceId: String,
-    val requestBody: String? = null,
-    val responseBody: String? = null,
-    val headers: Map<String, String> = emptyMap(),
-    val responseHeaders: Map<String, String> = emptyMap(),
-    val durationMs: Long? = null,
+    val requestBody: String?,
+    val responseBody: String?,
+    val headers: Map<String, String>,
+    val responseHeaders: Map<String, String>,
+    val durationMs: Long?,
 )
 
 enum class HttpMethod {

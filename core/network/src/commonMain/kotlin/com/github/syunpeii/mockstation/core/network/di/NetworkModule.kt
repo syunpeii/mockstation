@@ -11,6 +11,7 @@ val networkModule: Module = module {
     single<HttpClient> {
         HttpClientFactory.create()
     }
+
     single<TestCaseApi> {
         TestCaseApiImpl(
             client = get(),

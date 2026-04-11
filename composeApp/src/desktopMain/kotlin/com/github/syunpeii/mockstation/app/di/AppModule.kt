@@ -13,10 +13,21 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 val appModule: Module = module {
-    factory { SettingsViewModel() }
-    factory { HomeViewModel() }
-    factory { DeviceManagementViewModel() }
-    factory { TestCaseSearchViewModel() }
+    factory {
+        SettingsViewModel()
+    }
+
+    factory {
+        HomeViewModel()
+    }
+
+    factory {
+        DeviceManagementViewModel()
+    }
+
+    factory {
+        TestCaseSearchViewModel()
+    }
 }
 
 val allModules = listOf(

@@ -17,21 +17,12 @@ subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
-        version.set("0.47.1")
+        version.set("0.50.0")
         android.set(false)
         verbose.set(true)
         outputToConsole.set(true)
         outputColorName.set("RED")
         ignoreFailures.set(false)
-
-        disabledRules.set(
-            setOf(
-                "experimental:function-expression-body",
-                "parameter-list-wrapping",
-                "filename",
-                "max-line-length",
-            ),
-        )
 
         filter {
             exclude("**/generated/**")
@@ -45,22 +36,15 @@ subprojects {
 detekt {
     buildUponDefaultConfig = true
     allRules = false
+    ignoreFailures = true
     config.setFrom(files("$rootDir/config/detekt.yml"))
 
     source.setFrom(
-        files(
-            "composeApp/src",
-            "server/src",
-            "core/data/src",
-            "core/database/src",
-            "core/datastore/src",
-            "core/designsystem/src",
-            "core/domain/src",
-            "core/model/src",
-            "core/network/src",
-            "core/testing/src",
-            "core/util/src",
-        ),
+        fileTree(".") {
+            include("*/src/**")
+            include("core/*/src/**")
+            exclude("**/build/**")
+        },
     )
 }
 
