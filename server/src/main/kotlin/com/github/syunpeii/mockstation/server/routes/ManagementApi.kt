@@ -69,7 +69,7 @@ fun Route.configureManagementApi(
                 port = request.port ?: currentSettings.port,
             )
 
-            settingsRepository.updateSettings(updatedSettings)
+            settingsRepository.updateSettings(updatedSettings).getOrThrow()
             call.respond(HttpStatusCode.OK)
         }
     }
