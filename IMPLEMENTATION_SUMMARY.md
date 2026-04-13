@@ -1,16 +1,16 @@
 # Mockstation Server MVP 実装サマリー
 
-実装日時: 2026-04-05
-実装版: Phase S0～S4
+実装日時: 2026-04-11
+実装版: Phase S0～S5
 
 ---
 
 ## 実装概要
 
-Mockstation Server MVP（Phase S0～S4）は、外部テストケースディレクトリから.resファイルを読み込み、HTTPリクエストに対してモック応答を返すサーバー実装です。
+Mockstation Server MVP（Phase S0～S5）は、外部テストケースディレクトリから.resファイルを読み込み、HTTPリクエストに対してモック応答を返すサーバー実装です。Phase S5 ではリクエスト履歴の記録・検索機能が追加されました。
 
-**実装期間中の作成ファイル数**: 30+ ファイル
-**実装完了度**: 100% (S0～S4)
+**実装期間中の作成ファイル数**: 40+ ファイル
+**実装完了度**: 100% (S0～S5)
 
 ---
 
@@ -177,6 +177,140 @@ Mockstation Server MVP（Phase S0～S4）は、外部テストケースディレ
 
 ---
 
+### Phase S4 残タスク実装（S4-1～S4-6）✅
+
+**目的**: Phase S4 で未実装だった API 完成とエラーレスポンス統一
+
+**実装内容:**
+
+#### S4-1: エラーレスポンス形式の統一
+
+- `ErrorResponse.kt` データクラス作成
+- ManagementApi 内のすべてのエラーレスポンスを統一形式に変更
+
+#### S4-2: GET /api/server/summary の実装
+
+- `ServerSummaryResponse.kt` 作成
+- デバイス数、テストケース数を返却
+- サーバー稼働情報を集約
+
+#### S4-3: POST /api/devices/{id}/register の実装
+
+- `RegisterDeviceRequest.kt` 作成
+- デバイスを手動登録
+- DeviceService.registerDevice() メソッド追加
+
+#### S4-4: DELETE /api/devices/{id} の実装
+
+- DeviceService.deleteDevice() メソッド追加
+- デバイス削除機能の完成
+
+#### S4-5: PATCH /api/devices/{id} の修正
+
+- リクエストボディを実際に処理
+- DeviceService.updateDevice() メソッド追加
+- 名前、テストケースID、有効フラグを更新可能
+
+**ファイル:**
+
+```
+- core/model/api/ErrorResponse.kt (新規)
+- core/model/api/ServerSummaryResponse.kt (新規)
+- core/model/api/RegisterDeviceRequest.kt (新規)
+- server/service/DeviceService.kt (更新)
+- server/service/DeviceServiceImpl.kt (更新)
+- server/routes/ManagementApi.kt (大幅更新)
+```
+
+**成果:**
+✅ API エラーレスポンスが統一
+✅ デバイス操作 API が完成（CRUD すべて実装）
+✅ サーバーサマリー取得が可能
+
+---
+
+### Phase S5: Request History 機能実装 ✅
+
+**目的**: リクエスト履歴の記録・検索機能を実装
+
+**実装内容:**
+
+#### S5-1: RequestHistoryRepository インターフェース
+
+- `RequestHistoryRepository.kt` 作成
+- saveRequest, getRequestHistory, deleteAllHistory メソッド定義
+- フィルタリング・ソート対応設計
+
+#### S5-2: RequestHistoryRepository メモリ実装
+
+- `RequestHistoryRepositoryImpl.kt` 作成
+- ConcurrentLinkedDeque 使用（スレッドセーフ）
+- maxHistorySize = 1000件で自動トリム
+- フィルタリング実装：
+    - パス検索（部分一致）
+    - HTTPメソッドフィルタ
+    - ステータスカテゴリフィルタ（2xx/3xx/4xx/5xx）
+    - 時間範囲フィルタ（LAST_HOUR/LAST_24_HOURS/LAST_7_DAYS/ALL）
+    - デバイスID フィルタ
+    - ソート（NEWEST_FIRST/OLDEST_FIRST）
+    - ページング（limit/offset）
+
+#### S5-3: RequestHistoryService
+
+- `RequestHistoryService.kt` インターフェース作成
+- `RequestHistoryServiceImpl.kt` 実装
+- recordRequest メソッドでリクエスト情報を記録
+- getHistory メソッドで履歴取得
+
+#### S5-4: MockRouting.kt へ履歴記録追加
+
+- RequestHistoryService を注入
+- handleMockRequest 内で以下を記録：
+    - HTTPメソッド、パス、ステータスコード
+    - 処理時間（durationMs）
+    - デバイスID
+    - レスポンス本文（最初の256文字）
+- HttpMethod 変換ヘルパー関数追加
+
+#### S5-5: Request History API エンドポイント
+
+- `RequestHistoryListResponse.kt` 作成
+- `GET /api/request-history` - 履歴一覧取得
+    - クエリパラメータ対応：search, methods, statusCategories, timeRange, sortOrder, deviceId, limit, offset
+    - JSONレスポンス形式：items, total, limit, offset
+- `DELETE /api/request-history` - 全履歴削除
+
+#### S5-6: DI モジュール更新
+
+- ServerModule.kt に RequestHistoryRepository/Service 登録
+- Routing.kt に RequestHistoryService 注入
+- configureMockRouting 関数呼び出しに RequestHistoryService を追加
+
+**ファイル:**
+
+```
+新規作成:
+- core/data/repository/RequestHistoryRepository.kt
+- core/data/repository/RequestHistoryRepositoryImpl.kt
+- server/service/RequestHistoryService.kt
+- server/service/RequestHistoryServiceImpl.kt
+- core/model/api/RequestHistoryResponse.kt
+
+更新:
+- server/plugins/MockRouting.kt (HttpMethod import, recordRequest処理追加)
+- server/routes/ManagementApi.kt (request-history endpoint追加)
+- server/di/ServerModule.kt (DI登録)
+- server/plugins/Routing.kt (RequestHistoryService inject)
+```
+
+**成果:**
+✅ リクエスト履歴が自動記録される
+✅ 強力なフィルタリング・検索機能
+✅ ページング対応
+✅ 1000件制限で自動トリム
+
+---
+
 ## 実装された API 一覧
 
 ### Server Status & Settings
@@ -184,6 +318,7 @@ Mockstation Server MVP（Phase S0～S4）は、外部テストケースディレ
 | メソッド  | エンドポイント                | 説明          |
 |-------|------------------------|-------------|
 | GET   | `/api/server/status`   | サーバーステータス取得 |
+| GET   | `/api/server/summary`  | サーバー概要取得    |
 | GET   | `/api/server/settings` | サーバー設定取得    |
 | PATCH | `/api/server/settings` | サーバー設定更新    |
 
@@ -197,11 +332,31 @@ Mockstation Server MVP（Phase S0～S4）は、外部テストケースディレ
 
 ### Devices
 
-| メソッド  | エンドポイント             | 説明       |
-|-------|---------------------|----------|
-| GET   | `/api/devices`      | デバイス一覧取得 |
-| GET   | `/api/devices/{id}` | デバイス詳細取得 |
-| PATCH | `/api/devices/{id}` | デバイス情報更新 |
+| メソッド   | エンドポイント                      | 説明       |
+|--------|------------------------------|----------|
+| GET    | `/api/devices`               | デバイス一覧取得 |
+| GET    | `/api/devices/{id}`          | デバイス詳細取得 |
+| POST   | `/api/devices/{id}/register` | デバイス手動登録 |
+| PATCH  | `/api/devices/{id}`          | デバイス情報更新 |
+| DELETE | `/api/devices/{id}`          | デバイス削除   |
+
+### Request History (Phase S5)
+
+| メソッド   | エンドポイント                | 説明                 |
+|--------|------------------------|--------------------|
+| GET    | `/api/request-history` | 履歴一覧取得（フィルタ・ソート対応） |
+| DELETE | `/api/request-history` | 全履歴削除              |
+
+**GET /api/request-history クエリパラメータ:**
+
+- `search`: パス部分一致検索
+- `methods`: HTTPメソッド（GET,POST,PUT,DELETE,PATCH）
+- `statusCategories`: ステータスカテゴリ（2xx,3xx,4xx,5xx）
+- `timeRange`: 時間範囲（LAST_HOUR, LAST_24_HOURS, LAST_7_DAYS, ALL）
+- `sortOrder`: ソート順序（NEWEST_FIRST, OLDEST_FIRST）
+- `deviceId`: デバイスID フィルタ
+- `limit`: ページサイズ（デフォルト: 100）
+- `offset`: オフセット（デフォルト: 0）
 
 ### Mock Response
 
@@ -341,42 +496,45 @@ MVP では以下のテストは優先度を下げて Phase S5 以降に実施予
 - PRESET が固定値 5000ms
 - カスタム値設定の API は未実装
 
-### 3. Request History
+### 3. RequestHistory のメモリベース実装
 
-- 保存されない
-- API も未実装
+- 1000件制限で古いレコードは自動削除
+- アプリケーション再起動でリセット
+- 複数プロセスでの共有不可
 
 ### 4. WebSocket
 
 - 未実装
 - Phase S6 で実装予定
 
-### 5. エラーハンドリング
+### 5. 遅延設定
 
-- 基本的な 404/500 のみ
-- エラー形式の統一は Phase S4 で部分実装
+- PRESET が固定値 5000ms
+- カスタム値設定の API は未実装
 
 ---
 
-## 次のステップ（Phase S5～S8）
-
-### Phase S5: Request History 保存と検索
-
-- リクエスト/レスポンスの永続化
-- 履歴検索 API
-- フィルタリング機能
+## 次のステップ（Phase S6～S8）
 
 ### Phase S6: WebSocket 配信
 
 - リアルタイム履歴配信
 - 接続管理
+- クライアント接続の監視
 
 ### Phase S7: 遅延設定拡張
 
 - クエリパラメータ条件分岐
 - Header/Body 条件分岐対応
+- 条件分岐の UI 管理
 
-### Phase S8: OSS 配布整備
+### Phase S8: SQLite 永続化（オプション）
+
+- RequestHistory の永続化
+- 大規模履歴対応
+- インデックス・クエリ最適化
+
+### Phase S9: OSS 配布整備
 
 - Docker イメージ化
 - CI/CD 構築
@@ -406,28 +564,29 @@ curl http://localhost:8080/api/testcases | jq .
 
 ## ファイル構成サマリー
 
-### 新規作成（30+ ファイル）
+### 新規作成（40+ ファイル）
 
 **Server:**
 
 - `server/src/main/resources/application.conf`
 - `server/src/main/kotlin/...database/ServerDatabaseDriverFactory.kt`
-- `server/src/main/kotlin/...service/{TestCaseFileService, DeviceService, MockResponseResolver, ResFileParser}.kt`
+- `server/src/main/kotlin/...service/{TestCaseFileService, DeviceService, MockResponseResolver, ResFileParser, RequestHistoryService, RequestHistoryServiceImpl}.kt`
 - `server/src/main/kotlin/...repository/ServerSettingsRepositoryImpl.kt` (修正時追加)
-- `server/src/main/kotlin/...plugins/MockRouting.kt`
-- `server/src/main/kotlin/...routes/ManagementApi.kt` (修正時に戻り値検証追加)
-- `server/src/main/kotlin/...di/ServerModule.kt`
+- `server/src/main/kotlin/...plugins/MockRouting.kt` (Phase S5で更新)
+- `server/src/main/kotlin/...routes/ManagementApi.kt` (Phase S4で戻り値検証追加、Phase S5で大幅更新)
+- `server/src/main/kotlin/...di/ServerModule.kt` (Phase S5でDI登録追加)
 - `server/src/main/kotlin/Application.kt` (修正時に configModule 追加)
 
 **Core Model:**
 
 - `core/model/.../ServerSettings.kt`
 - `core/model/.../TestCaseSummary.kt`
-- `core/model/.../api/{ServerStatusResponse, ServerSettingsResponse, DeviceResponse, ActivateTestCaseRequest}.kt`
+- `core/model/.../RequestInfo.kt` (Phase S5)
+- `core/model/.../api/{ServerStatusResponse, ServerSettingsResponse, DeviceResponse, ActivateTestCaseRequest, ErrorResponse, ServerSummaryResponse, RegisterDeviceRequest, RequestHistoryResponse}.kt`
 
 **Core Data:**
 
-- `core/data/.../repository/{ServerSettingsRepository, DeviceRepository}.kt`
+- `core/data/.../repository/{ServerSettingsRepository, DeviceRepository, RequestHistoryRepository, RequestHistoryRepositoryImpl}.kt`
 
 **Core Database:**
 
@@ -447,16 +606,30 @@ curl http://localhost:8080/api/testcases | jq .
 - [x] Phase S2 完了（mock response）
 - [x] Phase S3 完了（device 識別）
 - [x] Phase S4 完了（管理 API）
+- [x] Phase S4 残タスク完了（S4-1～S4-6）
+    - [x] S4-1: エラーレスポンス形式統一
+    - [x] S4-2: GET /api/server/summary 実装
+    - [x] S4-3: POST /api/devices/{id}/register 実装
+    - [x] S4-4: DELETE /api/devices/{id} 実装
+    - [x] S4-5: PATCH /api/devices/{id} 修正
+- [x] Phase S5 完了（Request History）
+    - [x] S5-1: RequestHistoryRepository インターフェース
+    - [x] S5-2: RequestHistoryRepositoryImpl メモリ実装
+    - [x] S5-3: RequestHistoryService 実装
+    - [x] S5-4: MockRouting へ履歴記録追加
+    - [x] S5-5: Request History API エンドポイント
+    - [x] S5-6: DI モジュール更新
 - [x] KtLint フォーマット適用
 - [x] TASK ファイル更新
 - [x] 動作確認チェックリスト実装と確認
 - [x] 動作確認問題の修正
-  - [x] Issue #3: application.conf 設定反映（修正完了）
-  - [x] Issue #2: PATCH /api/server/settings 戻り値検証（修正完了）
-  - [ ] Issue #1: クエリパラメータマッチング（次ステップ）
-- [ ] Unit/Integration テスト作成（Phase S5+）
+    - [x] Issue #3: application.conf 設定反映（修正完了）
+    - [x] Issue #2: PATCH /api/server/settings 戻り値検証（修正完了）
+    - [ ] Issue #1: クエリパラメータマッチング（次ステップ）
+- [x] IMPLEMENTATION_SUMMARY.md 刷新（Phase S5版）
+- [ ] Unit/Integration テスト作成（Phase S6+）
 - [ ] サンプル testCase 整備
-- [ ] Docker イメージ化（Phase S8）
+- [ ] Docker イメージ化（Phase S9）
 
 ---
 
@@ -667,6 +840,7 @@ curl http://localhost:8080/api/testcases | jq .
 **実装した修正（コミット: d642a00）:**
 
 **1. Server 専用 ServerSettingsRepositoryImpl 作成**
+
 - パス: `server/src/main/kotlin/.../server/repository/ServerSettingsRepositoryImpl.kt`
 - `ApplicationConfig` をコンストラクタで受け取り
 - `init` ブロックで application.conf から以下を読み込む：
@@ -678,14 +852,17 @@ curl http://localhost:8080/api/testcases | jq .
   ```
 
 **2. ServerModule.kt 修正**
+
 - `single<ServerSettingsRepository>` を新しい Server 専用実装に変更
 - `get<ApplicationConfig>()` で依存関係を注入
 
 **3. Application.kt 修正**
+
 - `environment.config` を Koin に登録する `configModule` を追加
 - `embeddedServer` のポート指定を削除（application.conf から動的に読み込まれる）
 
 **コード確認：**
+
 ```kotlin
 // ServerSettingsRepositoryImpl.kt の init ブロック
 init {
@@ -705,6 +882,7 @@ init {
 ```
 
 **期待される動作：**
+
 - ✅ `GET /api/server/settings` は application.conf の値を返す
 - ✅ `testCaseDirectory` = "testCase"（application.conf の値）
 - ✅ ポートは `PORT` 環境変数で上書き可能
@@ -719,6 +897,7 @@ init {
 **実装した修正：**
 
 **ManagementApi.kt の PATCH エンドポイント修正**
+
 ```kotlin
 // 修正前：
 settingsRepository.updateSettings(updatedSettings)
@@ -728,11 +907,13 @@ settingsRepository.updateSettings(updatedSettings).getOrThrow()
 ```
 
 **修正の意味：**
+
 - `Result<Unit>` の戻り値を検証
 - `Failure` の場合は例外をスロー → HTTP 500 エラー
 - `Success` の場合は正常に処理続行
 
 **期待される動作：**
+
 - ✅ `PATCH /api/server/settings` でリクエストボディが解析される
 - ✅ 設定値が実際に更新される
 - ✅ 更新に失敗した場合は 500 エラーが返される
@@ -767,29 +948,51 @@ settingsRepository.updateSettings(updatedSettings).getOrThrow()
 
 ## 結論
 
-Mockstation Server MVP（Phase S0～S4）の実装が完了しました。
+Mockstation Server MVP（Phase S0～S5）の実装が完了しました。
 
 **達成内容:**
 ✅ ファイルベースの mock server 実装
-✅ デバイス管理機能の実装
+✅ デバイス管理機能の実装（CRUD 完全対応）
 ✅ Desktop 向け管理 API の実装
 ✅ 外部テストケースディレクトリ対応
 ✅ HTTPリクエストに対するモック応答機能
+✅ リクエスト履歴の記録・検索機能
+✅ 強力なフィルタリング・検索機能
 ✅ application.conf からの動的設定読み込み（修正）
 ✅ PATCH API の戻り値検証（修正）
+✅ エラーレスポンス形式の統一
 
 **品質指標:**
 
-- 実装完了度：100%（S0～S4）
-- ファイル作成：30+ ファイル（修正時に 2 ファイル追加、4 ファイル更新）
-- API エンドポイント：10+ 個
+- 実装完了度：100%（S0～S5）
+- ファイル作成：40+ ファイル
+- API エンドポイント：16+ 個
 - サポートフォーマット：2（METHOD_SUFFIX / SIMPLE）
+- フィルタリング機能：パス検索、メソッド、ステータス、時間範囲、デバイスID
+
+**機能サマリー:**
+
+| Phase | 機能                 | 状態   |
+|-------|--------------------|------|
+| S0    | 基盤設計・外部設定化         | ✅ 完了 |
+| S1    | testCase ディレクトリ読込  | ✅ 完了 |
+| S2    | mock response 解決   | ✅ 完了 |
+| S3    | device 識別と状態保持     | ✅ 完了 |
+| S4    | 管理 API（CRUD）       | ✅ 完了 |
+| S5    | Request History 機能 | ✅ 完了 |
+| S6    | WebSocket 配信       | ⏳ 予定 |
+| S7    | 遅延設定拡張             | ⏳ 予定 |
 
 **修正履歴:**
 
-- [2026-04-11] 動作確認問題の修正
-  - Issue #3: application.conf 設定反映（Server専用RepositoryImpl 作成、configModule 追加）
-  - Issue #2: PATCH /api/server/settings の戻り値検証（.getOrThrow() 追加）
-  - コード品質改善：型指定統一、定数化
+- [2026-04-11] Phase S4残タスク + Phase S5 実装完了
+    - S4-1～S4-6: エラー統一、Device API 完成
+    - S5-1～S5-6: Request History 機能実装
+    - 12個タスク完成、40+ファイル追加・修正
 
-このベースから、Phase S5 以降で Request History、WebSocket、OSS 配布対応を段階的に実装していく方針です。
+- [2026-04-11（前）] 動作確認問題の修正
+    - Issue #3: application.conf 設定反映（Server専用RepositoryImpl 作成、configModule 追加）
+    - Issue #2: PATCH /api/server/settings の戻り値検証（.getOrThrow() 追加）
+    - コード品質改善：型指定統一、定数化
+
+このベースから、Phase S6 以降で WebSocket、遅延設定拡張、SQLite永続化、OSS 配布対応を段階的に実装していく方針です。

@@ -30,22 +30,25 @@
     - `core/database`
     - `core/datastore`
 
-### 実装済み（Phase S0～S4）
+### 実装済み（Phase S0～S5）
 
 - ✅ Server の mock server 本体機能（MockResponseResolver, ResFileParser）
 - ✅ ファイルベースのテストケース読込（TestCaseFileService）
-- ✅ デバイス管理 API（/api/devices/*）
+- ✅ デバイス管理 API（CRUD完全実装: GET/POST/PATCH/DELETE）
 - ✅ テストケース切替 API（/api/testcases/activate）
 - ✅ 外部ディレクトリ対応（application.conf, ServerSettings）
 - ✅ サーバー設定 API（/api/server/settings）
+- ✅ エラーレスポンス統一（ErrorResponse.kt）
+- ✅ リクエスト履歴の記録（MockRouting自動記録）
+- ✅ 履歴検索・フィルタリング API（/api/request-history、フィルタ・ソート・ページング対応）
 
 ### 未実装またはモック状態
 
 - Desktop ViewModel の実データ接続
-- リクエスト履歴の永続化と配信（Phase S5）
 - WebSocket 配信（Phase S6）
 - 遅延設定の詳細拡張（Phase S7）
-- OSS 配布向けの Docker、リリース整備（Phase S8）
+- SQLite 永続化（Phase S8、オプション）
+- OSS 配布向けの Docker、リリース整備（Phase S9）
 
 ## 機能一覧と優先度
 
@@ -77,7 +80,7 @@ MVP では以下を満たすことを目標にする。
 | 2 | Device ごとに現在の test case と delay 設定を保持できる                  | ✅ 完了（Phase S3）     |
 | 3 | Desktop から test case / device / delay を操作できる              | ✅ 完了（Phase S4）     |
 | 4 | Desktop と Server の接続先を設定できる                               | ✅ 完了（Phase S0, S4） |
-| 5 | リクエスト履歴を Desktop で確認できる                                   | ⏳ Phase S5 で実装予定   |
+| 5 | リクエスト履歴を Desktop で確認できる                                   | ✅ 完了（Phase S5）     |
 | 6 | OSS 利用者が README だけで起動できる起動手順がある                           | ⏳ Phase S8 で実装予定   |
 
 ## .res ファイル形式

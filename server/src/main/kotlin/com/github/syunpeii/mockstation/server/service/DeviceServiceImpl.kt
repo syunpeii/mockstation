@@ -40,8 +40,8 @@ class DeviceServiceImpl(
             updatedAt = now,
         )
         deviceRepository.saveDevice(newDevice)
-
         call.response.header(HEADER_DEVICE_ID, newDeviceId)
+
         return newDeviceId
     }
 
@@ -80,6 +80,55 @@ class DeviceServiceImpl(
     ) {
         val device = deviceRepository.getDeviceById(deviceId).getOrNull() ?: return
         deviceRepository.updateDevice(device.copy(testCaseId = testCaseId))
+    }
+
+    override suspend fun registerDevice(
+        deviceId: String,
+        name: String,
+    ): Device {
+        val now = Instant.fromEpochMilliseconds(System.currentTimeMillis())
+        val device = Device(
+            id = deviceId,
+            name = name,
+            testCaseId = DEFAULT_TEST_CASE_ID,
+            isEnabled = true,
+            delaySettings = DelaySettings(
+                type = DelayType.OFF,
+                delayMs = null,
+                isEnabled = false,
+                targetFiles = emptyList(),
+            ),
+            createdAt = now,
+            updatedAt = now,
+        )
+        deviceRepository.saveDevice(device)
+
+        return device
+    }
+
+    override suspend fun updateDevice(
+        deviceId: String,
+        name: String?,
+        testCaseId: String?,
+        isEnabled: Boolean?,
+    ): Device {
+        val device = deviceRepository.getDeviceById(deviceId).getOrNull()
+            ?: throw IllegalArgumentException("Device not found: $deviceId")
+
+        val now = Instant.fromEpochMilliseconds(System.currentTimeMillis())
+        val updatedDevice = device.copy(
+            name = name ?: device.name,
+            testCaseId = testCaseId ?: device.testCaseId,
+            isEnabled = isEnabled ?: device.isEnabled,
+            updatedAt = now,
+        )
+        deviceRepository.updateDevice(updatedDevice)
+
+        return updatedDevice
+    }
+
+    override suspend fun deleteDevice(deviceId: String): Boolean {
+        return deviceRepository.deleteDevice(deviceId).isSuccess
     }
 
     private fun generateDeviceId(): String = UUID.randomUUID().toString()

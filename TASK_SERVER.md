@@ -22,7 +22,7 @@
 - serialization plugin
 - DI エントリポイント
 
-### Phase S0～S4 で実装されたもの
+### Phase S0～S5 で実装されたもの
 
 - ✅ 実際の testCase ディレクトリ読込（TestCaseFileService.kt）
 - ✅ mock response 解決（MockResponseResolver.kt, ResFileParser.kt）
@@ -31,13 +31,19 @@
 - ✅ Desktop 向け管理 API（ManagementApi.kt）
 - ✅ サーバー設定の外部化（application.conf, ServerSettings.kt）
 - ✅ サーバー設定の永続化（ServerSettingsRepository.kt）
+- ✅ エラーレスポンス形式統一（ErrorResponse.kt）
+- ✅ Device CRUD 完全実装（registerDevice, updateDevice, deleteDevice）
+- ✅ サーバーサマリー情報取得（ServerSummaryResponse.kt）
+- ✅ Request History 記録・検索機能（RequestHistoryRepository, RequestHistoryService）
+- ✅ Request History API エンドポイント（GET /api/request-history, DELETE /api/request-history）
+- ✅ リクエスト履歴自動記録（MockRouting 内で記録）
 
 ### まだないもの
 
-- request history 保存（Phase S5）
 - WebSocket 配信（Phase S6）
 - 遅延設定拡張（Phase S7）
-- OSS 配布整備（Phase S8）
+- SQLite 永続化（Phase S8、オプション）
+- OSS 配布整備（Phase S9）
 
 ## 設計原則
 
@@ -243,21 +249,21 @@ Desktop 側が必要とする CRUD と状態取得を行えるようにする。
 ### タスク
 
 - [x] `GET /api/server/status` を実装する
-- [ ] `GET /api/server/summary` を実装する
+- [x] `GET /api/server/summary` を実装する
 - [x] `GET /api/testcases` を本実装へ置換する
 - [x] `GET /api/testcases/{id}` を本実装へ置換する
 - [x] `POST /api/testcases/activate` を実装する
 - [x] `GET /api/devices` を実装する
     - クエリパラメータ: `registered` (true/false) で登録済み/未登録をフィルタ
 - [x] `GET /api/devices/{id}` を実装する
-- [ ] `POST /api/devices/{id}/register` を実装する
-    - サーバーデバイスを登録済みに変更
+- [x] `POST /api/devices/{id}/register` を実装する
+    - デバイスを手動登録
 - [x] `PATCH /api/devices/{id}` を実装する
     - 更新項目: `name`, `isEnabled`, `testCaseId`
-- [ ] `DELETE /api/devices/{id}` を実装する
-    - Desktop の管理対象から外す（履歴は保持）
+- [x] `DELETE /api/devices/{id}` を実装する
+    - デバイスを削除（履歴は保持）
 - [x] DTO と domain model の変換層を整理する
-- [ ] API エラー形式を統一する
+- [x] API エラー形式を統一する（ErrorResponse.kt で統一）
 - [x] `GET /api/server/settings` を実装する
 - [x] `PATCH /api/server/settings` を実装する
 - [x] 設定変更時の永続化を実装する
@@ -290,8 +296,8 @@ mock server の利用履歴を Desktop から参照できるようにする。
 
 ### タスク
 
-- [ ] request 発生時に履歴を生成する
-- [ ] 保存項目を確定する
+- [x] request 発生時に履歴を生成する（MockRouting内で実装）
+- [x] 保存項目を確定する
     - method
     - path
     - status code
@@ -301,19 +307,20 @@ mock server の利用履歴を Desktop から参照できるようにする。
     - response body
     - request/response headers
     - duration
-- [ ] 履歴の保存先を決める
-    - デフォルト: SQLDelight
-- [ ] `GET /api/request-history` を実装する
-- [ ] filter 条件（クエリパラメータ）を定義する
+- [x] 履歴の保存先を決める
+    - 実装: メモリベース（ConcurrentLinkedDeque）
+- [x] `GET /api/request-history` を実装する
+- [x] filter 条件（クエリパラメータ）を定義して実装
     - `search`: パスの部分一致検索
     - `methods`: HTTPメソッド複数選択 (GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS)
     - `statusCategories`: ステータスカテゴリ (2xx, 3xx, 4xx, 5xx)
-    - `timeRange`: 時間範囲 (1h, 24h, 7d, all)
-    - `sortOrder`: ソート順序 (newest, oldest)
+    - `timeRange`: 時間範囲 (LAST_HOUR, LAST_24_HOURS, LAST_7_DAYS, ALL)
+    - `sortOrder`: ソート順序 (NEWEST_FIRST, OLDEST_FIRST)
     - `deviceId`: デバイスIDでの絞り込み
-- [ ] `DELETE /api/request-history` を実装する
-- [ ] 履歴肥大化対策を入れる
-    - デフォルト: 件数上限と古いデータの削除
+    - `limit`, `offset`: ページング
+- [x] `DELETE /api/request-history` を実装する
+- [x] 履歴肥大化対策を入れる
+    - 実装: 1000件上限で自動トリム
 
 ### 完了条件
 
@@ -480,7 +487,7 @@ delay と条件分岐を整理した仕様で提供する。
 
 ---
 
-## 実装完了サマリー（Phase S0～S4）
+## 実装完了サマリー（Phase S0～S5）
 
 ### 実装状況
 
@@ -490,9 +497,10 @@ delay と条件分岐を整理した仕様で提供する。
 | S1    | ✅  | 100% | testCaseディレクトリ読込                    |
 | S2    | ✅  | 95%  | mock response解決（content-type推定は未実装） |
 | S3    | ✅  | 100% | device識別と状態保持（メモリベース実装）             |
-| S4    | ✅  | 90%  | Desktop向け管理API（一部エンドポイント未実装）        |
+| S4    | ✅  | 100% | Desktop向け管理API（CRUD完全実装）            |
+| S5    | ✅  | 100% | Request History機能（記録・検索・フィルタリング）    |
 
-### 新規作成ファイル（30+）
+### 新規作成ファイル（40+）
 
 **サーバー実装:**
 
@@ -502,25 +510,34 @@ delay と条件分岐を整理した仕様で提供する。
     - `service/DeviceService.kt`
     - `service/MockResponseResolver.kt`
     - `service/ResFileParser.kt`
-    - `plugins/MockRouting.kt`
-    - `routes/ManagementApi.kt`
-    - `di/ServerModule.kt` (更新)
+    - `service/RequestHistoryService.kt` (Phase S5)
+    - `service/RequestHistoryServiceImpl.kt` (Phase S5)
+    - `plugins/MockRouting.kt` (更新: Phase S5で履歴記録追加)
+    - `routes/ManagementApi.kt` (大幅更新: Device API + History API)
+    - `di/ServerModule.kt` (更新: S5 DI登録)
 
 **モデル・DTO:**
 
 - `core/model/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/model/`
     - `ServerSettings.kt`
     - `TestCaseSummary.kt`
+    - `RequestInfo.kt` (Phase S5)
     - `api/ServerStatusResponse.kt`
     - `api/ServerSettingsResponse.kt`
+    - `api/ServerSummaryResponse.kt` (Phase S4)
     - `api/DeviceResponse.kt`
+    - `api/ErrorResponse.kt` (Phase S4)
+    - `api/RegisterDeviceRequest.kt` (Phase S4)
     - `api/ActivateTestCaseRequest.kt`
+    - `api/RequestHistoryResponse.kt` (Phase S5)
 
 **リポジトリ:**
 
 - `core/data/src/commonMain/kotlin/com/github/syunpeii/mockstation/core/data/repository/`
     - `ServerSettingsRepository.kt`
     - `DeviceRepository.kt`
+    - `RequestHistoryRepository.kt` (Phase S5)
+    - `RequestHistoryRepositoryImpl.kt` (Phase S5)
 
 **データベース:**
 
@@ -539,6 +556,7 @@ delay と条件分岐を整理した仕様で提供する。
 **サーバーステータス:**
 
 - `GET /api/server/status` ✅
+- `GET /api/server/summary` ✅ (Phase S4)
 
 **サーバー設定:**
 
@@ -555,11 +573,18 @@ delay と条件分岐を整理した仕様で提供する。
 
 - `GET /api/devices` ✅
 - `GET /api/devices/{id}` ✅
+- `POST /api/devices/{id}/register` ✅ (Phase S4)
 - `PATCH /api/devices/{id}` ✅
+- `DELETE /api/devices/{id}` ✅ (Phase S4)
 
-### 次のPhase（S5～S8）
+**Request History:**
 
-- Phase S5: request history保存と検索
+- `GET /api/request-history` ✅ (Phase S5、フィルタ・ソート・ページング対応)
+- `DELETE /api/request-history` ✅ (Phase S5)
+
+### 次のPhase（S6～S9）
+
 - Phase S6: WebSocket配信
 - Phase S7: 遅延設定と response rule拡張
-- Phase S8: OSS配布と運用整備
+- Phase S8: SQLite永続化（オプション）
+- Phase S9: OSS配布と運用整備

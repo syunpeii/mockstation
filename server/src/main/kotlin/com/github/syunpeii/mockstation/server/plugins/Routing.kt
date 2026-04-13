@@ -4,6 +4,7 @@ import com.github.syunpeii.mockstation.core.data.repository.ServerSettingsReposi
 import com.github.syunpeii.mockstation.server.routes.configureManagementApi
 import com.github.syunpeii.mockstation.server.service.DeviceService
 import com.github.syunpeii.mockstation.server.service.MockResponseResolver
+import com.github.syunpeii.mockstation.server.service.RequestHistoryService
 import com.github.syunpeii.mockstation.server.service.TestCaseFileService
 import io.ktor.http.ContentType
 import io.ktor.server.application.Application
@@ -18,6 +19,7 @@ fun Application.configureRouting() {
     val deviceService: DeviceService by inject()
     val testCaseFileService: TestCaseFileService by inject()
     val settingsRepository: ServerSettingsRepository by inject()
+    val requestHistoryService: RequestHistoryService by inject()
 
     routing {
         get("/") {
@@ -25,11 +27,20 @@ fun Application.configureRouting() {
         }
 
         route("/api") {
-            configureManagementApi(testCaseFileService, deviceService, settingsRepository)
+            configureManagementApi(
+                testCaseFileService = testCaseFileService,
+                deviceService = deviceService,
+                settingsRepository = settingsRepository,
+                requestHistoryService = requestHistoryService,
+            )
         }
 
         route("{path...}") {
-            configureMockRouting(mockResponseResolver, deviceService)
+            configureMockRouting(
+                mockResponseResolver = mockResponseResolver,
+                deviceService = deviceService,
+                requestHistoryService = requestHistoryService,
+            )
         }
     }
 }
