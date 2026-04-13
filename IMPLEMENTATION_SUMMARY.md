@@ -544,21 +544,51 @@ MVP では以下のテストは優先度を下げて Phase S5 以降に実施予
 
 ## 動作確認方法
 
-詳細な確認結果は上記の「動作確認チェックリスト」と「動作確認時に発見された問題」を参照してください。
+### 自動確認スクリプト（推奨）
 
-**簡易確認:**
+すべての実装 API を一括確認するスクリプトを提供しています：
+
+```bash
+# サーバー起動（別ターミナル）
+./gradlew :server:run
+
+# 別のターミナルで動作確認スクリプト実行
+./scripts/verify-server.sh
+```
+
+**スクリプトが確認する項目:**
+
+| フェーズ | 項目                                     |
+|------|----------------------------------------|
+| S0   | サーバー基本情報（status）                       |
+| S1   | テストケース読込（testcases list/detail）        |
+| S2   | モック応答（GET/POST）                        |
+| S3   | デバイス識別（X-Device-Id）                    |
+| S4   | 管理API（summary, devices CRUD, settings） |
+| S5   | 履歴機能（GET/DELETE request-history）       |
+
+詳細な確認結果は以下のセクションを参照してください。
+
+### 手動確認
+
+簡易的に確認する場合：
 
 ```bash
 # サーバー起動
 ./gradlew :server:run
 
 # 別ターミナルでヘルスチェック
-curl http://localhost:8080/
+curl http://localhost:8080/api/server/status | jq .
 
 # API 確認
-curl http://localhost:8080/api/server/status | jq .
 curl http://localhost:8080/api/testcases | jq .
+curl http://localhost:8080/api/devices | jq .
+curl http://localhost:8080/api/request-history | jq .
 ```
+
+### 詳細確認
+
+完全な確認項目は「動作確認チェックリスト」（下記）を参照してください。
 
 ---
 

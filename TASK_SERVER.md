@@ -588,3 +588,43 @@ delay と条件分岐を整理した仕様で提供する。
 - Phase S7: 遅延設定と response rule拡張
 - Phase S8: SQLite永続化（オプション）
 - Phase S9: OSS配布と運用整備
+
+---
+
+## 既知の問題と対応
+
+### ⚠️ サーバー起動時のバインドエラー
+
+**現象:**
+
+```
+Exception: java.net.BindException: Address already in use
+```
+
+**原因:**
+
+- Gradle デーモンの ポート保留問題
+- 前セッションのプロセス残存
+
+**対応手順:**
+
+```bash
+# 方法 1: Gradle デーモン再起動（推奨）
+./gradlew --stop
+./gradlew :server:run
+
+# 方法 2: 別のポートで実行
+PORT=9091 ./gradlew :server:run
+
+# 方法 3: クリーンビルド
+./gradlew clean :server:run
+```
+
+**動作確認スクリプト:**
+
+```bash
+# verify-server.sh を実行
+./scripts/verify-server.sh
+```
+
+詳細は `scripts/verify-server.sh` を参照。
