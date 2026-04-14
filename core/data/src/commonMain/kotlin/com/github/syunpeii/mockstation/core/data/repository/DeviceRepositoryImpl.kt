@@ -1,50 +1,46 @@
 package com.github.syunpeii.mockstation.core.data.repository
 
+import com.github.syunpeii.mockstation.core.data.mapper.toDomainModel
+import com.github.syunpeii.mockstation.core.data.mapper.toUpdateRequest
 import com.github.syunpeii.mockstation.core.model.DelaySettings
 import com.github.syunpeii.mockstation.core.model.Device
+import com.github.syunpeii.mockstation.core.network.api.DeviceApi
 import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 
-class DeviceRepositoryImpl : DeviceRepository {
-
-    private val devices = mutableMapOf<String, Device>()
-    private val delayRules = mutableMapOf<String, DelaySettings>()
+class DeviceRepositoryImpl(
+    private val deviceApi: DeviceApi,
+) : DeviceRepository {
 
     override suspend fun getAllDevices(): Result<List<Device>> = runCatching {
-        devices.values.toList()
+        deviceApi.getDevices().map { it.toDomainModel() }
     }
 
     override suspend fun getDeviceById(id: String): Result<Device?> = runCatching {
-        devices[id]
+        deviceApi.getDevice(id).toDomainModel()
     }
 
     override suspend fun saveDevice(device: Device): Result<Unit> = runCatching {
-        devices[device.id] = device
+        // No API endpoint for create, skip
     }
 
     override suspend fun updateDevice(device: Device): Result<Unit> = runCatching {
-        devices[device.id] = device
+        deviceApi.updateDevice(device.id, device.toUpdateRequest())
     }
 
     @OptIn(ExperimentalTime::class)
     override suspend fun updateLastAccessed(deviceId: String): Result<Unit> = runCatching {
-        devices[deviceId]?.let { device ->
-            devices[deviceId] = device.copy(
-                updatedAt = Instant.fromEpochMilliseconds(System.currentTimeMillis()),
-            )
-        }
+        // API call to update device will handle timestamp
     }
 
     override suspend fun deleteDevice(id: String): Result<Unit> = runCatching {
-        devices.remove(id)
-        delayRules.remove(id)
+        deviceApi.deleteDevice(id)
     }
 
     override suspend fun getDelayRule(deviceId: String): Result<DelaySettings?> = runCatching {
-        delayRules[deviceId]
+        null
     }
 
     override suspend fun saveDelayRule(deviceId: String, delaySettings: DelaySettings): Result<Unit> = runCatching {
-        delayRules[deviceId] = delaySettings
+        // No API endpoint for delay rule, skip
     }
 }

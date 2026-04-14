@@ -10,10 +10,8 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 object HttpClientFactory {
-
     fun create(
-        baseUrl: String = "http://localhost:8080",
-        enableLogging: Boolean = true,
+        enableLogging: Boolean,
     ): HttpClient {
         return HttpClient {
             install(ContentNegotiation) {

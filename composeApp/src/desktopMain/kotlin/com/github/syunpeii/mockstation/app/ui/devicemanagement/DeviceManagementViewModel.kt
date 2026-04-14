@@ -2,41 +2,30 @@ package com.github.syunpeii.mockstation.app.ui.devicemanagement
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.syunpeii.mockstation.core.data.repository.DeviceRepository
+import com.github.syunpeii.mockstation.core.model.DelayType
 import com.github.syunpeii.mockstation.core.model.HttpMethod
-import com.github.syunpeii.mockstation.core.model.RequestInfo
 import com.github.syunpeii.mockstation.core.model.SortOrder
 import com.github.syunpeii.mockstation.core.model.StatusCategory
 import com.github.syunpeii.mockstation.core.model.TimeRange
-import kotlinx.coroutines.delay
+import com.github.syunpeii.mockstation.data.repository.RequestHistoryRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlin.time.Clock
-import kotlin.time.Duration.Companion.hours
-import kotlin.time.Duration.Companion.minutes
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
-class DeviceManagementViewModel : ViewModel() {
+class DeviceManagementViewModel(
+    private val deviceRepository: DeviceRepository,
+    private val requestHistoryRepository: RequestHistoryRepository,
+) : ViewModel() {
+
     private val _uiState = MutableStateFlow<DeviceManagementUiState>(DeviceManagementUiState.Loading)
     val uiState: StateFlow<DeviceManagementUiState> = _uiState.asStateFlow()
 
     init {
         loadInitialData()
-    }
-
-    private fun loadInitialData() {
-        viewModelScope.launch {
-            delay(1_000)
-            _uiState.value = DeviceManagementUiState.Stable(
-                selectedTabIndex = 0,
-                registeredDevices = mockRegisteredDevices(),
-                serverDevices = mockServerDevices(),
-                requestHistory = mockRequestHistory(),
-                dialogState = DialogState.None,
-            )
-        }
     }
 
     fun onTabChange(index: Int) {
@@ -58,7 +47,6 @@ class DeviceManagementViewModel : ViewModel() {
     fun onRegisterDevice(deviceId: String) {
         val currentState = _uiState.value
         if (currentState is DeviceManagementUiState.Stable) {
-            // Add to registered devices
             val newDevice = RegisteredDeviceDisplay(
                 id = deviceId,
                 name = "New Device",
@@ -197,7 +185,6 @@ class DeviceManagementViewModel : ViewModel() {
         onTabChange(1)
     }
 
-    // Request History Filter Handlers
     fun onRequestSearchChange(text: String) {
         val currentState = _uiState.value
         if (currentState is DeviceManagementUiState.Stable) {
@@ -284,27 +271,21 @@ class DeviceManagementViewModel : ViewModel() {
         val currentState = _uiState.value
         if (currentState is DeviceManagementUiState.Stable) {
             val currentIds = currentState.requestHistory.selectedRequestIds
-
-            // Find which device this request belongs to
             val clickedRequest = currentState.requestHistory.deviceColumns
                 .flatMap { it.requests }
                 .find { it.id == requestId }
 
             val newSelectedIds = if (requestId in currentIds) {
-                // Toggle off: remove this request
                 currentIds - requestId
             } else if (clickedRequest != null) {
-                // Find all requests from the same device
                 val sameDeviceRequestIds = currentState.requestHistory.deviceColumns
                     .filter { it.deviceId == clickedRequest.deviceId }
                     .flatMap { it.requests }
                     .map { it.id }
                     .toSet()
 
-                // Remove all requests from the same device, then add the clicked request
                 (currentIds - sameDeviceRequestIds) + requestId
             } else {
-                // Fallback: just add the request
                 currentIds + requestId
             }
 
@@ -314,45 +295,65 @@ class DeviceManagementViewModel : ViewModel() {
         }
     }
 
-    // Mock Data Functions
-    private fun mockRegisteredDevices() = listOf(
-        RegisteredDeviceDisplay(
-            id = "550e8400-e29b-41d4-a716-446655440000",
-            name = "Test Device 1",
-            testCaseId = "test-case-abc",
-            isEnabled = true,
-            delaySettings = DelaySettingsDisplay(
-                type = DelayType.PRESET,
-                delayMs = 5000,
-                targetFiles = emptyList(),
-                isEnabled = true,
-            ),
-        ),
-        RegisteredDeviceDisplay(
-            id = "660f9511-f3ac-52e5-b827-557766551111",
-            name = "Production Device",
-            testCaseId = "prod-test-001",
-            isEnabled = false,
-            delaySettings = DelaySettingsDisplay(
-                type = DelayType.OFF,
-                delayMs = null,
-                targetFiles = emptyList(),
-                isEnabled = false,
-            ),
-        ),
-        RegisteredDeviceDisplay(
-            id = "770g0622-g4bd-63f6-c938-668877662222",
-            name = "Development Device",
-            testCaseId = "dev-test-123",
-            isEnabled = true,
-            delaySettings = DelaySettingsDisplay(
-                type = DelayType.CUSTOM,
-                delayMs = 30000,
-                targetFiles = listOf("api/user.json", "api/device.json", "api/test.json"),
-                isEnabled = true,
-            ),
-        ),
-    )
+    private fun loadInitialData() {
+        viewModelScope.launch {
+            val devicesResult = deviceRepository.getAllDevices()
+            val historyResult = requestHistoryRepository.getRequestHistory()
+
+            if (devicesResult.isSuccess && historyResult.isSuccess) {
+                val devices = devicesResult.getOrNull() ?: emptyList()
+                val history = historyResult.getOrNull() ?: emptyList()
+
+                val registeredDevices = devices.map { device ->
+                    RegisteredDeviceDisplay(
+                        id = device.id,
+                        name = device.name,
+                        testCaseId = device.testCaseId,
+                        isEnabled = device.isEnabled,
+                        delaySettings = DelaySettingsDisplay(
+                            type = device.delaySettings.type,
+                            delayMs = device.delaySettings.delayMs,
+                            targetFiles = device.delaySettings.targetFiles,
+                            isEnabled = device.delaySettings.isEnabled,
+                        ),
+                    )
+                }
+
+                // Group history by device
+                val deviceColumns = history.take(100)
+                    .groupBy { it.deviceId }
+                    .map { (deviceId, requests) ->
+                        val deviceName = registeredDevices.find { it.id == deviceId }?.name
+                        DeviceRequestColumn(
+                            deviceId = deviceId,
+                            deviceName = deviceName,
+                            requests = requests,
+                        )
+                    }
+
+                _uiState.value = DeviceManagementUiState.Stable(
+                    selectedTabIndex = 0,
+                    registeredDevices = registeredDevices,
+                    serverDevices = mockServerDevices(),
+                    requestHistory = RequestHistoryState(
+                        deviceColumns = deviceColumns,
+                        filters = RequestFilters(
+                            searchText = "",
+                            selectedMethods = emptySet(),
+                            selectedStatusCategories = emptySet(),
+                            timeRange = TimeRange.ALL,
+                            sortOrder = SortOrder.NEWEST_FIRST,
+                        ),
+                        selectedRequestIds = emptySet(),
+                        showAdvancedFilters = false,
+                    ),
+                    dialogState = DialogState.None,
+                )
+            } else {
+                _uiState.value = DeviceManagementUiState.Error("Failed to load data")
+            }
+        }
+    }
 
     private fun mockServerDevices() = ServerDevicesState(
         devices = (1..20).map { index ->
@@ -369,116 +370,6 @@ class DeviceManagementViewModel : ViewModel() {
         filterText = "",
         isLoading = false,
         error = null,
-    )
-
-    private fun mockRequestHistory() = RequestHistoryState(
-        deviceColumns = listOf(
-            DeviceRequestColumn(
-                deviceId = "550e8400-e29b-41d4-a716-446655440000",
-                deviceName = "Test Device 1",
-                requests = listOf(
-                    RequestInfo(
-                        id = "req-001",
-                        method = HttpMethod.GET,
-                        path = "/api/user",
-                        statusCode = 200,
-                        statusText = "OK",
-                        timestamp = Clock.System.now().minus(5.minutes),
-                        deviceId = "550e8400-e29b-41d4-a716-446655440000",
-                        requestBody = null,
-                        responseBody = """{"id": 1, "name": "John Doe"}""",
-                        headers = emptyMap(),
-                        responseHeaders = mapOf("Content-Type" to "application/json"),
-                        durationMs = 45,
-                    ),
-                    RequestInfo(
-                        id = "req-002",
-                        method = HttpMethod.POST,
-                        path = "/api/device",
-                        statusCode = 201,
-                        statusText = "Created",
-                        timestamp = Clock.System.now().minus(10.minutes),
-                        deviceId = "550e8400-e29b-41d4-a716-446655440000",
-                        requestBody = """{"name": "New Device"}""",
-                        responseBody = """{"id": 2, "name": "New Device"}""",
-                        headers = mapOf("Content-Type" to "application/json"),
-                        responseHeaders = mapOf("Content-Type" to "application/json"),
-                        durationMs = 123,
-                    ),
-                    RequestInfo(
-                        id = "req-003",
-                        method = HttpMethod.GET,
-                        path = "/api/settings",
-                        statusCode = 200,
-                        statusText = "OK",
-                        timestamp = Clock.System.now().minus(15.minutes),
-                        deviceId = "550e8400-e29b-41d4-a716-446655440000",
-                        requestBody = null,
-                        responseBody = """{"theme":"dark"}""",
-                        headers = emptyMap(),
-                        responseHeaders = mapOf("Content-Type" to "application/json"),
-                        durationMs = 32,
-                    ),
-                    RequestInfo(
-                        id = "req-004",
-                        method = HttpMethod.DELETE,
-                        path = "/api/user/123",
-                        statusCode = 404,
-                        statusText = "Not Found",
-                        timestamp = Clock.System.now().minus(1.hours),
-                        deviceId = "550e8400-e29b-41d4-a716-446655440000",
-                        requestBody = null,
-                        responseBody = """{"error":"Not Found"}""",
-                        headers = emptyMap(),
-                        responseHeaders = mapOf("Content-Type" to "application/json"),
-                        durationMs = 28,
-                    ),
-                ),
-            ),
-            DeviceRequestColumn(
-                deviceId = "770g0622-g4bd-63f6-c938-668877662222",
-                deviceName = "Development Device",
-                requests = listOf(
-                    RequestInfo(
-                        id = "req-005",
-                        method = HttpMethod.GET,
-                        path = "/api/config",
-                        statusCode = 200,
-                        statusText = "OK",
-                        timestamp = Clock.System.now().minus(2.minutes),
-                        deviceId = "770g0622-g4bd-63f6-c938-668877662222",
-                        requestBody = null,
-                        responseBody = """{"version":"1.2.0","env":"dev"}""",
-                        headers = emptyMap(),
-                        responseHeaders = mapOf("Content-Type" to "application/json"),
-                        durationMs = 54,
-                    ),
-                    RequestInfo(
-                        id = "req-006",
-                        method = HttpMethod.PUT,
-                        path = "/api/config",
-                        statusCode = 500,
-                        statusText = "Internal Server Error",
-                        timestamp = Clock.System.now().minus(25.hours),
-                        deviceId = "770g0622-g4bd-63f6-c938-668877662222",
-                        requestBody = """{"env":"production"}""",
-                        responseBody = """{"error":"Internal Server Error"}""",
-                        headers = mapOf("Content-Type" to "application/json"),
-                        responseHeaders = mapOf("Content-Type" to "application/json"),
-                        durationMs = 234,
-                    ),
-                ),
-            ),
-        ),
-        filters = RequestFilters(
-            searchText = "",
-            selectedMethods = emptySet(),
-            selectedStatusCategories = emptySet(),
-            timeRange = TimeRange.ALL,
-            sortOrder = SortOrder.NEWEST_FIRST,
-        ),
-        showAdvancedFilters = false,
-        selectedRequestIds = emptySet(),
     )
 
     private fun mockMarkdownContent(testCaseId: String) = """

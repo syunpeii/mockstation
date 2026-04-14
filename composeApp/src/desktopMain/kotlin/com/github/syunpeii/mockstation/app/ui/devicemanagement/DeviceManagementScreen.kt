@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import com.github.syunpeii.mockstation.app.ui.devicemanagement.model.DeviceManagementTab
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.DelaySettings
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.DelaySettingsDialog
-import com.github.syunpeii.mockstation.core.designsystem.component.molecule.DelayType
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.DeleteConfirmationDialog
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.EditDeviceNameDialog
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.MarkdownDialog
@@ -30,6 +29,7 @@ import com.github.syunpeii.mockstation.core.designsystem.component.organism.Serv
 import com.github.syunpeii.mockstation.core.designsystem.component.organism.ServerDeviceListTab
 import com.github.syunpeii.mockstation.core.designsystem.resources.ComposeStringResource
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
+import com.github.syunpeii.mockstation.core.model.DelayType
 import com.github.syunpeii.mockstation.core.model.SortOrder
 import com.github.syunpeii.mockstation.core.model.TimeRange
 import mockstation.composeapp.generated.resources.Res
@@ -458,11 +458,7 @@ private fun DeviceManagementScreenContent(
         is DialogState.EditDelaySettings -> {
             DelaySettingsDialog(
                 initialSettings = DelaySettings(
-                    type = when (dialog.currentSettings.type) {
-                        com.github.syunpeii.mockstation.app.ui.devicemanagement.DelayType.OFF -> DelayType.OFF
-                        com.github.syunpeii.mockstation.app.ui.devicemanagement.DelayType.PRESET -> DelayType.PRESET
-                        com.github.syunpeii.mockstation.app.ui.devicemanagement.DelayType.CUSTOM -> DelayType.CUSTOM
-                    },
+                    type = dialog.currentSettings.type,
                     delayMs = dialog.currentSettings.delayMs?.toString() ?: "",
                     isEnabled = dialog.currentSettings.isEnabled,
                     targetFiles = dialog.currentSettings.targetFiles.toSet(),
@@ -471,11 +467,7 @@ private fun DeviceManagementScreenContent(
                 onDismiss = onDismissDialog,
                 onSave = { settings ->
                     val delaySettingsDisplay = DelaySettingsDisplay(
-                        type = when (settings.type) {
-                            DelayType.OFF -> com.github.syunpeii.mockstation.app.ui.devicemanagement.DelayType.OFF
-                            DelayType.PRESET -> com.github.syunpeii.mockstation.app.ui.devicemanagement.DelayType.PRESET
-                            DelayType.CUSTOM -> com.github.syunpeii.mockstation.app.ui.devicemanagement.DelayType.CUSTOM
-                        },
+                        type = settings.type,
                         delayMs = settings.delayMs.toIntOrNull(),
                         isEnabled = settings.isEnabled,
                         targetFiles = settings.targetFiles.toList(),
@@ -542,7 +534,7 @@ private fun buildDelaySettingsDisplay(settings: DelaySettingsDisplay): String {
     val filesStr = settings.getFormattedTargetFiles()
 
     return when (settings.type) {
-        com.github.syunpeii.mockstation.app.ui.devicemanagement.DelayType.OFF -> "OFF"
+        DelayType.OFF -> DelayType.OFF.name
         else -> "$typeStr: $delayStr ($filesStr)"
     }
 }
@@ -591,7 +583,7 @@ private fun PreviewDeviceManagementScreenStable() {
                         testCaseId = "test-case-abc",
                         isEnabled = true,
                         delaySettings = DelaySettingsDisplay(
-                            type = com.github.syunpeii.mockstation.app.ui.devicemanagement.DelayType.PRESET,
+                            type = DelayType.PRESET,
                             delayMs = 5000,
                             targetFiles = emptyList(),
                             isEnabled = true,

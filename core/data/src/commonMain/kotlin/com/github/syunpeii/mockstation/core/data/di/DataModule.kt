@@ -2,6 +2,10 @@ package com.github.syunpeii.mockstation.core.data.di
 
 import com.github.syunpeii.mockstation.core.data.repository.DeviceRepository
 import com.github.syunpeii.mockstation.core.data.repository.DeviceRepositoryImpl
+import com.github.syunpeii.mockstation.core.data.repository.RequestHistoryRemoteRepository
+import com.github.syunpeii.mockstation.core.data.repository.RequestHistoryRepository
+import com.github.syunpeii.mockstation.core.data.repository.ServerSettingsRepository
+import com.github.syunpeii.mockstation.core.data.repository.ServerSettingsRepositoryImplRemote
 import com.github.syunpeii.mockstation.core.data.repository.TestCaseRepository
 import com.github.syunpeii.mockstation.core.data.repository.TestCaseRepositoryImpl
 import com.github.syunpeii.mockstation.core.data.source.local.TestCaseLocalDataSource
@@ -28,6 +32,20 @@ val dataModule: Module = module {
     }
 
     single<DeviceRepository> {
-        DeviceRepositoryImpl()
+        DeviceRepositoryImpl(
+            deviceApi = get(),
+        )
+    }
+
+    single<ServerSettingsRepository> {
+        ServerSettingsRepositoryImplRemote(
+            serverApi = get(),
+        )
+    }
+
+    single<RequestHistoryRepository> {
+        RequestHistoryRemoteRepository(
+            requestHistoryApi = get(),
+        )
     }
 }

@@ -268,6 +268,12 @@ private fun PreviewSettingsScreenStable() {
                 ),
                 selectedConnectionIndex = 0,
                 appVersion = "1.0.0",
+                isTestingConnection = false,
+                connectionTestSuccess = null,
+                connectionTestError = null,
+                serverTestCaseDirectory = null,
+                serverResFileFormat = null,
+                isLoadingServerSettings = false,
             ),
         )
     }

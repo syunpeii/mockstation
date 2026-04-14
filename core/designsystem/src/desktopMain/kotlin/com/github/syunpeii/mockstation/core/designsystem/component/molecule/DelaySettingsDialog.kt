@@ -30,6 +30,7 @@ import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.T
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.input.NumberField
 import com.github.syunpeii.mockstation.core.designsystem.preview.PreviewBox
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
+import com.github.syunpeii.mockstation.core.model.DelayType
 
 @Composable
 fun DelaySettingsDialog(
@@ -285,12 +286,6 @@ data class DelaySettings(
     val isEnabled: Boolean,
     val targetFiles: Set<String>,
 )
-
-enum class DelayType {
-    OFF,
-    PRESET,
-    CUSTOM,
-}
 
 @Preview
 @Composable

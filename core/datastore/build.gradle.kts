@@ -12,6 +12,7 @@ kotlin {
             implementation(libs.androidx.datastore.preferences)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.bundles.koinCommon)
+            implementation(libs.kotlinx.serialization.json)
         }
 
         commonTest.dependencies {

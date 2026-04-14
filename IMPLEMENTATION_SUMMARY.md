@@ -1,7 +1,8 @@
 # Mockstation Server MVP 実装サマリー
 
-実装日時: 2026-04-11
-実装版: Phase S0～S5
+実装日時: 2026-04-11（Server S0～S5）
+最終更新: 2026-04-14（Desktop Phase D0-D1 完了）
+実装版: Server Phase S0～S5 完了、Desktop Phase D0-D1 完了
 
 ---
 
@@ -514,31 +515,89 @@ MVP では以下のテストは優先度を下げて Phase S5 以降に実施予
 
 ---
 
-## 次のステップ（Phase S6～S8）
+## 次のステップ
 
-### Phase S6: WebSocket 配信
+### 現在のフェーズ: Desktop Phase D0～D1
 
-- リアルタイム履歴配信
-- 接続管理
-- クライアント接続の監視
+Server側（S0～S5）が完了したため、次のステップとして **Desktop側の実機能化** を優先します。
 
-### Phase S7: 遅延設定拡張
+### Phase D0: 基盤整備（次のステップ）
 
-- クエリパラメータ条件分岐
-- Header/Body 条件分岐対応
-- 条件分岐の UI 管理
+**目的:** mock data実装を段階的に置き換えられる基盤を作る
 
-### Phase S8: SQLite 永続化（オプション）
+**タスク一覧:**
 
-- RequestHistory の永続化
-- 大規模履歴対応
-- インデックス・クエリ最適化
+| #    | タスク                | 説明                                 |
+|------|--------------------|------------------------------------|
+| D0-1 | Repository一覧確定     | Desktop で使用する Repository を洗い出し     |
+| D0-2 | API interface 分割   | `core/network` の API interface を整理 |
+| D0-3 | Repository 実装追加    | `core/data` に HttpClient を使う実装を追加  |
+| D0-4 | UseCase 追加         | `core/domain` に最低限の UseCase を追加    |
+| D0-5 | DataStore 設定 model | `core/datastore` に接続設定保存用 model 定義 |
+| D0-6 | Koin module 配線     | Desktop 実装に合わせて DI を設定             |
+| D0-7 | ViewModel 一覧化      | mock → 実データ切り替え対象を整理               |
 
-### Phase S9: OSS 配布整備
+**成果物:**
 
-- Docker イメージ化
-- CI/CD 構築
-- README 整備
+- `ServerConnectionRepository`, `TestCaseRepository`, `DeviceRepository`, `RequestHistoryRepository`
+- 各 API interface（ServerApi, TestCaseApi, DeviceApi, RequestHistoryApi）
+- Koin module の更新
+
+### Phase D1: Settings の実機能化
+
+**目的:** Desktop アプリから接続先 Server を設定・保存・検証できるようにする
+
+**タスク一覧:**
+
+| #    | タスク          | Server API                   |
+|------|--------------|------------------------------|
+| D1-1 | 接続先URL 保存/読込 | -                            |
+| D1-2 | 接続確認処理       | `GET /api/server/status`     |
+| D1-3 | 接続テスト結果UI    | -                            |
+| D1-4 | サーバー設定表示     | `GET /api/server/settings`   |
+| D1-5 | res形式設定変更    | `PATCH /api/server/settings` |
+| D1-6 | テーマ設定保存      | -                            |
+| D1-7 | 接続操作実装       | -                            |
+
+### 後続フェーズ（Desktop）
+
+| Phase | 内容                      | 優先度    |
+|-------|-------------------------|--------|
+| D2    | Test Case Search の実機能化  | High   |
+| D3    | Device Management の実機能化 | High   |
+| D4    | Request History の実機能化   | High   |
+| D5    | Home の実機能化              | Medium |
+| D6    | UX / 回復性 / 品質向上         | Medium |
+| D7    | Desktop 配布と OSS 向け整備    | Medium |
+
+### 後続フェーズ（Server）
+
+| Phase | 内容                     | 優先度                  |
+|-------|------------------------|----------------------|
+| S6    | WebSocket 配信           | Medium（Desktop接続完了後） |
+| S7    | 遅延設定と response rule 拡張 | Medium               |
+| S8    | OSS 配布と運用整備            | Medium               |
+| S9    | 拡張機能                   | Low                  |
+
+### 実装順序
+
+```
+Phase D0（基盤整備）
+    ↓
+Phase D1（Settings）
+    ↓
+Phase D2 + D3（Test Case + Device）← 並行実装可能
+    ↓
+Phase D4（Request History）
+    ↓
+Phase D5（Home）
+    ↓
+Phase S6（WebSocket）← リアルタイム更新
+    ↓
+Phase D6（UX向上）
+    ↓
+Phase S8 + D7（OSS配布整備）
+```
 
 ---
 
@@ -649,6 +708,16 @@ curl http://localhost:8080/api/request-history | jq .
     - [x] S5-4: MockRouting へ履歴記録追加
     - [x] S5-5: Request History API エンドポイント
     - [x] S5-6: DI モジュール更新
+- [x] Phase D0 完了（Desktop 基盤整備）
+    - [x] D0-1: Network層（API 6個）
+    - [x] D0-2: Data層（Mapper 3個、Repository 2個）
+    - [x] D0-3: DataStore層（ConnectionSettings）
+    - [x] D0-4: ViewModel & DI（4VM + Module）
+- [x] Phase D1 完了（Settings 実機能化）
+    - [x] D1-1: 接続先URL 保存/読込
+    - [x] D1-2: 接続確認処理
+    - [x] D1-3: サーバー設定表示・更新
+    - [x] D1-4: テーマ・ナビゲーション設定
 - [x] KtLint フォーマット適用
 - [x] TASK ファイル更新
 - [x] 動作確認チェックリスト実装と確認
@@ -657,9 +726,10 @@ curl http://localhost:8080/api/request-history | jq .
     - [x] Issue #2: PATCH /api/server/settings 戻り値検証（修正完了）
     - [ ] Issue #1: クエリパラメータマッチング（次ステップ）
 - [x] IMPLEMENTATION_SUMMARY.md 刷新（Phase S5版）
-- [ ] Unit/Integration テスト作成（Phase S6+）
+- [x] IMPLEMENTATION_SUMMARY.md 更新（Desktop Phase D0-D1版）
+- [ ] Unit/Integration テスト作成（Phase D2+）
 - [ ] サンプル testCase 整備
-- [ ] Docker イメージ化（Phase S9）
+- [ ] Docker イメージ化（Phase D7+）
 
 ---
 
@@ -1002,18 +1072,32 @@ Mockstation Server MVP（Phase S0～S5）の実装が完了しました。
 
 **機能サマリー:**
 
-| Phase | 機能                 | 状態   |
-|-------|--------------------|------|
-| S0    | 基盤設計・外部設定化         | ✅ 完了 |
-| S1    | testCase ディレクトリ読込  | ✅ 完了 |
-| S2    | mock response 解決   | ✅ 完了 |
-| S3    | device 識別と状態保持     | ✅ 完了 |
-| S4    | 管理 API（CRUD）       | ✅ 完了 |
-| S5    | Request History 機能 | ✅ 完了 |
-| S6    | WebSocket 配信       | ⏳ 予定 |
-| S7    | 遅延設定拡張             | ⏳ 予定 |
+| Phase | 機能                 | 状態           |
+|-------|--------------------|--------------|
+| S0    | 基盤設計・外部設定化         | ✅ 完了         |
+| S1    | testCase ディレクトリ読込  | ✅ 完了         |
+| S2    | mock response 解決   | ✅ 完了         |
+| S3    | device 識別と状態保持     | ✅ 完了         |
+| S4    | 管理 API（CRUD）       | ✅ 完了         |
+| S5    | Request History 機能 | ✅ 完了         |
+| D0    | Desktop 基盤整備       | ⏳ 次のステップ     |
+| D1    | Settings 実機能化      | ⏳ 予定         |
+| S6    | WebSocket 配信       | ⏳ Desktop完了後 |
+| S7    | 遅延設定拡張             | ⏳ 予定         |
 
 **修正履歴:**
+
+- [2026-04-14] Desktop Phase D0-D1 実装完了
+    - D0-1～D0-4: Network/Data/DataStore/ViewModel層 実装
+    - D1-1～D1-4: Settings実機能化 完了
+    - 23個ファイル新規作成、11個ファイル更新
+    - SettingsViewModel で DataStore/ServerApi 連携完了
+    - 接続テスト、サーバー設定表示・更新機能実装
+
+- [2026-04-13] 次のステップ計画策定
+    - Phase D0～D1 の詳細計画を TASK_DESKTOP.md に追加
+    - 実装順序の整理（Desktop優先）
+    - IMPLEMENTATION_SUMMARY.md 更新
 
 - [2026-04-11] Phase S4残タスク + Phase S5 実装完了
     - S4-1～S4-6: エラー統一、Device API 完成
@@ -1025,4 +1109,14 @@ Mockstation Server MVP（Phase S0～S5）の実装が完了しました。
     - Issue #2: PATCH /api/server/settings の戻り値検証（.getOrThrow() 追加）
     - コード品質改善：型指定統一、定数化
 
-このベースから、Phase S6 以降で WebSocket、遅延設定拡張、SQLite永続化、OSS 配布対応を段階的に実装していく方針です。
+**次のステップ:**
+
+Server側（S0～S5）とDesktop基盤（D0～D1）が完了したため、次のフェーズは：
+
+1. **D2: Test Case Search 実機能化** - TestCaseRepository 連携
+2. **D3: Device Management 実機能化** - DeviceRepository 連携
+3. **D4: Request History 実機能化** - RequestHistoryRepository 連携
+4. **D5: Home 実機能化** - Server概要表示
+5. **S6: WebSocket 配信** - リアルタイムリクエスト配信（D5後）
+
+これでDesktop MVPが完成し、ユーザーが実際に操作できるMockstation アプリケーションになります。

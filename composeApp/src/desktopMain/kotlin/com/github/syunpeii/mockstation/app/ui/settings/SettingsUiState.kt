@@ -20,6 +20,12 @@ sealed interface SettingsUiState {
         val connections: List<Connection>,
         val selectedConnectionIndex: Int,
         val appVersion: String,
+        val isTestingConnection: Boolean,
+        val connectionTestSuccess: Boolean?,
+        val connectionTestError: String?,
+        val serverTestCaseDirectory: String?,
+        val serverResFileFormat: String?,
+        val isLoadingServerSettings: Boolean,
     ) : SettingsUiState {
         val repositoryUrl: String = REPOSITORY_URL
         val license: String = LICENSE

@@ -10,14 +10,14 @@ interface RequestHistoryRepository {
     suspend fun saveRequest(request: RequestInfo): Result<Unit>
 
     suspend fun getRequestHistory(
-        search: String?,
-        methods: List<HttpMethod>?,
-        statusCategories: List<StatusCategory>?,
-        timeRange: TimeRange,
-        sortOrder: SortOrder,
-        deviceId: String?,
-        limit: Int,
-        offset: Int,
+        search: String? = null,
+        methods: List<HttpMethod>? = null,
+        statusCategories: List<StatusCategory>? = null,
+        timeRange: TimeRange = TimeRange.ALL,
+        sortOrder: SortOrder = SortOrder.NEWEST_FIRST,
+        deviceId: String? = null,
+        limit: Int = DEFAULT_LIMIT,
+        offset: Int = 0,
     ): Result<List<RequestInfo>>
 
     suspend fun deleteAllHistory(): Result<Unit>
@@ -25,4 +25,8 @@ interface RequestHistoryRepository {
     suspend fun getHistoryCount(): Result<Int>
 
     suspend fun trimOldHistory(maxCount: Int): Result<Unit>
+
+    companion object {
+        private const val DEFAULT_LIMIT = 100
+    }
 }

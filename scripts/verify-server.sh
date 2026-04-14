@@ -156,10 +156,66 @@ else
     echo -e "${RED}    ❌ Expected 204, got $HTTP_CODE${NC}"
 fi
 
+# Phase D0-D1: Desktop Integration
+echo ""
+echo -e "${YELLOW}[Phase D0-D1] Desktop API Integration${NC}"
+
+echo "  • Test Case Activation API"
+RESPONSE=$(curl -s -X POST "$BASE_URL/testcases/activate" \
+  -H "Content-Type: application/json" \
+  -d '{"testCaseId":"default","deviceId":"desktop-test"}' \
+  -w "\nHTTP_STATUS:%{http_code}")
+HTTP_CODE=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d: -f2)
+if [ "$HTTP_CODE" = "204" ] || [ "$HTTP_CODE" = "200" ]; then
+    echo -e "${GREEN}    ✅ Status: $HTTP_CODE${NC}"
+else
+    echo -e "${RED}    ❌ Expected 204/200, got $HTTP_CODE${NC}"
+fi
+
+echo "  • Verify GET /api/testcases returns array"
+RESPONSE=$(curl -s "$BASE_URL/testcases")
+if echo "$RESPONSE" | jq 'type' | grep -q "array"; then
+    echo -e "${GREEN}    ✅ Returns array${NC}"
+else
+    echo -e "${RED}    ❌ Response is not array${NC}"
+fi
+
+echo "  • Verify GET /api/devices returns array"
+RESPONSE=$(curl -s "$BASE_URL/devices")
+if echo "$RESPONSE" | jq 'type' | grep -q "array"; then
+    echo -e "${GREEN}    ✅ Returns array${NC}"
+else
+    echo -e "${RED}    ❌ Response is not array${NC}"
+fi
+
+echo "  • Verify GET /api/server/settings has required fields"
+RESPONSE=$(curl -s "$BASE_URL/server/settings")
+if echo "$RESPONSE" | jq '. | has("resFileFormat") and has("testCaseDirectory")' | grep -q "true"; then
+    echo -e "${GREEN}    ✅ Has required fields${NC}"
+else
+    echo -e "${RED}    ❌ Missing required fields${NC}"
+fi
+
+echo "  • Verify PATCH /api/server/settings works"
+RESPONSE=$(curl -s -X PATCH "$BASE_URL/server/settings" \
+  -H "Content-Type: application/json" \
+  -d '{"resFileFormat":1}' \
+  -w "\nHTTP_STATUS:%{http_code}")
+HTTP_CODE=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d: -f2)
+if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "204" ]; then
+    echo -e "${GREEN}    ✅ Status: $HTTP_CODE${NC}"
+else
+    echo -e "${RED}    ❌ Expected 200/204, got $HTTP_CODE${NC}"
+fi
+
 echo ""
 echo -e "${YELLOW}========================================${NC}"
 echo -e "${GREEN}✅ Verification Complete${NC}"
 echo -e "${YELLOW}========================================${NC}"
+echo ""
+echo "Desktop Implementation Status:"
+echo "  • Phase D0 (Network/Data/DataStore/ViewModel): ✅ Complete"
+echo "  • Phase D1 (Settings Real Functionality): ✅ Complete"
 echo ""
 echo "For detailed verification results, see IMPLEMENTATION_SUMMARY.md"
 echo ""

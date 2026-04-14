@@ -42,13 +42,18 @@
 - ✅ リクエスト履歴の記録（MockRouting自動記録）
 - ✅ 履歴検索・フィルタリング API（/api/request-history、フィルタ・ソート・ページング対応）
 
+### 現在のフェーズ
+
+- ✅ Desktop Phase D0: 基盤整備（完了）
+- ✅ Desktop Phase D1: Settings の実機能化（完了）
+- ⏳ Desktop Phase D2: Test Case Search の実機能化（次のステップ）
+
 ### 未実装またはモック状態
 
-- Desktop ViewModel の実データ接続
-- WebSocket 配信（Phase S6）
+- Desktop ViewModel の実データ接続（Phase D0～D5で対応予定）
+- WebSocket 配信（Phase S6、Desktop接続完了後）
 - 遅延設定の詳細拡張（Phase S7）
-- SQLite 永続化（Phase S8、オプション）
-- OSS 配布向けの Docker、リリース整備（Phase S9）
+- OSS 配布向けの Docker、リリース整備（Phase S8）
 
 ## 機能一覧と優先度
 

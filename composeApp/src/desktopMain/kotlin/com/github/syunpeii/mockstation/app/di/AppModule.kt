@@ -14,19 +14,31 @@ import org.koin.dsl.module
 
 val appModule: Module = module {
     factory {
-        SettingsViewModel()
+        SettingsViewModel(
+            appSettings = get(),
+            connectionSettings = get(),
+            serverSettingsRepository = get(),
+        )
     }
 
     factory {
-        HomeViewModel()
+        HomeViewModel(
+            serverSettingsRepository = get(),
+            deviceRepository = get(),
+        )
     }
 
     factory {
-        DeviceManagementViewModel()
+        DeviceManagementViewModel(
+            deviceRepository = get(),
+            requestHistoryRepository = get(),
+        )
     }
 
     factory {
-        TestCaseSearchViewModel()
+        TestCaseSearchViewModel(
+            testCaseRepository = get(),
+        )
     }
 }
 

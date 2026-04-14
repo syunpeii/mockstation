@@ -1,5 +1,6 @@
 package com.github.syunpeii.mockstation.app.ui.devicemanagement
 
+import com.github.syunpeii.mockstation.core.model.DelayType
 import com.github.syunpeii.mockstation.core.model.HttpMethod
 import com.github.syunpeii.mockstation.core.model.RequestInfo
 import com.github.syunpeii.mockstation.core.model.SortOrder
@@ -51,12 +52,6 @@ data class DelaySettingsDisplay(
         targetFiles.size == 1 -> targetFiles.first()
         else -> "${targetFiles.size} files"
     }
-}
-
-enum class DelayType {
-    OFF,
-    PRESET,
-    CUSTOM,
 }
 
 data class ServerDevicesState(
