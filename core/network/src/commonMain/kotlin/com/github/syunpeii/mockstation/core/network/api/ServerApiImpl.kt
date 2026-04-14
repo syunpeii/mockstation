@@ -24,7 +24,7 @@ class ServerApiImpl(
     }
 
     override suspend fun updateServerSettings(
-        request: UpdateServerSettingsRequest
+        request: UpdateServerSettingsRequest,
     ): ServerSettingsResponse {
         return client.patch("$baseUrl/api/server/settings") {
             setBody(request)

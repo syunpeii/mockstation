@@ -6,18 +6,18 @@ import com.github.syunpeii.mockstation.core.model.api.ActivateTestCaseRequest
 interface TestCaseApi {
     suspend fun getTestCases(): List<TestCase>
     suspend fun getTestCase(
-        id: String
+        id: String,
     ): TestCase
 
     suspend fun createTestCase(
-        testCase: TestCase
+        testCase: TestCase,
     ): TestCase
 
     suspend fun deleteTestCase(
-        id: String
+        id: String,
     )
 
     suspend fun activateTestCase(
-        request: ActivateTestCaseRequest
+        request: ActivateTestCaseRequest,
     )
 }

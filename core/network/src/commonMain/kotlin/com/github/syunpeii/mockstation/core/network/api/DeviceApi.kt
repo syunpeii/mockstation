@@ -9,7 +9,7 @@ interface DeviceApi {
     suspend fun getDevice(id: String): DeviceResponse
     suspend fun registerDevice(
         id: String,
-        request: RegisterDeviceRequest
+        request: RegisterDeviceRequest,
     ): DeviceResponse
 
     suspend fun updateDevice(id: String, request: UpdateDeviceRequest): DeviceResponse

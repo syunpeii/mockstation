@@ -26,7 +26,7 @@ class DeviceApiImpl(
 
     override suspend fun registerDevice(
         id: String,
-        request: RegisterDeviceRequest
+        request: RegisterDeviceRequest,
     ): DeviceResponse {
         return client.post("$baseUrl/api/devices/$id/register") {
             setBody(request)

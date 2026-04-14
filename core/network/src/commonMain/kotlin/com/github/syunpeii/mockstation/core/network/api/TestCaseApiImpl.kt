@@ -19,13 +19,13 @@ class TestCaseApiImpl(
     }
 
     override suspend fun getTestCase(
-        id: String
+        id: String,
     ): TestCase {
         return client.get("$baseUrl/api/testcases/$id").body()
     }
 
     override suspend fun createTestCase(
-        testCase: TestCase
+        testCase: TestCase,
     ): TestCase {
         return client.post("$baseUrl/api/testcases") {
             setBody(testCase)
@@ -33,13 +33,13 @@ class TestCaseApiImpl(
     }
 
     override suspend fun deleteTestCase(
-        id: String
+        id: String,
     ) {
         client.delete("$baseUrl/api/testcases/$id")
     }
 
     override suspend fun activateTestCase(
-        request: ActivateTestCaseRequest
+        request: ActivateTestCaseRequest,
     ) {
         client.post("$baseUrl/api/testcases/activate") {
             setBody(request)

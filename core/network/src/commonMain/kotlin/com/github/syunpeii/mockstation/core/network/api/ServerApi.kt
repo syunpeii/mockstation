@@ -9,7 +9,7 @@ interface ServerApi {
     suspend fun getServerStatus(): ServerStatusResponse
     suspend fun getServerSettings(): ServerSettingsResponse
     suspend fun updateServerSettings(
-        request: UpdateServerSettingsRequest
+        request: UpdateServerSettingsRequest,
     ): ServerSettingsResponse
 
     suspend fun getServerSummary(): ServerSummaryResponse
