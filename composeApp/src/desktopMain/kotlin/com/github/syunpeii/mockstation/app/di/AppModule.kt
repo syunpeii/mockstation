@@ -25,6 +25,7 @@ val appModule: Module = module {
         HomeViewModel(
             serverSettingsRepository = get(),
             deviceRepository = get(),
+            appSettings = get(),
         )
     }
 
@@ -32,6 +33,7 @@ val appModule: Module = module {
         DeviceManagementViewModel(
             deviceRepository = get(),
             requestHistoryRepository = get(),
+            testCaseRepository = get(),
         )
     }
 

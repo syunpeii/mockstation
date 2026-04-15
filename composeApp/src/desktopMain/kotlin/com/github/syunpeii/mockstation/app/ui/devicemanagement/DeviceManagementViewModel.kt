@@ -3,7 +3,10 @@ package com.github.syunpeii.mockstation.app.ui.devicemanagement
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.syunpeii.mockstation.core.data.repository.DeviceRepository
+import com.github.syunpeii.mockstation.core.data.repository.TestCaseRepository
+import com.github.syunpeii.mockstation.core.model.DelaySettings
 import com.github.syunpeii.mockstation.core.model.DelayType
+import com.github.syunpeii.mockstation.core.model.Device
 import com.github.syunpeii.mockstation.core.model.HttpMethod
 import com.github.syunpeii.mockstation.core.model.SortOrder
 import com.github.syunpeii.mockstation.core.model.StatusCategory
@@ -13,12 +16,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
 class DeviceManagementViewModel(
     private val deviceRepository: DeviceRepository,
     private val requestHistoryRepository: RequestHistoryRepository,
+    private val testCaseRepository: TestCaseRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<DeviceManagementUiState>(DeviceManagementUiState.Loading)
@@ -47,28 +52,45 @@ class DeviceManagementViewModel(
     fun onRegisterDevice(deviceId: String) {
         val currentState = _uiState.value
         if (currentState is DeviceManagementUiState.Stable) {
-            val newDevice = RegisteredDeviceDisplay(
-                id = deviceId,
-                name = "New Device",
-                testCaseId = "default-test",
-                isEnabled = true,
-                delaySettings = DelaySettingsDisplay(
-                    type = DelayType.OFF,
-                    delayMs = null,
-                    targetFiles = emptyList(),
-                    isEnabled = false,
-                ),
-            )
-
-            _uiState.value = currentState.copy(
-                registeredDevices = currentState.registeredDevices + newDevice,
-                serverDevices = currentState.serverDevices.copy(
-                    devices = currentState.serverDevices.devices.map {
-                        if (it.deviceId == deviceId) it.copy(isRegistered = true) else it
-                    },
-                ),
-                selectedTabIndex = 0, // Switch to registered devices tab
-            )
+            viewModelScope.launch {
+                val now = Clock.System.now()
+                val newDevice = Device(
+                    id = deviceId,
+                    name = "New Device",
+                    testCaseId = "default-test",
+                    isEnabled = true,
+                    delaySettings = DelaySettings.NONE,
+                    createdAt = now,
+                    updatedAt = now,
+                )
+                val result = deviceRepository.saveDevice(newDevice)
+                if (result.isSuccess) {
+                    val currentState = _uiState.value
+                    if (currentState is DeviceManagementUiState.Stable) {
+                        val registeredDeviceDisplay = RegisteredDeviceDisplay(
+                            id = deviceId,
+                            name = "New Device",
+                            testCaseId = "default-test",
+                            isEnabled = true,
+                            delaySettings = DelaySettingsDisplay(
+                                type = DelayType.OFF,
+                                delayMs = null,
+                                targetFiles = emptyList(),
+                                isEnabled = false,
+                            ),
+                        )
+                        _uiState.value = currentState.copy(
+                            registeredDevices = currentState.registeredDevices + registeredDeviceDisplay,
+                            serverDevices = currentState.serverDevices.copy(
+                                devices = currentState.serverDevices.devices.map {
+                                    if (it.deviceId == deviceId) it.copy(isRegistered = true) else it
+                                },
+                            ),
+                            selectedTabIndex = 0,
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -87,12 +109,27 @@ class DeviceManagementViewModel(
     fun onSaveDeviceName(deviceId: String, newName: String) {
         val currentState = _uiState.value
         if (currentState is DeviceManagementUiState.Stable) {
-            _uiState.value = currentState.copy(
-                registeredDevices = currentState.registeredDevices.map {
-                    if (it.id == deviceId) it.copy(name = newName) else it
-                },
-                dialogState = DialogState.None,
-            )
+            viewModelScope.launch {
+                val deviceResult = deviceRepository.getDeviceById(deviceId)
+                if (deviceResult.isSuccess) {
+                    val device = deviceResult.getOrNull()
+                    if (device != null) {
+                        val updatedDevice = device.copy(name = newName, updatedAt = Clock.System.now())
+                        val updateResult = deviceRepository.updateDevice(updatedDevice)
+                        if (updateResult.isSuccess) {
+                            val currentState = _uiState.value
+                            if (currentState is DeviceManagementUiState.Stable) {
+                                _uiState.value = currentState.copy(
+                                    registeredDevices = currentState.registeredDevices.map {
+                                        if (it.id == deviceId) it.copy(name = newName) else it
+                                    },
+                                    dialogState = DialogState.None,
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -111,38 +148,69 @@ class DeviceManagementViewModel(
     fun onConfirmDelete(deviceId: String) {
         val currentState = _uiState.value
         if (currentState is DeviceManagementUiState.Stable) {
-            _uiState.value = currentState.copy(
-                registeredDevices = currentState.registeredDevices.filter { it.id != deviceId },
-                serverDevices = currentState.serverDevices.copy(
-                    devices = currentState.serverDevices.devices.map {
-                        if (it.deviceId == deviceId) it.copy(isRegistered = false) else it
-                    },
-                ),
-                dialogState = DialogState.None,
-            )
+            viewModelScope.launch {
+                val deleteResult = deviceRepository.deleteDevice(deviceId)
+                if (deleteResult.isSuccess) {
+                    val currentState = _uiState.value
+                    if (currentState is DeviceManagementUiState.Stable) {
+                        _uiState.value = currentState.copy(
+                            registeredDevices = currentState.registeredDevices.filter { it.id != deviceId },
+                            serverDevices = currentState.serverDevices.copy(
+                                devices = currentState.serverDevices.devices.map {
+                                    if (it.deviceId == deviceId) it.copy(isRegistered = false) else it
+                                },
+                            ),
+                            dialogState = DialogState.None,
+                        )
+                    }
+                }
+            }
         }
     }
 
     fun onToggleEnabled(deviceId: String, enabled: Boolean) {
         val currentState = _uiState.value
         if (currentState is DeviceManagementUiState.Stable) {
-            _uiState.value = currentState.copy(
-                registeredDevices = currentState.registeredDevices.map {
-                    if (it.id == deviceId) it.copy(isEnabled = enabled) else it
-                },
-            )
+            viewModelScope.launch {
+                val deviceResult = deviceRepository.getDeviceById(deviceId)
+                if (deviceResult.isSuccess) {
+                    val device = deviceResult.getOrNull()
+                    if (device != null) {
+                        val updatedDevice = device.copy(isEnabled = enabled, updatedAt = Clock.System.now())
+                        val updateResult = deviceRepository.updateDevice(updatedDevice)
+                        if (updateResult.isSuccess) {
+                            val currentState = _uiState.value
+                            if (currentState is DeviceManagementUiState.Stable) {
+                                _uiState.value = currentState.copy(
+                                    registeredDevices = currentState.registeredDevices.map {
+                                        if (it.id == deviceId) it.copy(isEnabled = enabled) else it
+                                    },
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
     fun onTestCaseClick(testCaseId: String) {
         val currentState = _uiState.value
         if (currentState is DeviceManagementUiState.Stable) {
-            _uiState.value = currentState.copy(
-                dialogState = DialogState.ShowMarkdown(
-                    testCaseId = testCaseId,
-                    content = mockMarkdownContent(testCaseId),
-                ),
-            )
+            viewModelScope.launch {
+                val result = testCaseRepository.getTestCase(testCaseId)
+                val testCase = result.getOrNull()
+                val content = testCase?.description ?: "No description available"
+                val currentState = _uiState.value
+                if (currentState is DeviceManagementUiState.Stable) {
+                    _uiState.value = currentState.copy(
+                        dialogState = DialogState.ShowMarkdown(
+                            testCaseId = testCaseId,
+                            content = content,
+                        ),
+                    )
+                }
+            }
         }
     }
 
@@ -151,13 +219,25 @@ class DeviceManagementViewModel(
         if (currentState is DeviceManagementUiState.Stable) {
             val device = currentState.registeredDevices.find { it.id == deviceId }
             device?.let {
-                _uiState.value = currentState.copy(
-                    dialogState = DialogState.EditDelaySettings(
-                        deviceId = deviceId,
-                        currentSettings = it.delaySettings,
-                        availableFiles = mockAvailableFiles(),
-                    ),
-                )
+                viewModelScope.launch {
+                    val availableFiles = if (device.testCaseId.isNotEmpty()) {
+                        val result = testCaseRepository.getTestCase(device.testCaseId)
+                        result.getOrNull()?.files ?: mockAvailableFiles()
+                    } else {
+                        mockAvailableFiles()
+                    }
+
+                    val currentState = _uiState.value
+                    if (currentState is DeviceManagementUiState.Stable) {
+                        _uiState.value = currentState.copy(
+                            dialogState = DialogState.EditDelaySettings(
+                                deviceId = deviceId,
+                                currentSettings = device.delaySettings,
+                                availableFiles = availableFiles,
+                            ),
+                        )
+                    }
+                }
             }
         }
     }
@@ -165,12 +245,26 @@ class DeviceManagementViewModel(
     fun onSaveDelaySettings(deviceId: String, settings: DelaySettingsDisplay) {
         val currentState = _uiState.value
         if (currentState is DeviceManagementUiState.Stable) {
-            _uiState.value = currentState.copy(
-                registeredDevices = currentState.registeredDevices.map {
-                    if (it.id == deviceId) it.copy(delaySettings = settings) else it
-                },
-                dialogState = DialogState.None,
-            )
+            viewModelScope.launch {
+                val delaySettings = DelaySettings(
+                    type = settings.type,
+                    delayMs = settings.delayMs,
+                    isEnabled = settings.isEnabled,
+                    targetFiles = settings.targetFiles,
+                )
+                val saveResult = deviceRepository.saveDelayRule(deviceId, delaySettings)
+                if (saveResult.isSuccess) {
+                    val currentState = _uiState.value
+                    if (currentState is DeviceManagementUiState.Stable) {
+                        _uiState.value = currentState.copy(
+                            registeredDevices = currentState.registeredDevices.map {
+                                if (it.id == deviceId) it.copy(delaySettings = settings) else it
+                            },
+                            dialogState = DialogState.None,
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -193,6 +287,7 @@ class DeviceManagementViewModel(
                     filters = currentState.requestHistory.filters.copy(searchText = text),
                 ),
             )
+            applyFilters()
         }
     }
 
@@ -210,6 +305,7 @@ class DeviceManagementViewModel(
                     filters = currentState.requestHistory.filters.copy(selectedMethods = newMethods),
                 ),
             )
+            applyFilters()
         }
     }
 
@@ -227,6 +323,7 @@ class DeviceManagementViewModel(
                     filters = currentState.requestHistory.filters.copy(selectedStatusCategories = newCategories),
                 ),
             )
+            applyFilters()
         }
     }
 
@@ -238,6 +335,7 @@ class DeviceManagementViewModel(
                     filters = currentState.requestHistory.filters.copy(timeRange = timeRange),
                 ),
             )
+            applyFilters()
         }
     }
 
@@ -255,6 +353,7 @@ class DeviceManagementViewModel(
                     filters = currentState.requestHistory.filters.copy(sortOrder = newOrder),
                 ),
             )
+            applyFilters()
         }
     }
 
@@ -264,6 +363,26 @@ class DeviceManagementViewModel(
             _uiState.value = currentState.copy(
                 requestHistory = currentState.requestHistory.copy(showAdvancedFilters = show),
             )
+        }
+    }
+
+    fun onClearHistory() {
+        viewModelScope.launch {
+            val clearResult = requestHistoryRepository.deleteAllHistory()
+            if (clearResult.isSuccess) {
+                // Reload history after clearing
+                val historyResult = requestHistoryRepository.getRequestHistory()
+                if (historyResult.isSuccess) {
+                    val currentState = _uiState.value
+                    if (currentState is DeviceManagementUiState.Stable) {
+                        _uiState.value = currentState.copy(
+                            requestHistory = currentState.requestHistory.copy(
+                                deviceColumns = emptyList(),
+                            ),
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -292,6 +411,45 @@ class DeviceManagementViewModel(
             _uiState.value = currentState.copy(
                 requestHistory = currentState.requestHistory.copy(selectedRequestIds = newSelectedIds),
             )
+        }
+    }
+
+    private fun applyFilters() {
+        val currentState = _uiState.value
+        if (currentState is DeviceManagementUiState.Stable) {
+            viewModelScope.launch {
+                val filters = currentState.requestHistory.filters
+                val historyResult = requestHistoryRepository.getRequestHistory(
+                    search = filters.searchText.ifEmpty { null },
+                    methods = filters.selectedMethods.toList().ifEmpty { null },
+                    statusCategories = filters.selectedStatusCategories.toList().ifEmpty { null },
+                    timeRange = filters.timeRange,
+                    sortOrder = filters.sortOrder,
+                )
+
+                if (historyResult.isSuccess) {
+                    val history = historyResult.getOrNull() ?: emptyList()
+                    val currentState = _uiState.value
+                    if (currentState is DeviceManagementUiState.Stable) {
+                        val deviceColumns = history
+                            .groupBy { it.deviceId }
+                            .map { (deviceId, requests) ->
+                                val deviceName = currentState.registeredDevices.find { it.id == deviceId }?.name
+                                DeviceRequestColumn(
+                                    deviceId = deviceId,
+                                    deviceName = deviceName,
+                                    requests = requests,
+                                )
+                            }
+
+                        _uiState.value = currentState.copy(
+                            requestHistory = currentState.requestHistory.copy(
+                                deviceColumns = deviceColumns,
+                            ),
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -331,10 +489,24 @@ class DeviceManagementViewModel(
                         )
                     }
 
+                // Generate ServerDevicesState from actual devices data
+                val allDevices = devicesResult.getOrNull() ?: emptyList()
+                val serverDevices = ServerDevicesState(
+                    devices = allDevices.map { device ->
+                        ServerDeviceDisplay(
+                            deviceId = device.id,
+                            isRegistered = registeredDevices.any { it.id == device.id },
+                        )
+                    },
+                    filterText = "",
+                    isLoading = false,
+                    error = null,
+                )
+
                 _uiState.value = DeviceManagementUiState.Stable(
                     selectedTabIndex = 0,
                     registeredDevices = registeredDevices,
-                    serverDevices = mockServerDevices(),
+                    serverDevices = serverDevices,
                     requestHistory = RequestHistoryState(
                         deviceColumns = deviceColumns,
                         filters = RequestFilters(
@@ -354,45 +526,6 @@ class DeviceManagementViewModel(
             }
         }
     }
-
-    private fun mockServerDevices() = ServerDevicesState(
-        devices = (1..20).map { index ->
-            val deviceId = "device-${index.toString().padStart(3, '0')}"
-            ServerDeviceDisplay(
-                deviceId = deviceId,
-                isRegistered = index <= 3, // First 3 are registered
-            )
-        } + listOf(
-            ServerDeviceDisplay("550e8400-e29b-41d4-a716-446655440000", true),
-            ServerDeviceDisplay("660f9511-f3ac-52e5-b827-557766551111", true),
-            ServerDeviceDisplay("770g0622-g4bd-63f6-c938-668877662222", true),
-        ),
-        filterText = "",
-        isLoading = false,
-        error = null,
-    )
-
-    private fun mockMarkdownContent(testCaseId: String) = """
-        # Test Case: $testCaseId
-
-        ## Overview
-        This is a mock test case for device management.
-
-        ## Test Steps
-        1. Configure the device settings
-        2. Enable the device
-        3. Verify API responses
-        4. Check delay settings
-
-        ## Expected Results
-        - Device should be enabled
-        - API requests should be delayed according to settings
-        - All responses should return successfully
-
-        ## Notes
-        - This is mock data for demonstration purposes
-        - Real test cases would be loaded from README.md files
-    """.trimIndent()
 
     private fun mockAvailableFiles() = listOf(
         "api/user.json",

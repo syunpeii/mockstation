@@ -16,6 +16,7 @@ data class TestCase(
     val createdAt: Instant,
     @Contextual
     val updatedAt: Instant,
+    val files: List<String>,
 )
 
 @Serializable

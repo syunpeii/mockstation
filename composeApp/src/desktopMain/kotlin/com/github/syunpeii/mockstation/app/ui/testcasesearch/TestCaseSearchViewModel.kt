@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.syunpeii.mockstation.app.ui.testcasesearch.model.TestCaseDisplay
 import com.github.syunpeii.mockstation.core.data.repository.TestCaseRepository
-import com.github.syunpeii.mockstation.core.model.Result
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -72,6 +71,31 @@ class TestCaseSearchViewModel(
                 _uiState.value = currentState.copy(selectedTestCaseId = null)
             } else {
                 _uiState.value = currentState.copy(selectedTestCaseId = id)
+                viewModelScope.launch {
+                    val result = testCaseRepository.getTestCase(id)
+                    val testCase = result.getOrNull()
+                    if (testCase != null) {
+                        allTestCases = allTestCases.map { display ->
+                            if (display.id == id) {
+                                display.copy(
+                                    description = testCase.description,
+                                    content = testCase.description,
+                                )
+                            } else {
+                                display
+                            }
+                        }
+
+                        val currentState = _uiState.value
+                        if (currentState is TestCaseSearchUiState.Stable) {
+                            val filteredTestCases = filterTestCases(
+                                currentState.searchTags,
+                                currentState.currentInput,
+                            )
+                            _uiState.value = currentState.copy(testCases = filteredTestCases)
+                        }
+                    }
+                }
             }
         }
     }
@@ -90,8 +114,14 @@ class TestCaseSearchViewModel(
         }
     }
 
-    fun onSwitchTestCase(id: String) {
-        println("Switching to test case: $id")
+    fun onSwitchTestCase(id: String, deviceId: String? = null) {
+        viewModelScope.launch {
+            val request = com.github.syunpeii.mockstation.core.model.api.ActivateTestCaseRequest(
+                testCaseId = id,
+                deviceId = deviceId,
+            )
+            testCaseRepository.activateTestCase(request)
+        }
     }
 
     private fun loadInitialData() {
@@ -103,7 +133,7 @@ class TestCaseSearchViewModel(
     private suspend fun loadTestCases() {
         val result = testCaseRepository.getTestCases()
         if (result.isSuccess) {
-            val testCases = (result as Result.Success).data
+            val testCases = result.getOrNull() ?: emptyList()
             allTestCases = testCases.map { testCase ->
                 TestCaseDisplay(
                     id = testCase.id,

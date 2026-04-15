@@ -6,6 +6,7 @@ import com.github.syunpeii.mockstation.core.data.repository.DeviceRepositoryImpl
 import com.github.syunpeii.mockstation.core.data.repository.ServerSettingsRepository
 import com.github.syunpeii.mockstation.core.datastore.di.dataStoreModule
 import com.github.syunpeii.mockstation.core.domain.di.domainModule
+import com.github.syunpeii.mockstation.core.network.api.DeviceApi
 import com.github.syunpeii.mockstation.core.network.di.networkModule
 import com.github.syunpeii.mockstation.data.repository.RequestHistoryRepository
 import com.github.syunpeii.mockstation.data.repository.RequestHistoryRepositoryImpl
@@ -23,7 +24,9 @@ import org.koin.dsl.module
 
 val serverAppModule = module {
     single<DeviceRepository> {
-        DeviceRepositoryImpl()
+        DeviceRepositoryImpl(
+            deviceApi = get<DeviceApi>(),
+        )
     }
 
     single<ServerSettingsRepository> {

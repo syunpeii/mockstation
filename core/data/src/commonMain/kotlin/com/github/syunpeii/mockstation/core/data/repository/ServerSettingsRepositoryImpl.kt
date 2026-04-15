@@ -1,27 +1,24 @@
 package com.github.syunpeii.mockstation.core.data.repository
 
-import com.github.syunpeii.mockstation.core.model.ResFileFormat
+import com.github.syunpeii.mockstation.core.data.mapper.toDomainModel
+import com.github.syunpeii.mockstation.core.data.mapper.toUpdateRequest
 import com.github.syunpeii.mockstation.core.model.ServerSettings
+import com.github.syunpeii.mockstation.core.model.api.ServerSummaryResponse
+import com.github.syunpeii.mockstation.core.network.api.ServerApi
 
-class ServerSettingsRepositoryImpl : ServerSettingsRepository {
-
-    private var currentSettings = ServerSettings(
-        resFileFormat = ResFileFormat.METHOD_SUFFIX,
-        testCaseDirectory = DEFAULT_TEST_CASE_DIR,
-        defaultDelayMs = 0,
-        port = DEFAULT_PORT,
-    )
+class ServerSettingsRepositoryImpl(
+    private val serverApi: ServerApi,
+) : ServerSettingsRepository {
 
     override suspend fun getSettings(): Result<ServerSettings> = runCatching {
-        currentSettings
+        serverApi.getServerSettings().toDomainModel()
     }
 
     override suspend fun updateSettings(settings: ServerSettings): Result<Unit> = runCatching {
-        currentSettings = settings
+        serverApi.updateServerSettings(settings.toUpdateRequest())
     }
 
-    companion object {
-        private const val DEFAULT_TEST_CASE_DIR = "~/.mockstation/test-cases"
-        private const val DEFAULT_PORT = 8080
+    override suspend fun getServerSummary(): Result<ServerSummaryResponse> = runCatching {
+        serverApi.getServerSummary()
     }
 }

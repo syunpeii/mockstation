@@ -1,17 +1,21 @@
 # Mockstation Server MVP 実装サマリー
 
 実装日時: 2026-04-11（Server S0～S5）
-最終更新: 2026-04-14（Desktop Phase D0-D1 完了）
-実装版: Server Phase S0～S5 完了、Desktop Phase D0-D1 完了
+最終更新: 2026-04-15（Desktop Phase D2～D5 完了）
+実装版: Server Phase S0～S5 完了、Desktop Phase D0～D5 完了
 
 ---
 
 ## 実装概要
 
-Mockstation Server MVP（Phase S0～S5）は、外部テストケースディレクトリから.resファイルを読み込み、HTTPリクエストに対してモック応答を返すサーバー実装です。Phase S5 ではリクエスト履歴の記録・検索機能が追加されました。
+Mockstation は以下の構成で実装されています：
 
-**実装期間中の作成ファイル数**: 40+ ファイル
-**実装完了度**: 100% (S0～S5)
+**Server MVP（Phase S0～S5）:** 外部テストケースディレクトリから.resファイルを読み込み、HTTPリクエストに対してモック応答を返すサーバー実装。Phase S5 ではリクエスト履歴の記録・検索機能が追加されました。
+
+**Desktop MVP（Phase D0～D5）:** Server との連携を実現する Desktop UI。Settings から始まり、Test Case Search、Device Management、Request History、Home の全画面が実API接続で動作します。
+
+**実装期間中の作成ファイル数**: 50+ ファイル
+**実装完了度**: 100% (S0～S5, D0～D5)
 
 ---
 
@@ -718,6 +722,24 @@ curl http://localhost:8080/api/request-history | jq .
     - [x] D1-2: 接続確認処理
     - [x] D1-3: サーバー設定表示・更新
     - [x] D1-4: テーマ・ナビゲーション設定
+- [x] Phase D2 完了（Test Case Search 実機能化）
+    - [x] D2-1: onSwitchTestCase() 実装 - ActivateTestCaseRequest で API 接続
+    - [x] D2-2: onSelectTestCase() 詳細取得 - 非同期テストケース詳細取得
+    - [x] D2-3: TestCaseRepository.activateTestCase() 追加
+- [x] Phase D3 完了（Device Management 実機能化）
+    - [x] D3-1: mockServerDevices() 削除、実データに置き換え
+    - [x] D3-2: mockMarkdownContent() 削除、TestCaseRepository で置き換え
+    - [x] D3-3: mockAvailableFiles() 削除、testCase.files で置き換え
+    - [x] D3-4: Device操作API接続（register, update, delete, toggle, delay）
+    - [x] D3-5: TestCaseRepository を DI に追加
+- [x] Phase D4 完了（Request History 実機能化）
+    - [x] D4-1: applyFilters() 実装 - フィルタ変更時 API 再取得
+    - [x] D4-2: onClearHistory() 実装 - deleteAllHistory() で全削除
+- [x] Phase D5 完了（Home 実機能化）
+    - [x] D5-1: AppSettings で動的 URL 取得
+    - [x] D5-2: ServerSettingsRepository.getServerSummary() で recentRequestCount 取得
+    - [x] D5-3: ServerApi 直接呼び出しを Repository 経由に統一
+    - [x] D5-4: ServerSettingsRepository に getServerSummary() 追加
 - [x] KtLint フォーマット適用
 - [x] TASK ファイル更新
 - [x] 動作確認チェックリスト実装と確認
@@ -727,7 +749,8 @@ curl http://localhost:8080/api/request-history | jq .
     - [ ] Issue #1: クエリパラメータマッチング（次ステップ）
 - [x] IMPLEMENTATION_SUMMARY.md 刷新（Phase S5版）
 - [x] IMPLEMENTATION_SUMMARY.md 更新（Desktop Phase D0-D1版）
-- [ ] Unit/Integration テスト作成（Phase D2+）
+- [x] IMPLEMENTATION_SUMMARY.md 更新（Desktop Phase D2-D5版）
+- [ ] Unit/Integration テスト作成（Phase D6+）
 - [ ] サンプル testCase 整備
 - [ ] Docker イメージ化（Phase D7+）
 
@@ -1087,6 +1110,25 @@ Mockstation Server MVP（Phase S0～S5）の実装が完了しました。
 
 **修正履歴:**
 
+- [2026-04-15] Desktop Phase D2-D5 実装完了
+    - D2: Test Case Search 実機能化
+        - onSwitchTestCase() で ActivateTestCaseRequest を送信
+        - onSelectTestCase() でテストケース詳細を非同期取得
+        - TestCaseRepository に activateTestCase() 追加
+    - D3: Device Management 実機能化
+        - mockServerDevices() / mockMarkdownContent() / mockAvailableFiles() を削除
+        - Device CRUD 操作をAPI接続
+        - TestCaseRepository を DI で注入
+    - D4: Request History 実機能化
+        - applyFilters() でフィルタ変更時に API 再取得
+        - onClearHistory() で全履歴削除
+    - D5: Home 実機能化
+        - AppSettings で動的 URL 取得
+        - ServerSettingsRepository.getServerSummary() で recentRequestCount 取得
+        - ServerApi 直接呼び出しを Repository 経由に統一
+    - Repository層での仕様統一：API は Repository 経由でのみ呼び出し
+    - 8ファイル新規作成/修正
+
 - [2026-04-14] Desktop Phase D0-D1 実装完了
     - D0-1～D0-4: Network/Data/DataStore/ViewModel層 実装
     - D1-1～D1-4: Settings実機能化 完了
@@ -1111,12 +1153,23 @@ Mockstation Server MVP（Phase S0～S5）の実装が完了しました。
 
 **次のステップ:**
 
-Server側（S0～S5）とDesktop基盤（D0～D1）が完了したため、次のフェーズは：
+Server側（S0～S5）とDesktop全機能実装（D0～D5）が完了したため、次のフェーズは：
 
-1. **D2: Test Case Search 実機能化** - TestCaseRepository 連携
-2. **D3: Device Management 実機能化** - DeviceRepository 連携
-3. **D4: Request History 実機能化** - RequestHistoryRepository 連携
-4. **D5: Home 実機能化** - Server概要表示
-5. **S6: WebSocket 配信** - リアルタイムリクエスト配信（D5後）
+1. **D6: UX / 回復性 / 品質向上** - エラーハンドリング、空状態、ローディング表示の統一
+2. **S6: WebSocket 配信** - リアルタイムリクエスト配信（Request History リアルタイム更新）
+3. **Unit/Integration テスト作成** - ViewModel テスト、API テスト
+4. **サンプル testCase 整備** - プロダクション向けテストケース
+5. **D7: Desktop 配布と OSS 向け整備** - パッケージング、配布設定
 
-これでDesktop MVPが完成し、ユーザーが実際に操作できるMockstation アプリケーションになります。
+**実装状況サマリー:**
+
+| Phase | 内容                    | 状態    |
+|-------|-----------------------|-------|
+| S0-S5 | Server MVP 実装         | ✅ 完了  |
+| D0-D1 | Desktop 基盤 + Settings | ✅ 完了  |
+| D2-D5 | Desktop 主要機能実装        | ✅ 完了  |
+| D6    | Desktop UX向上          | ⏳ 次   |
+| S6    | WebSocket リアルタイム配信    | ⏳ D6後 |
+| D7    | Desktop 配布整備          | ⏳ 予定  |
+
+これでDesktop MVPの全機能実装が完成しました。ユーザーが実際に操作できるMockstation アプリケーションになります。

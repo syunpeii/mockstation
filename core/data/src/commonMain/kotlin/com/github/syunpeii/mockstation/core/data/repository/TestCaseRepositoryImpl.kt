@@ -4,6 +4,7 @@ import com.github.syunpeii.mockstation.core.data.source.local.TestCaseLocalDataS
 import com.github.syunpeii.mockstation.core.data.source.remote.TestCaseRemoteDataSource
 import com.github.syunpeii.mockstation.core.model.Result
 import com.github.syunpeii.mockstation.core.model.TestCase
+import com.github.syunpeii.mockstation.core.model.api.ActivateTestCaseRequest
 import kotlinx.coroutines.flow.Flow
 
 class TestCaseRepositoryImpl(
@@ -37,7 +38,6 @@ class TestCaseRepositoryImpl(
                 localDataSource.saveTestCase(testCase)
                 Result.Success(testCase)
             } else {
-                // Try local fallback if remote returns null
                 val cachedTestCase = localDataSource.getTestCase(id)
                 if (cachedTestCase != null) {
                     Result.Success(cachedTestCase)
@@ -46,7 +46,6 @@ class TestCaseRepositoryImpl(
                 }
             }
         } catch (e: Exception) {
-            // Fallback to local cache if remote fails
             try {
                 val cachedTestCase = localDataSource.getTestCase(id)
                 if (cachedTestCase != null) {
@@ -61,23 +60,32 @@ class TestCaseRepositoryImpl(
     }
 
     override suspend fun createTestCase(testCase: TestCase): Result<TestCase> {
-        return try {
+        return runCatching {
             val created = remoteDataSource.saveTestCase(testCase)
             localDataSource.saveTestCase(created)
-            Result.Success(created)
-        } catch (e: Exception) {
-            Result.Error(e)
-        }
+        }.fold(
+            onSuccess = { Result.Success(it) },
+            onFailure = { Result.Error(it) },
+        )
     }
 
     override suspend fun deleteTestCase(id: String): Result<Unit> {
-        return try {
+        return runCatching {
             remoteDataSource.deleteTestCase(id)
             localDataSource.deleteTestCase(id)
-            Result.Success(Unit)
-        } catch (e: Exception) {
-            Result.Error(e)
-        }
+        }.fold(
+            onSuccess = { Result.Success(Unit) },
+            onFailure = { Result.Error(it) },
+        )
+    }
+
+    override suspend fun activateTestCase(request: ActivateTestCaseRequest): Result<Unit> {
+        return runCatching {
+            remoteDataSource.activateTestCase(request)
+        }.fold(
+            onSuccess = { Result.Success(Unit) },
+            onFailure = { Result.Error(it) },
+        )
     }
 
     override fun observeTestCases(): Flow<List<TestCase>> {

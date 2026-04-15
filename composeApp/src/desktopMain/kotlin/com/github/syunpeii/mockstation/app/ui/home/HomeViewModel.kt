@@ -4,15 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.syunpeii.mockstation.core.data.repository.DeviceRepository
 import com.github.syunpeii.mockstation.core.data.repository.ServerSettingsRepository
+import com.github.syunpeii.mockstation.core.datastore.AppSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlin.time.ExperimentalTime
 
 class HomeViewModel(
     private val serverSettingsRepository: ServerSettingsRepository,
     private val deviceRepository: DeviceRepository,
+    private val appSettings: AppSettings,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -26,6 +29,7 @@ class HomeViewModel(
     private fun loadData() = viewModelScope.launch {
         val settingsResult = serverSettingsRepository.getSettings()
         val devicesResult = deviceRepository.getAllDevices()
+        val connectionUrl = appSettings.baseUrl.first()
 
         if (settingsResult.isSuccess && devicesResult.isSuccess) {
             val devices = devicesResult.getOrNull() ?: emptyList()
@@ -37,16 +41,19 @@ class HomeViewModel(
                 )
             }
 
+            val summaryResult = serverSettingsRepository.getServerSummary()
+            val recentRequestCount = summaryResult.getOrNull()?.historyCount ?: 0
+
             _uiState.value = HomeUiState.Stable(
                 connection = ConnectionStatus(
                     name = "Server",
-                    url = "http://localhost:8080",
+                    url = connectionUrl,
                 ),
                 activeDevices = activeDevices,
                 currentTestCaseId = devices.firstOrNull()?.testCaseId ?: "",
                 serverSummary = ServerSummary(
                     totalDeviceCount = devices.size,
-                    recentRequestCount = 0,
+                    recentRequestCount = recentRequestCount,
                 ),
             )
         } else {

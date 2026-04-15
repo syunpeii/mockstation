@@ -2,6 +2,7 @@ package com.github.syunpeii.mockstation.core.data.source.local
 
 import com.github.syunpeii.mockstation.core.data.source.TestCaseDataSource
 import com.github.syunpeii.mockstation.core.model.TestCase
+import com.github.syunpeii.mockstation.core.model.api.ActivateTestCaseRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -26,6 +27,10 @@ class TestCaseLocalDataSource : TestCaseDataSource {
 
     override suspend fun deleteTestCase(id: String) {
         // TODO: Implement if needed
+    }
+
+    override suspend fun activateTestCase(request: ActivateTestCaseRequest) {
+        // Local data source does not handle activation
     }
 
     override fun observeTestCases(): Flow<List<TestCase>> {

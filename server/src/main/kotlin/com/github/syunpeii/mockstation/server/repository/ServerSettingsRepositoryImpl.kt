@@ -3,6 +3,7 @@ package com.github.syunpeii.mockstation.server.repository
 import com.github.syunpeii.mockstation.core.data.repository.ServerSettingsRepository
 import com.github.syunpeii.mockstation.core.model.ResFileFormat
 import com.github.syunpeii.mockstation.core.model.ServerSettings
+import com.github.syunpeii.mockstation.core.model.api.ServerSummaryResponse
 import io.ktor.server.config.ApplicationConfig
 
 class ServerSettingsRepositoryImpl(
@@ -31,12 +32,17 @@ class ServerSettingsRepositoryImpl(
         )
     }
 
-    override suspend fun getSettings(): Result<ServerSettings> = runCatching {
-        currentSettings
+    override suspend fun getSettings(): Result<ServerSettings> {
+        return Result.success(currentSettings)
     }
 
-    override suspend fun updateSettings(settings: ServerSettings): Result<Unit> = runCatching {
+    override suspend fun updateSettings(settings: ServerSettings): Result<Unit> {
         currentSettings = settings
+        return Result.success(Unit)
+    }
+
+    override suspend fun getServerSummary(): Result<ServerSummaryResponse> {
+        throw UnsupportedOperationException("getServerSummary() should not be called on server side")
     }
 
     private fun ApplicationConfig.tryGetString(path: String): String? = runCatching {
