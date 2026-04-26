@@ -16,11 +16,11 @@
 
 ### 実装済み
 
-- Compose Desktop の画面骨組み
-    - Home
-    - Device Management
-    - Test Case Search
-    - Settings
+- Compose Desktop の画面骨組みと実機能化
+    - ✅ Home（実 API 接続）
+    - ✅ Device Management（実 API 接続）
+    - ✅ Test Case Search（実 API 接続）
+    - ✅ Settings（実 API 接続）
 - Design System / Navigation / Preview
 - KMP のモジュール分割
     - `core/model`
@@ -30,7 +30,9 @@
     - `core/database`
     - `core/datastore`
 
-### 実装済み（Phase S0～S5）
+### 実装済み（Phase S0～S5, D0～D5）
+
+**Server 側（Phase S0～S5）:**
 
 - ✅ Server の mock server 本体機能（MockResponseResolver, ResFileParser）
 - ✅ ファイルベースのテストケース読込（TestCaseFileService）
@@ -42,11 +44,27 @@
 - ✅ リクエスト履歴の記録（MockRouting自動記録）
 - ✅ 履歴検索・フィルタリング API（/api/request-history、フィルタ・ソート・ページング対応）
 
+**Desktop 側（Phase D0～D5）:**
+
+- ✅ Network 層統備（ServerApi, TestCaseApi, DeviceApi, RequestHistoryApi）
+- ✅ Data 層統備（Repository 実装、Mapper）
+- ✅ DataStore 層統備（ConnectionSettings）
+- ✅ ViewModel と DI 整備
+- ✅ Settings 画面：接続先 URL 保存・接続テスト・設定表示・更新
+- ✅ Test Case Search 画面：テストケース検索・詳細表示・適用
+- ✅ Device Management 画面：デバイス一覧・登録・編集・削除・遅延設定
+- ✅ Request History 画面：履歴表示・フィルタリング・ソート・ページング・クリア
+- ✅ Home 画面：接続状態・デバイス状態・サーバーサマリー表示
+
 ### 現在のフェーズ
 
 - ✅ Desktop Phase D0: 基盤整備（完了）
 - ✅ Desktop Phase D1: Settings の実機能化（完了）
-- ⏳ Desktop Phase D2: Test Case Search の実機能化（次のステップ）
+- ✅ Desktop Phase D2: Test Case Search の実機能化（完了）
+- ✅ Desktop Phase D3: Device Management の実機能化（完了）
+- ✅ Desktop Phase D4: Request History の実機能化（完了）
+- ✅ Desktop Phase D5: Home の実機能化（完了）
+- ⏳ Desktop Phase D6: UX/品質向上（次のステップ）
 
 ### 未実装またはモック状態
 
@@ -83,9 +101,9 @@ MVP では以下を満たすことを目標にする。
 |---|-----------------------------------------------------------|--------------------|
 | 1 | Server が外部 `testCase` ディレクトリを読み込み、HTTP リクエストに対してモック応答を返せる | ✅ 完了（Phase S1, S2） |
 | 2 | Device ごとに現在の test case と delay 設定を保持できる                  | ✅ 完了（Phase S3）     |
-| 3 | Desktop から test case / device / delay を操作できる              | ✅ 完了（Phase S4）     |
-| 4 | Desktop と Server の接続先を設定できる                               | ✅ 完了（Phase S0, S4） |
-| 5 | リクエスト履歴を Desktop で確認できる                                   | ✅ 完了（Phase S5）     |
+| 3 | Desktop から test case / device / delay を操作できる              | ✅ 完了（Phase D2, D3） |
+| 4 | Desktop と Server の接続先を設定できる                               | ✅ 完了（Phase D1）     |
+| 5 | リクエスト履歴を Desktop で確認できる                                   | ✅ 完了（Phase D4）     |
 | 6 | OSS 利用者が README だけで起動できる起動手順がある                           | ⏳ Phase S8 で実装予定   |
 
 ## .res ファイル形式

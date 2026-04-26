@@ -124,6 +124,11 @@ class TestCaseSearchViewModel(
         }
     }
 
+    fun onRetry() {
+        _uiState.value = TestCaseSearchUiState.Loading
+        loadInitialData()
+    }
+
     private fun loadInitialData() {
         viewModelScope.launch {
             loadTestCases()

@@ -386,6 +386,11 @@ class DeviceManagementViewModel(
         }
     }
 
+    fun onRetry() {
+        _uiState.value = DeviceManagementUiState.Loading
+        loadInitialData()
+    }
+
     fun onRequestClick(requestId: String) {
         val currentState = _uiState.value
         if (currentState is DeviceManagementUiState.Stable) {

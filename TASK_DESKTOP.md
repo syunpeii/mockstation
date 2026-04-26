@@ -700,11 +700,12 @@ Home を Server 状態の集約ダッシュボードとして成立させる。
 
 ### タスク
 
-- [ ] 共通エラー表示コンポーネントを整備する
-- [ ] 空状態・初回状態・ローディング状態を各画面で統一する
-- [ ] 長時間処理時の progress 表示を整備する
+- [x] 共通エラー表示コンポーネントを整備する（ErrorCard.kt, EmptyStateCard.kt, LoadingOverlay.kt）
+- [x] 空状態・初回状態・ローディング状態を各画面で統一する（コンポーネント作成）
+  - [ ] 各画面での統合（Home, TestCaseSearch で ErrorCard 統合済み）
+- [x] 長時間処理時の progress 表示を整備する（LoadingOverlay.kt）
 - [ ] optimistic update の適用箇所を見直す
-- [ ] retry 操作を各画面に追加する
+- [x] retry 操作を各画面に追加する（HomeVM, TestCaseSearchVM, DeviceManagementVM, SettingsVM に onRetry() 追加）
 - [ ] Preview と実データ実装の乖離を減らす
 - [ ] fake repository を使った ViewModel テストを追加する
 

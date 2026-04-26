@@ -15,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.github.syunpeii.mockstation.core.designsystem.component.molecule.ErrorCard
 import com.github.syunpeii.mockstation.core.designsystem.component.organism.ActiveDevicesSection
 import com.github.syunpeii.mockstation.core.designsystem.component.organism.ConnectionStatusSection
 import com.github.syunpeii.mockstation.core.designsystem.component.organism.DeviceInfo
@@ -22,6 +23,7 @@ import com.github.syunpeii.mockstation.core.designsystem.component.organism.Serv
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 import mockstation.composeapp.generated.resources.Res
 import mockstation.composeapp.generated.resources.common_not_set
+import mockstation.composeapp.generated.resources.common_retry
 import mockstation.composeapp.generated.resources.home_connection_button
 import mockstation.composeapp.generated.resources.home_connection_name
 import mockstation.composeapp.generated.resources.home_connection_url
@@ -29,6 +31,7 @@ import mockstation.composeapp.generated.resources.home_devices_device_id
 import mockstation.composeapp.generated.resources.home_devices_device_name
 import mockstation.composeapp.generated.resources.home_devices_empty
 import mockstation.composeapp.generated.resources.home_devices_last_request
+import mockstation.composeapp.generated.resources.home_error_loading
 import mockstation.composeapp.generated.resources.home_section_connection
 import mockstation.composeapp.generated.resources.home_section_devices
 import mockstation.composeapp.generated.resources.home_section_summary
@@ -50,6 +53,7 @@ internal fun HomeScreen(
     HomeBaseScreen(
         uiState = uiState,
         onNavigateToSettings = viewModel::onNavigateToSettings,
+        onRetry = viewModel::onRetry,
     )
 }
 
@@ -57,6 +61,7 @@ internal fun HomeScreen(
 private fun HomeBaseScreen(
     uiState: HomeUiState,
     onNavigateToSettings: () -> Unit = {},
+    onRetry: () -> Unit = {},
 ) {
     Box(
         modifier = Modifier
@@ -72,6 +77,7 @@ private fun HomeBaseScreen(
 
             is HomeUiState.Error -> HomeScreenError(
                 message = uiState.message,
+                onRetry = onRetry,
             )
         }
     }
@@ -161,15 +167,19 @@ private fun HomeScreenContent(
 @Composable
 private fun HomeScreenError(
     message: String,
+    onRetry: () -> Unit = {},
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(MockStationTheme.spacing.medium),
         contentAlignment = Alignment.Center,
     ) {
-        Text(
-            text = message,
-            style = MockStationTheme.typography.bodyMedium,
-            color = MockStationTheme.colors.error,
+        ErrorCard(
+            title = stringResource(Res.string.home_error_loading),
+            message = message,
+            onRetry = onRetry,
+            retryLabel = stringResource(Res.string.common_retry),
         )
     }
 }

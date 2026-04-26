@@ -304,6 +304,13 @@ class SettingsViewModel(
         }
     }
 
+    fun onRetry() {
+        _uiState.value = SettingsUiState.Loading
+        viewModelScope.launch {
+            loadInitialSettings()
+        }
+    }
+
     fun onChangeResFileFormat(format: String) {
         val currentState = _uiState.value
         if (currentState is SettingsUiState.Stable) {

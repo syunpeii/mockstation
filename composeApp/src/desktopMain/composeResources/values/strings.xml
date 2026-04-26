@@ -24,6 +24,7 @@
     <string name="home_devices_device_id">Device ID</string>
     <string name="home_devices_device_name">Device Name</string>
     <string name="home_devices_last_request">Last Request</string>
+    <string name="home_error_loading">Error loading data</string>
     <string name="home_summary_current_testcase">Current Test Case</string>
     <string name="home_summary_total_devices">Total Devices</string>
     <string name="home_summary_recent_requests">Recent Requests</string>
@@ -164,6 +165,7 @@
     <string name="common_license">License</string>
     <string name="common_repository">Repository</string>
     <string name="common_error">Error</string>
+    <string name="common_retry">Retry</string>
     <string name="common_search">Search</string>
     <string name="common_clear">Clear</string>
     <string name="common_save">Save</string>

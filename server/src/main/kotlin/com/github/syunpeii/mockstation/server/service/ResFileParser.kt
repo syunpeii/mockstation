@@ -11,6 +11,7 @@ object ResFileParser {
     private const val HEADER_SEPARATOR_LIMIT = 2
     private const val SECTION_BRACKET_OPEN = "["
     private const val SECTION_BRACKET_CLOSE = "]"
+    private const val CONTENT_TYPE_HEADER = "Content-Type"
 
     fun parse(file: File): StubResponse {
         val content = file.readText()
@@ -28,8 +29,14 @@ object ResFileParser {
             ?.toMap() ?: emptyMap()
 
         val body = sections[SECTION_BODY] ?: ""
+        val headersWithContentType = if (!headers.containsKey(CONTENT_TYPE_HEADER)) {
+            val inferredContentType = ContentTypeResolver.resolve(body)
+            headers + (CONTENT_TYPE_HEADER to inferredContentType)
+        } else {
+            headers
+        }
 
-        return StubResponse(status, headers, body)
+        return StubResponse(status, headersWithContentType, body)
     }
 
     private fun parseSections(content: String): Map<String, String> {

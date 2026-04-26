@@ -192,7 +192,7 @@ Mockstation のコア機能である file-based mock data を実装する。
     - query parameter 条件分岐: `GET@page__1.res`, `GET@page__1--status__active.res`
     - 詳細は TASK_OVERVIEW.md「.res ファイル形式」を参照
 - [x] res ファイル未発見時のエラー応答を整理する
-- [ ] content type 推定または header 優先ロジックを実装する
+- [x] content type 推定または header 優先ロジックを実装する（Phase S2残: ContentTypeResolver.kt で実装）
 
 ### 完了条件
 

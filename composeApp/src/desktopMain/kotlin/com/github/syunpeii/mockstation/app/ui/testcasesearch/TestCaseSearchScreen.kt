@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import com.github.syunpeii.mockstation.app.navigation.WindowSizeClass
 import com.github.syunpeii.mockstation.app.ui.testcasesearch.model.TestCaseDisplay
 import com.github.syunpeii.mockstation.core.designsystem.component.atom.button.AppIconButton
+import com.github.syunpeii.mockstation.core.designsystem.component.molecule.ErrorCard
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.SearchTagInput
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.TagChipGroup
 import com.github.syunpeii.mockstation.core.designsystem.component.molecule.TestCaseCard
@@ -31,6 +32,7 @@ import com.github.syunpeii.mockstation.core.designsystem.component.molecule.Test
 import com.github.syunpeii.mockstation.core.designsystem.component.organism.TestCaseDetailPanel
 import com.github.syunpeii.mockstation.core.designsystem.theme.MockStationTheme
 import mockstation.composeapp.generated.resources.Res
+import mockstation.composeapp.generated.resources.common_retry
 import mockstation.composeapp.generated.resources.testcase_search_adjust_tags
 import mockstation.composeapp.generated.resources.testcase_search_clear_all_tags
 import mockstation.composeapp.generated.resources.testcase_search_close
@@ -67,6 +69,7 @@ internal fun TestCaseSearchScreen(
         onDeselectTestCase = viewModel::onDeselectTestCase,
         onRefresh = viewModel::onRefresh,
         onSwitchTestCase = viewModel::onSwitchTestCase,
+        onRetry = viewModel::onRetry,
         modifier = modifier,
     )
 }
@@ -83,6 +86,7 @@ private fun TestCaseSearchBaseScreen(
     onDeselectTestCase: () -> Unit,
     onRefresh: () -> Unit,
     onSwitchTestCase: (String) -> Unit,
+    onRetry: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -107,6 +111,7 @@ private fun TestCaseSearchBaseScreen(
 
             is TestCaseSearchUiState.Error -> TestCaseSearchScreenError(
                 message = uiState.message,
+                onRetry = onRetry,
             )
         }
     }
@@ -357,26 +362,22 @@ private fun TestCaseSearchScreenLoading() {
 }
 
 @Composable
-private fun TestCaseSearchScreenError(message: String) {
+private fun TestCaseSearchScreenError(
+    message: String,
+    onRetry: () -> Unit = {},
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(MockStationTheme.spacing.extraLarge),
         contentAlignment = Alignment.Center,
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = stringResource(Res.string.testcase_search_error),
-                style = MockStationTheme.typography.bodyLarge,
-                color = MockStationTheme.colors.error,
-            )
-            Text(
-                text = message,
-                style = MockStationTheme.typography.bodyMedium,
-                color = MockStationTheme.colors.onBackground,
-                modifier = Modifier.padding(top = MockStationTheme.spacing.small),
-            )
-        }
+        ErrorCard(
+            title = stringResource(Res.string.testcase_search_error),
+            message = message,
+            onRetry = onRetry,
+            retryLabel = stringResource(Res.string.common_retry),
+        )
     }
 }
 

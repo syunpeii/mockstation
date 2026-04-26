@@ -24,6 +24,7 @@
     <string name="home_devices_device_id">デバイスID</string>
     <string name="home_devices_device_name">デバイス名</string>
     <string name="home_devices_last_request">最終リクエスト</string>
+    <string name="home_error_loading">データ読み込みエラー</string>
     <string name="home_summary_current_testcase">現在のテストケース</string>
     <string name="home_summary_total_devices">デバイス総数</string>
     <string name="home_summary_recent_requests">直近のリクエスト数</string>
@@ -164,6 +165,7 @@
     <string name="common_license">ライセンス</string>
     <string name="common_repository">リポジトリ</string>
     <string name="common_error">エラー</string>
+    <string name="common_retry">再試行</string>
     <string name="common_search">検索</string>
     <string name="common_clear">クリア</string>
     <string name="common_save">保存</string>

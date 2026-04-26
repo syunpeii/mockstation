@@ -64,4 +64,9 @@ class HomeViewModel(
     fun onNavigateToSettings() {
         println("Navigate to settings")
     }
+
+    fun onRetry() {
+        _uiState.value = HomeUiState.Loading
+        loadData()
+    }
 }
